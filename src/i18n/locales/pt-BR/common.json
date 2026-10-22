@@ -1,0 +1,17 @@
+{
+  "app": {
+    "name": "Algorithm Lab",
+    "tagline": "Entenda algoritmos experimentando com eles."
+  },
+  "skipToContent": "Pular para o conteúdo principal",
+  "language": {
+    "label": "Idioma"
+  },
+  "translationStatus": {
+    "draft": "Esta tradução ainda não foi revisada por um educador. Por favor, informe qualquer erro.",
+    "fallback": "Parte do conteúdo ainda não está disponível neste idioma e é exibida em {{fallbackLanguage}}."
+  },
+  "footer": {
+    "about": "Um laboratório educacional gratuito e aberto de estruturas de dados e algoritmos."
+  }
+}

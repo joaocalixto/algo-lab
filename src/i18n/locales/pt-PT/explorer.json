@@ -1,0 +1,40 @@
+{
+  "title": "Explorador de Grafos",
+  "intro": "Um grafo é um conjunto de vértices ligados por arestas. Escolha um algoritmo de percurso e acompanhe, passo a passo, a forma como explora o grafo a partir de um vértice inicial.",
+  "algorithm": {
+    "label": "Algoritmo",
+    "bfs": {
+      "name": "Pesquisa em Largura",
+      "short": "BFS",
+      "summary": "Explora o grafo por camadas: primeiro os vértices a uma aresta do início, depois os que estão a duas arestas, e assim sucessivamente. Utiliza uma fila."
+    },
+    "dfs": {
+      "name": "Pesquisa em Profundidade",
+      "short": "DFS",
+      "summary": "Segue um caminho o mais fundo possível e depois recua até ao vértice mais recente que ainda tem vizinhos por examinar. Utiliza uma pilha."
+    }
+  },
+  "begin": "Começar",
+  "comingSoon": "O explorador interativo está em construção.",
+  "vertexState": {
+    "undiscovered": "Não descoberto",
+    "discovered": "Descoberto",
+    "processing": "Em processamento",
+    "processed": "Processado"
+  },
+  "frontier": {
+    "queue": "Fila",
+    "stack": "Pilha",
+    "front": "Início",
+    "top": "Topo",
+    "empty": "Vazia"
+  },
+  "summary": {
+    "vertexCount_one": "{{count}} vértice",
+    "vertexCount_many": "{{count}} de vértices",
+    "vertexCount_other": "{{count}} vértices",
+    "edgeCount_one": "{{count}} aresta",
+    "edgeCount_many": "{{count}} de arestas",
+    "edgeCount_other": "{{count}} arestas"
+  }
+}

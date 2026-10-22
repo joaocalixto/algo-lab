@@ -1,0 +1,23 @@
+{
+  "graph": { "term": "Graph", "definition": "Struktur aus einer Menge von Knoten und einer Menge von Kanten, wobei jede Kante zwei Knoten verbindet. In diesem Modul sind Graphen endlich, ungerichtet, ungewichtet und einfach: Keine Kante verbindet einen Knoten mit sich selbst, und jedes Knotenpaar ist durch höchstens eine Kante verbunden." },
+  "vertex": { "term": "Knoten", "definition": "Grundelement eines Graphen, als Kreis dargestellt. Auch Ecke genannt." },
+  "edge": { "term": "Kante", "definition": "Verbindung zwischen zwei verschiedenen Knoten. In einem ungerichteten Graphen kann eine Kante in beide Richtungen durchlaufen werden." },
+  "neighbor": { "term": "Nachbar", "definition": "Ein Knoten ist Nachbar eines anderen, wenn eine Kante die beiden verbindet." },
+  "path": { "term": "Pfad", "definition": "Folge von Knoten, in der je zwei aufeinanderfolgende Knoten durch eine Kante verbunden sind. Seine Länge ist die Anzahl der Kanten, die er enthält." },
+  "cycle": { "term": "Zyklus", "definition": "Pfad, der am selben Knoten beginnt und endet, mindestens drei Kanten verwendet und keinen anderen Knoten wiederholt." },
+  "traversal": { "term": "Traversierung", "definition": "Systematisches Verfahren, das jeden vom Startknoten aus erreichbaren Knoten genau einmal besucht." },
+  "bfs": { "term": "Breitensuche (BFS)", "definition": "Traversierung, die mithilfe einer Warteschlange die Knoten in der Reihenfolge ihres Abstands vom Startknoten besucht, gemessen in Anzahl der Kanten." },
+  "dfs": { "term": "Tiefensuche (DFS)", "definition": "Traversierung, die vom zuletzt entdeckten Knoten aus Kanten so tief wie möglich folgt und zurückgeht (Backtracking), wenn kein unentdeckter Nachbar mehr übrig ist. Sie kann rekursiv oder mit einem expliziten Stapel implementiert werden." },
+  "queue": { "term": "Warteschlange", "definition": "Sammlung nach dem Prinzip „First In, First Out“ (FIFO): Elemente werden in derselben Reihenfolge entnommen, in der sie hinzugefügt wurden." },
+  "stack": { "term": "Stapel (Stack)", "definition": "Sammlung nach dem Prinzip „Last In, First Out“ (LIFO): Das zuletzt hinzugefügte Element wird als Erstes entnommen." },
+  "frontier": { "term": "Rand (Frontier)", "definition": "Datenstruktur mit den Knoten, die die Traversierung noch bearbeiten muss: die Warteschlange bei BFS, der Stapel bei DFS." },
+  "connectedComponent": { "term": "Zusammenhangskomponente", "definition": "Maximale Menge von Knoten, in der je zwei Knoten durch einen Pfad verbunden sind. Eine Traversierung von einem Startknoten aus erreicht genau die Knoten der Zusammenhangskomponente dieses Knotens." },
+  "isolatedVertex": { "term": "Isolierter Knoten", "definition": "Knoten ohne Kanten. Er bildet für sich allein eine Zusammenhangskomponente." },
+  "startVertex": { "term": "Startknoten", "definition": "Knoten, an dem die Traversierung beginnt." },
+  "undiscovered": { "term": "Unentdeckt", "definition": "Zustand eines Knotens, den die Traversierung noch nicht erreicht hat." },
+  "discovered": { "term": "Entdeckt", "definition": "Zustand eines Knotens, den die Traversierung erreicht und dem Rand hinzugefügt hat, dessen Bearbeitung aber noch nicht begonnen hat." },
+  "processing": { "term": "In Bearbeitung", "definition": "Zustand eines Knotens, dessen Nachbarn die Traversierung zu untersuchen begonnen, aber noch nicht fertig untersucht hat." },
+  "processed": { "term": "Abgeschlossen", "definition": "Zustand eines Knotens, dessen Nachbarn alle untersucht wurden. Die Traversierung kehrt nicht zu ihm zurück." },
+  "visited": { "term": "Besucht", "definition": "Allgemeiner Begriff für einen Knoten, den die Traversierung erreicht hat. Da er mehrdeutig ist, unterscheidet dieses Labor zwischen entdeckten, in Bearbeitung befindlichen und abgeschlossenen Knoten." },
+  "shortestPath": { "term": "Kürzester Pfad", "definition": "In einem ungewichteten Graphen ein Pfad zwischen zwei Knoten mit der kleinsten Anzahl von Kanten. BFS findet in diesem Sinn kürzeste Pfade vom Startknoten aus; das gilt nicht für gewichtete Graphen." }
+}

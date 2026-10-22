@@ -1,0 +1,153 @@
+/*
+ * Design tokens. Components use only these variables, never raw values.
+ * Vertex states are never conveyed by color alone: each state also has a
+ * distinct outline pattern/width (and, in the UI, a text label or glyph).
+ */
+:root {
+  color-scheme: light;
+
+  /* Surfaces & text */
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-sunken: #eef0f4;
+  --color-border: #d4d9e1;
+  --color-border-strong: #8a94a6;
+  --color-text: #1a1e24;
+  --color-text-muted: #4a5361;
+  --color-accent: #3149b8;
+  --color-accent-hover: #263a96;
+  --color-accent-contrast: #ffffff;
+  --color-focus: #c2410c;
+  --color-notice-bg: #fff6db;
+  --color-notice-border: #e0b94a;
+  --color-notice-text: #4d3800;
+
+  /* Graph */
+  --color-edge: #8a94a6;
+  --color-edge-active: #c2410c;
+  --color-edge-tree: #1a1e24;
+
+  /* Vertex states: fill / stroke / text / outline pattern */
+  --state-undiscovered-fill: #ffffff;
+  --state-undiscovered-stroke: #6b7486;
+  --state-undiscovered-text: #1a1e24;
+  --state-undiscovered-stroke-width: 2px;
+  --state-undiscovered-dash: 5 4; /* dashed outline */
+
+  --state-discovered-fill: #dce4ff;
+  --state-discovered-stroke: #3149b8;
+  --state-discovered-text: #1a1e24;
+  --state-discovered-stroke-width: 2.5px;
+  --state-discovered-dash: none;
+
+  --state-processing-fill: #ffe8a3;
+  --state-processing-stroke: #a34700;
+  --state-processing-text: #1a1e24;
+  --state-processing-stroke-width: 5px; /* thick ring */
+  --state-processing-dash: none;
+
+  --state-processed-fill: #1f6b31;
+  --state-processed-stroke: #134a20;
+  --state-processed-text: #ffffff;
+  --state-processed-stroke-width: 2.5px;
+  --state-processed-dash: none; /* plus a check glyph in the UI */
+
+  /* Typography: system stacks cover Latin, Cyrillic, CJK, Devanagari and Arabic */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", "Noto Sans Mono", Menlo, Consolas, monospace;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.4rem, 1.1rem + 1vw, 1.75rem);
+  --text-2xl: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+  --leading-tight: 1.2;
+  --leading-normal: 1.55;
+  --weight-regular: 400;
+  --weight-medium: 550;
+  --weight-bold: 700;
+
+  /* Spacing (4px scale), radii, elevation */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 2px rgb(16 24 40 / 0.06), 0 1px 3px rgb(16 24 40 / 0.08);
+  --shadow-md: 0 4px 12px rgb(16 24 40 / 0.08);
+
+  /* Layout */
+  --content-max: 72rem;
+  --gutter: clamp(1rem, 0.5rem + 2vw, 2rem);
+  --tap-target: 44px;
+  --focus-ring: 3px solid var(--color-focus);
+
+  /* Motion: animation is presentation only; algorithm state never depends on it */
+  --duration-fast: 120ms;
+  --duration-normal: 220ms;
+  --duration-slow: 400ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-bg: #111418;
+    --color-surface: #1a1e24;
+    --color-surface-sunken: #14171c;
+    --color-border: #2f3642;
+    --color-border-strong: #6b7486;
+    --color-text: #e8eaee;
+    --color-text-muted: #a7afbd;
+    --color-accent: #8fa3ff;
+    --color-accent-hover: #b0bfff;
+    --color-accent-contrast: #0d1020;
+    --color-focus: #ffa266;
+    --color-notice-bg: #2e2610;
+    --color-notice-border: #7a6420;
+    --color-notice-text: #f4e3b0;
+
+    --color-edge: #6b7486;
+    --color-edge-active: #ffa266;
+    --color-edge-tree: #e8eaee;
+
+    --state-undiscovered-fill: #1a1e24;
+    --state-undiscovered-stroke: #8a94a6;
+    --state-undiscovered-text: #e8eaee;
+    --state-discovered-fill: #22336e;
+    --state-discovered-stroke: #8fa3ff;
+    --state-discovered-text: #e8eaee;
+    --state-processing-fill: #5c4300;
+    --state-processing-stroke: #ffb347;
+    --state-processing-text: #fff4d6;
+    --state-processed-fill: #2f8a45;
+    --state-processed-stroke: #9be3ad;
+    --state-processed-text: #ffffff;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+  }
+}
+
+/* Script-specific stacks (selected via the <html lang> attribute) */
+:lang(ja) { --font-sans: system-ui, "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", "Noto Sans CJK JP", sans-serif; }
+:lang(ko) { --font-sans: system-ui, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR", sans-serif; }
+:lang(zh-Hans) { --font-sans: system-ui, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", sans-serif; }
+:lang(zh-Hant) { --font-sans: system-ui, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Noto Sans CJK TC", sans-serif; }
+:lang(hi) { --font-sans: system-ui, "Kohinoor Devanagari", "Nirmala UI", "Noto Sans Devanagari", sans-serif; }
+:lang(ar) { --font-sans: system-ui, "Geeza Pro", "Segoe UI", "Noto Sans Arabic", "Noto Naskh Arabic", sans-serif; }
