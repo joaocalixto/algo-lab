@@ -36,5 +36,24 @@
     "edgeCount_one": "{{count}} aresta",
     "edgeCount_many": "{{count}} de arestas",
     "edgeCount_other": "{{count}} arestas"
+  },
+  "lab": {
+    "start": "Vértice inicial",
+    "reset": "Reiniciar",
+    "back": "Anterior",
+    "next": "Próximo passo",
+    "order": "Ordem de descoberta",
+    "distance": "Distância da origem (arestas)",
+    "rule": "Grafo não orientado e sem pesos. Vizinhos examinados por ordem alfabética. Apenas a componente inicial é explorada; G está isolado.",
+    "queueHint": "Início da fila à esquerda.",
+    "stackHint": "Topo da pilha à direita."
+  },
+  "steps": {
+    "start": "Começar em {{vertex}}.",
+    "dequeue": "Retirar {{vertex}} da fila e examinar os seus vizinhos.",
+    "discover": "Descobrir {{vertex}} e adicionar à fila ou pilha.",
+    "skipNeighbor": "{{vertex}} já foi alcançado: não adicionar novamente.",
+    "finish": "Todos os vizinhos de {{vertex}} examinados. Terminar este vértice.",
+    "complete": "Percurso concluído. Vértices inacessíveis continuam por descobrir."
   }
 }

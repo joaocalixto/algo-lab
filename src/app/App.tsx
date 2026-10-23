@@ -1,3 +1,4 @@
+import { Explorer } from './Explorer';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { TraversalAlgorithm } from '../domain/traversal';
@@ -40,12 +41,7 @@ export function App() {
             </label>
           ))}
         </fieldset>
-        <button type="button" className="primary-button" disabled aria-describedby="begin-hint">
-          {t('explorer:begin')}
-        </button>
-        <p id="begin-hint" className="hint">
-          {t('explorer:comingSoon')}
-        </p>
+        <Explorer key={algorithm} algorithm={algorithm} />
       </main>
       <footer className="app-footer">{t('footer.about')}</footer>
     </>

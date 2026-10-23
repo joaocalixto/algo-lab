@@ -36,5 +36,24 @@
     "edgeCount_one": "{{count}} arista",
     "edgeCount_many": "{{count}} de aristas",
     "edgeCount_other": "{{count}} aristas"
+  },
+  "lab": {
+    "start": "Vértice inicial",
+    "reset": "Reiniciar",
+    "back": "Anterior",
+    "next": "Paso siguiente",
+    "order": "Orden de descubrimiento",
+    "distance": "Distancia desde el inicio (aristas)",
+    "rule": "Grafo no dirigido y sin pesos. Vecinos examinados en orden alfabético. Solo se explora la componente inicial; G está aislado.",
+    "queueHint": "Inicio de la cola a la izquierda.",
+    "stackHint": "Cima de la pila a la derecha."
+  },
+  "steps": {
+    "start": "Empezar en {{vertex}}.",
+    "dequeue": "Retirar {{vertex}} de la cola y examinar sus vecinos.",
+    "discover": "Descubrir {{vertex}} y añadirlo a la cola o pila.",
+    "skipNeighbor": "{{vertex}} ya fue alcanzado: no añadirlo otra vez.",
+    "finish": "Todos los vecinos de {{vertex}} examinados. Finalizar este vértice.",
+    "complete": "Recorrido terminado. Los vértices inaccesibles siguen sin descubrir."
   }
 }

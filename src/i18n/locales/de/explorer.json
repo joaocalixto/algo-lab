@@ -34,5 +34,24 @@
     "vertexCount_other": "{{count}} Knoten",
     "edgeCount_one": "{{count}} Kante",
     "edgeCount_other": "{{count}} Kanten"
+  },
+  "lab": {
+    "start": "Startknoten",
+    "reset": "Neustart",
+    "back": "Zurück",
+    "next": "Nächster Schritt",
+    "order": "Entdeckungsreihenfolge",
+    "distance": "Entfernung vom Start (Kanten)",
+    "rule": "Ungerichteter, ungewichteter Graph. Nachbarn werden alphabetisch untersucht. Nur die Startkomponente wird erkundet; G ist isoliert.",
+    "queueHint": "Anfang der Warteschlange links.",
+    "stackHint": "Stapelspitze rechts."
+  },
+  "steps": {
+    "start": "Bei {{vertex}} beginnen.",
+    "dequeue": "{{vertex}} aus der Warteschlange nehmen und Nachbarn untersuchen.",
+    "discover": "{{vertex}} entdecken und zur Warteschlange oder zum Stapel hinzufügen.",
+    "skipNeighbor": "{{vertex}} wurde bereits erreicht: nicht erneut hinzufügen.",
+    "finish": "Alle Nachbarn von {{vertex}} untersucht. Diesen Knoten abschließen.",
+    "complete": "Durchlauf abgeschlossen. Unerreichbare Knoten bleiben unentdeckt."
   }
 }

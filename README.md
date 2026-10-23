@@ -16,6 +16,8 @@ npm run build      # type-check + production build into dist/
 
 ## Status
 
-Milestone 1 (foundation) complete: project setup, domain models, design tokens, internationalization with five baseline locales (en, pt-PT, pt-BR, es, de — all **draft, pending human review**), terminology glossary.
+Interactive BFS/DFS classroom preview available at https://joaocalixto.github.io/algo-lab/ with step controls, start selection, frontier and distances.
+
+Foundation: project setup, domain models, design tokens, internationalization with five baseline locales (en, pt-PT, pt-BR, es, de — all **draft, pending human review**), terminology glossary.
 
 See `docs/I18N.md` (localization architecture) and `docs/GLOSSARY.md` (terminology).

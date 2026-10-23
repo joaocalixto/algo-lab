@@ -206,3 +206,5 @@ button, select, input {
   color: var(--color-text-muted);
   text-align: center;
 }
+
+.lab{background:var(--color-surface);border:1px solid var(--color-border);border-radius:18px;padding:20px;display:grid;gap:16px}.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.controls button,.controls select{padding:10px 16px;border:1px solid var(--color-border);border-radius:8px;cursor:pointer}.controls button:disabled{opacity:.45;cursor:default}.lab-grid{display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:center}.lab svg{width:100%}.lab aside{display:grid;gap:12px}.step-explanation{padding:18px;background:var(--color-bg);border-inline-start:4px solid #2563eb;font-size:1.15rem}@media(max-width:700px){.lab-grid{grid-template-columns:1fr}}

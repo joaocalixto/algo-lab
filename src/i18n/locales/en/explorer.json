@@ -34,5 +34,24 @@
     "vertexCount_other": "{{count}} vertices",
     "edgeCount_one": "{{count}} edge",
     "edgeCount_other": "{{count}} edges"
+  },
+  "lab": {
+    "start": "Start vertex",
+    "reset": "Restart",
+    "back": "Previous",
+    "next": "Next step",
+    "order": "Discovery order",
+    "distance": "Distance from start (edges)",
+    "rule": "Undirected, unweighted graph. Neighbors are examined alphabetically. Only the starting component is explored; G is isolated.",
+    "queueHint": "Front of queue on the left.",
+    "stackHint": "Top of stack on the right."
+  },
+  "steps": {
+    "start": "Start at {{vertex}}.",
+    "dequeue": "Remove {{vertex}} from the queue and examine its neighbors.",
+    "discover": "Discover {{vertex}} and add it to the queue or stack.",
+    "skipNeighbor": "{{vertex}} has already been reached: do not add it again.",
+    "finish": "All neighbors of {{vertex}} examined. Finish this vertex.",
+    "complete": "Traversal complete. Unreachable vertices remain undiscovered."
   }
 }
