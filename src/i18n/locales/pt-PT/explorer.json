@@ -12,6 +12,16 @@
       "name": "Pesquisa em Profundidade",
       "short": "DFS",
       "summary": "Segue um caminho o mais fundo possível e depois recua até ao vértice mais recente que ainda tem vizinhos por examinar. Utiliza uma pilha."
+    },
+    "dijkstra": {
+      "name": "Dijkstra",
+      "short": "Dijkstra",
+      "summary": "Calcula caminhos de custo mínimo a partir da origem quando todos os pesos são não negativos."
+    },
+    "bellmanFord": {
+      "name": "Bellman–Ford",
+      "short": "BF",
+      "summary": "Calcula caminhos mínimos com pesos negativos e deteta ciclos negativos alcançáveis."
     }
   },
   "begin": "Começar",
@@ -55,5 +65,29 @@
     "skipNeighbor": "{{vertex}} já foi alcançado: não adicionar novamente.",
     "finish": "Todos os vizinhos de {{vertex}} examinados. Terminar este vértice.",
     "complete": "Percurso concluído. Vértices inacessíveis continuam por descobrir."
+  },
+  "paths": {
+    "graph": "Exemplo ponderado",
+    "positive": "Arestas não negativas",
+    "negative": "Aresta negativa",
+    "cycle": "Ciclo negativo",
+    "target": "Destino",
+    "dijkstraRule": "Grafo dirigido e ponderado. Dijkstra exige pesos não negativos.",
+    "bellmanRule": "Grafo dirigido e ponderado. Bellman–Ford admite pesos negativos e deteta ciclos negativos alcançáveis.",
+    "distances": "Distâncias",
+    "predecessors": "Predecessores",
+    "settled": "Vértices finalizados",
+    "selectedPath": "Caminho até ao destino",
+    "unreachable": "Inalcançável",
+    "negativeCycle": "Existe um ciclo de peso negativo alcançável: as distâncias mínimas dos destinos afetados não estão definidas.",
+    "events": {
+      "start": "Começamos em {{vertex}} com distância zero.",
+      "select": "Selecionamos {{vertex}}, o vértice alcançável não finalizado com menor distância.",
+      "relax": "Relaxamos {{from}} → {{to}} (peso {{weight}}): melhoramos a distância.",
+      "noChange": "Examinamos {{from}} → {{to}} (peso {{weight}}): sem melhoria.",
+      "pass": "Começamos a passagem {{pass}} de relaxamento.",
+      "complete": "Concluído. As distâncias apresentadas são finais.",
+      "negativeCycle": "Um ciclo de peso negativo alcançável permite melhorar uma distância indefinidamente. Não existe caminho mínimo finito para os destinos afetados."
+    }
   }
 }
