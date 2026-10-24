@@ -60,7 +60,7 @@ export function shortestPaths(graph: WeightedGraph, start: string, algorithm: Pa
   if (algorithm==='dijkstra') {
     while (true) {
       let current: string|undefined;
-      for (const v of vertices) if (!settled.has(v) && Number.isFinite(distance[v]) && (current===undefined || distance[v]! < distance[current]!)) current=v;
+      for (const v of vertices) if (!settled.has(v) && Number.isFinite(distance[v]!) && (current===undefined || distance[v]! < distance[current]!)) current=v;
       if (current===undefined) break;
       settled.add(current);
       emit('select',{vertex:current});
@@ -97,7 +97,7 @@ export function shortestPaths(graph: WeightedGraph, start: string, algorithm: Pa
 export function reconstructPath(trace:PathTrace, target:string): readonly string[] | null {
   const last=trace.steps[trace.steps.length-1];
   if(!last || last.negativeCycle || trace.steps.some(s=>s.negativeCycle) ||
-     !Number.isFinite(last.distance[target])) return null;
+     !Number.isFinite(last.distance[target]!)) return null;
   const reversed:string[]=[];const visited=new Set<string>();
   let node:string|null=target;
   while(node!==null) {
