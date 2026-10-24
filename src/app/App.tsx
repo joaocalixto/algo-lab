@@ -1,15 +1,16 @@
 import { Explorer } from './Explorer';
+import { ShortestPathExplorer } from './ShortestPathExplorer';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { TraversalAlgorithm } from '../domain/traversal';
+type Algorithm = 'bfs' | 'dfs' | 'dijkstra' | 'bellmanFord';
 import { LanguageSelect } from './LanguageSelect';
 import { TranslationNotice } from './TranslationNotice';
 
-const ALGORITHMS: readonly TraversalAlgorithm[] = ['bfs', 'dfs'];
+const ALGORITHMS: readonly Algorithm[] = ['bfs', 'dfs', 'dijkstra', 'bellmanFord'];
 
 export function App() {
   const { t } = useTranslation(['common', 'explorer']);
-  const [algorithm, setAlgorithm] = useState<TraversalAlgorithm>('bfs');
+  const [algorithm, setAlgorithm] = useState<Algorithm>('bfs');
 
   return (
     <>
@@ -41,7 +42,7 @@ export function App() {
             </label>
           ))}
         </fieldset>
-        <Explorer key={algorithm} algorithm={algorithm} />
+        {algorithm === 'bfs' || algorithm === 'dfs' ? <Explorer key={algorithm} algorithm={algorithm} /> : <ShortestPathExplorer key={algorithm} algorithm={algorithm} />}
       </main>
       <footer className="app-footer">{t('footer.about')}</footer>
     </>
