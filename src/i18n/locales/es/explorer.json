@@ -12,6 +12,16 @@
       "name": "Búsqueda en profundidad",
       "short": "DFS",
       "summary": "Sigue un camino tan lejos como sea posible y luego retrocede hasta el vértice más reciente que aún tiene vecinos sin examinar. Usa una pila."
+    },
+    "dijkstra": {
+      "name": "Dijkstra",
+      "short": "Dijkstra",
+      "summary": "Calcula rutas de coste mínimo desde el origen con pesos no negativos."
+    },
+    "bellmanFord": {
+      "name": "Bellman–Ford",
+      "short": "BF",
+      "summary": "Calcula rutas mínimas con pesos negativos y detecta ciclos negativos alcanzables."
     }
   },
   "begin": "Empezar",
@@ -55,5 +65,29 @@
     "skipNeighbor": "{{vertex}} ya fue alcanzado: no añadirlo otra vez.",
     "finish": "Todos los vecinos de {{vertex}} examinados. Finalizar este vértice.",
     "complete": "Recorrido terminado. Los vértices inaccesibles siguen sin descubrir."
+  },
+  "paths": {
+    "graph": "Ejemplo ponderado",
+    "positive": "Aristas no negativas",
+    "negative": "Arista negativa",
+    "cycle": "Ciclo negativo",
+    "target": "Destino",
+    "dijkstraRule": "Grafo dirigido y ponderado. Dijkstra requiere pesos no negativos.",
+    "bellmanRule": "Grafo dirigido y ponderado. Bellman–Ford admite pesos negativos y detecta ciclos negativos alcanzables.",
+    "distances": "Distancias",
+    "predecessors": "Predecesores",
+    "settled": "Vértices finalizados",
+    "selectedPath": "Ruta hasta el destino",
+    "unreachable": "Inalcanzable",
+    "negativeCycle": "Existe un ciclo de peso negativo alcanzable: las distancias mínimas de los destinos afectados no están definidas.",
+    "events": {
+      "start": "Iniciamos en {{vertex}} con distancia cero.",
+      "select": "Seleccionamos {{vertex}}, el vértice alcanzable no finalizado con menor distancia.",
+      "relax": "Relajamos {{from}} → {{to}} (peso {{weight}}): mejoramos la distancia.",
+      "noChange": "Examinamos {{from}} → {{to}} (peso {{weight}}): sin mejora.",
+      "pass": "Iniciamos la pasada {{pass}} de relajación.",
+      "complete": "Completado. Las distancias mostradas son definitivas.",
+      "negativeCycle": "Un ciclo de peso negativo alcanzable permite seguir reduciendo una distancia. No existe ruta mínima finita para los destinos afectados."
+    }
   }
 }
