@@ -46,7 +46,7 @@ export function ShortestPathExplorer({algorithm}:{algorithm:PathAlgorithm}) {
           <text x={(x1+x2)/2} y={(y1+y2)/2-10} textAnchor="middle" fill="#172033" fontSize="15" fontWeight="700">{e.weight}</text>
         </g>})}
         {selected.vertices.map(v=>{const [x,y]=positions[v]!;return <g key={v}>
-          <circle cx={x} cy={y} r="26" stroke={step.vertex===v?'#b45309':'#334155'} strokeWidth={step.vertex===v?5:2} fill={step.settled.includes(v)?'#bbf7d0':Number.isFinite(step.distance[v])?'#bfdbfe':'#fff'}/>
+          <circle cx={x} cy={y} r="26" stroke={step.vertex===v?'#b45309':'#334155'} strokeWidth={step.vertex===v?5:2} fill={step.settled.includes(v)?'#bbf7d0':Number.isFinite(step.distance[v]!)?'#bfdbfe':'#fff'}/>
           <text x={x} y={y+6} textAnchor="middle" fill="#172033" fontSize="19" fontWeight="700">{v}</text>
           <text x={x} y={y+45} textAnchor="middle" fill="currentColor" fontSize="13">d={fmt(step.distance[v])}</text>
         </g>})}
