@@ -12,6 +12,16 @@
       "name": "Depth-First Search",
       "short": "DFS",
       "summary": "Follows a path as deep as possible, then backtracks to the most recent vertex that still has unexamined neighbors. It uses a stack."
+    },
+    "dijkstra": {
+      "name": "Dijkstra",
+      "short": "Dijkstra",
+      "summary": "Finds minimum-cost paths from a source when all edge weights are non-negative."
+    },
+    "bellmanFord": {
+      "name": "Bellman–Ford",
+      "short": "BF",
+      "summary": "Finds minimum-cost paths with negative edge weights and detects reachable negative cycles."
     }
   },
   "begin": "Begin",
@@ -53,5 +63,29 @@
     "skipNeighbor": "{{vertex}} has already been reached: do not add it again.",
     "finish": "All neighbors of {{vertex}} examined. Finish this vertex.",
     "complete": "Traversal complete. Unreachable vertices remain undiscovered."
+  },
+  "paths": {
+    "graph": "Weighted example",
+    "positive": "Non-negative edges",
+    "negative": "Negative edge",
+    "cycle": "Negative cycle",
+    "target": "Destination",
+    "dijkstraRule": "Directed weighted graph. Dijkstra requires non-negative weights.",
+    "bellmanRule": "Directed weighted graph. Bellman–Ford supports negative weights and detects reachable negative cycles.",
+    "distances": "Distances",
+    "predecessors": "Predecessors",
+    "settled": "Settled vertices",
+    "selectedPath": "Path to destination",
+    "unreachable": "Unreachable",
+    "negativeCycle": "A reachable negative-weight cycle exists: shortest distances to affected destinations are undefined.",
+    "events": {
+      "start": "Start at {{vertex}} with distance zero.",
+      "select": "Select {{vertex}} as the smallest unsettled reachable vertex.",
+      "relax": "Relax {{from}} → {{to}} (weight {{weight}}): update the best distance.",
+      "noChange": "Examine {{from}} → {{to}} (weight {{weight}}): no improvement.",
+      "pass": "Begin relaxation pass {{pass}}.",
+      "complete": "Finished. The displayed distances are final.",
+      "negativeCycle": "A reachable negative-weight cycle can still improve a distance. No finite shortest path exists for affected destinations."
+    }
   }
 }
