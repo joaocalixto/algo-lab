@@ -1,43 +1,85 @@
 {
   "title": "Explorador de Grafos",
-  "intro": "Um grafo é um conjunto de vértices ligados por arestas. Escolha um algoritmo de percurso e acompanhe, passo a passo, a forma como explora o grafo a partir de um vértice inicial.",
+  "intro": "Um grafo é um conjunto de vértices ligados por arestas. Constrói um grafo — ao acaso ou à mão — escolhe depois um algoritmo e acompanha, passo a passo, como ele trabalha no teu grafo.",
+  "family": {
+    "traversal": "Percurso",
+    "shortestPath": "Caminhos mais curtos",
+    "spanningTree": "Árvore geradora mínima",
+    "ordering": "Ordenação topológica"
+  },
   "algorithm": {
     "label": "Algoritmo",
+    "requires": "Requer: {{list}}",
+    "fixGraph": "Ajustar o grafo",
     "bfs": {
-      "name": "Pesquisa em Largura",
-      "short": "BFS",
-      "summary": "Explora o grafo por camadas: primeiro os vértices a uma aresta do início, depois os que estão a duas arestas, e assim sucessivamente. Utiliza uma fila."
+      "name": "Pesquisa em Largura (BFS)",
+      "summary": "Explora o grafo por camadas: primeiro os vértices a uma aresta do início, depois os que estão a duas arestas, e assim por diante. Utiliza uma fila."
     },
     "dfs": {
-      "name": "Pesquisa em Profundidade",
-      "short": "DFS",
-      "summary": "Segue um caminho o mais fundo possível e depois recua até ao vértice mais recente que ainda tem vizinhos por examinar. Utiliza uma pilha."
+      "name": "Pesquisa em Profundidade (DFS)",
+      "summary": "Segue um caminho tão fundo quanto possível e depois retrocede até ao vértice mais recente que ainda tem vizinhos por examinar. Utiliza uma pilha."
+    },
+    "components": {
+      "name": "Componentes conexas",
+      "summary": "Executa uma pesquisa em largura a partir de cada vértice ainda não alcançado, o que divide o grafo nas suas componentes conexas e as numera."
     },
     "dijkstra": {
       "name": "Dijkstra",
-      "short": "Dijkstra",
-      "summary": "Calcula caminhos de custo mínimo a partir da origem quando todos os pesos são não negativos."
+      "summary": "Caminhos mais curtos a partir de um vértice inicial quando nenhum peso é negativo. Fecha repetidamente o vértice mais próximo que ainda não está fechado."
     },
     "bellmanFord": {
       "name": "Bellman–Ford",
-      "short": "BF",
-      "summary": "Calcula caminhos mínimos com pesos negativos e deteta ciclos negativos alcançáveis."
+      "summary": "Caminhos mais curtos a partir de um vértice inicial que também funcionam com pesos negativos e que denunciam um ciclo negativo quando este é alcançável."
+    },
+    "floydWarshall": {
+      "name": "Floyd–Warshall",
+      "summary": "Caminhos mais curtos entre todos os pares de vértices, construídos numa matriz, um vértice pivô de cada vez."
+    },
+    "kruskal": {
+      "name": "Kruskal",
+      "summary": "Uma árvore geradora mínima construída pegando primeiro nas arestas mais leves e ignorando as que fechariam um ciclo. Utiliza union–find."
+    },
+    "prim": {
+      "name": "Prim",
+      "summary": "Uma árvore geradora mínima que cresce a partir de um vértice inicial, acrescentando sempre a aresta mais barata que sai da árvore."
+    },
+    "kahn": {
+      "name": "Kahn (ordenação topológica)",
+      "summary": "Ordena os vértices de um grafo orientado de modo que todos os arcos apontem para a frente e deteta um ciclo quando essa ordem não existe."
     }
   },
-  "begin": "Começar",
-  "comingSoon": "O explorador interativo está em construção.",
+  "prerequisite": {
+    "nonEmpty": "pelo menos um vértice",
+    "directed": "um grafo orientado",
+    "undirected": "um grafo não orientado",
+    "weighted": "um grafo ponderado",
+    "nonNegativeWeights": "nenhum peso negativo",
+    "unmet": {
+      "nonEmpty": "O grafo ainda não tem vértices: acrescenta um ou gera um grafo.",
+      "directed": "Este algoritmo precisa de um grafo orientado: um arco tem de apontar para algum lado para que a pergunta faça sentido.",
+      "undirected": "Este algoritmo precisa de um grafo não orientado: a estrutura que constrói não tem orientação.",
+      "weighted": "Este algoritmo compara pesos, por isso precisa de um grafo ponderado.",
+      "nonNegativeWeights": "O Dijkstra fecha um vértice de forma definitiva, o que um peso negativo pode contrariar. Para pesos negativos, utiliza o Bellman–Ford."
+    }
+  },
   "vertexState": {
     "undiscovered": "Não descoberto",
     "discovered": "Descoberto",
     "processing": "Em processamento",
     "processed": "Processado"
   },
-  "frontier": {
-    "queue": "Fila",
-    "stack": "Pilha",
-    "front": "Início",
-    "top": "Topo",
-    "empty": "Vazia"
+  "edgeMark": {
+    "idle": "não examinada",
+    "active": "em exame",
+    "tree": "parte da resposta",
+    "rejected": "excluída"
+  },
+  "canvas": {
+    "label": "Grafo com {{vertices}} vértices e {{edges}} arestas",
+    "vertexLabel": "Vértice {{label}}, {{state}}. {{extra}}",
+    "isStart": "vértice inicial",
+    "isSelected": "selecionado",
+    "badge": "número {{badge}}"
   },
   "summary": {
     "vertexCount_one": "{{count}} vértice",
@@ -47,47 +89,206 @@
     "edgeCount_many": "{{count}} de arestas",
     "edgeCount_other": "{{count}} arestas"
   },
-  "lab": {
-    "start": "Vértice inicial",
-    "reset": "Reiniciar",
-    "back": "Anterior",
-    "next": "Próximo passo",
-    "order": "Ordem de descoberta",
-    "distance": "Distância da origem (arestas)",
-    "rule": "Grafo não orientado e sem pesos. Vizinhos examinados por ordem alfabética. Apenas a componente inicial é explorada; G está isolado.",
-    "queueHint": "Início da fila à esquerda.",
-    "stackHint": "Topo da pilha à direita."
+  "builder": {
+    "title": "O teu grafo",
+    "mode": "Como construir o grafo",
+    "modes": {
+      "generate": "Gerar ao acaso",
+      "edit": "Editar à mão"
+    },
+    "direction": "Orientação",
+    "undirected": "Não orientado",
+    "directed": "Orientado",
+    "weights": "Pesos",
+    "unweighted": "Não ponderado",
+    "weighted": "Ponderado",
+    "layout": "Disposição",
+    "layoutCircle": "Círculo",
+    "layoutForce": "Espalhada",
+    "vertexCount": "Vértices",
+    "edgeCount": "Arestas",
+    "edgeRange": "São possíveis 0 a {{max}} arestas; são necessárias {{connected}} para ligar todos os vértices.",
+    "seed": "Semente",
+    "allowNegative": "Permitir pesos negativos (para o Bellman–Ford)",
+    "generate": "Gerar",
+    "generateRandom": "Nova semente ao acaso",
+    "generated": "Foi gerado um grafo com {{vertices}} vértices e {{edges}} arestas.",
+    "willConnect": "Com este número de arestas todos os vértices ficarão ligados.",
+    "willNotConnect": "Com este número de arestas o grafo ficará dividido em várias componentes.",
+    "editHelp": "Clica no desenho para acrescentar um vértice, clica em dois vértices para os ligar e arrasta um vértice para o mover. Com o teclado: utiliza os botões e as tabelas abaixo ou coloca o foco num vértice e prime Enter para o selecionar, as teclas de direção para o mover e Delete para o remover.",
+    "addVertex": "Acrescentar vértice",
+    "clear": "Limpar grafo",
+    "cleared": "O grafo está vazio.",
+    "addEdge": "Ligar dois vértices",
+    "from": "De",
+    "to": "Para",
+    "weight": "Peso",
+    "weightOf": "Peso da aresta de {{from}} para {{to}}",
+    "link": "Acrescentar aresta",
+    "tables": "Vértices e arestas em tabelas",
+    "vertexTable": "Vértices",
+    "vertex": "Vértice",
+    "degree": "Arestas",
+    "actions": "Ações",
+    "remove": "Remover",
+    "reverse": "Inverter",
+    "edgeTable": "Arestas",
+    "edge": "Aresta",
+    "vertexAdded": "Vértice acrescentado.",
+    "vertexRemoved": "Vértice {{label}} removido, juntamente com as suas arestas.",
+    "vertexSelected": "{{label}} selecionado. Escolhe um segundo vértice para o ligar.",
+    "edgeAdded": "Aresta {{from}} – {{to}} acrescentada.",
+    "edgeRemoved": "Aresta removida.",
+    "edgeReversed": "Aresta invertida.",
+    "kindChanged": "Tipo de grafo alterado.",
+    "rearranged": "Vértices redispostos.",
+    "problem": {
+      "selfLoop": "Num grafo simples um vértice não pode ligar-se a si mesmo.",
+      "duplicateEdge": "Estes dois vértices já estão ligados neste sentido.",
+      "tooManyVertices": "Este laboratório comporta no máximo 26 vértices, um por letra.",
+      "unknownVertex": "Esse vértice já não está no grafo.",
+      "tooManyEdges": "Um grafo simples deste tamanho comporta no máximo {{max}} arestas.",
+      "vertexCountOutOfRange": "Escolhe entre {{min}} e {{max}} vértices.",
+      "negativeEdgeCount": "O número de arestas não pode ser negativo."
+    }
+  },
+  "runner": {
+    "title": "Execução passo a passo",
+    "startVertex": "Vértice inicial",
+    "restart": "Reiniciar",
+    "previous": "Anterior",
+    "play": "Reproduzir",
+    "pause": "Pausa",
+    "next": "Passo seguinte",
+    "speed": "Velocidade",
+    "speeds": {
+      "0": "Lenta",
+      "1": "Normal",
+      "2": "Rápida"
+    },
+    "stepOf": "Passo {{current}} de {{total}}",
+    "needsStartVertex": "Escolhe um vértice inicial para executar este algoritmo."
+  },
+  "panel": {
+    "empty": "vazia",
+    "queue": "Fila",
+    "queueHint": "A frente da fila fica à esquerda.",
+    "stack": "Pilha",
+    "stackHint": "O topo da pilha fica à direita.",
+    "discoveryOrder": "Ordem de descoberta",
+    "finishOrder": "Ordem de conclusão",
+    "hopsAndParent": "Arestas desde o início e progenitor",
+    "parentTable": "Árvore do percurso",
+    "hops": "Arestas",
+    "parent": "Progenitor",
+    "component": "Componente {{number}}",
+    "componentTable": "Componentes",
+    "componentNumber": "Componente",
+    "distanceTable": "Distâncias",
+    "distance": "Distância",
+    "previous": "Vem de",
+    "priorityQueue": "Alcançados, não fechados",
+    "priorityQueueHint": "Menor distância primeiro: é esse o próximo vértice a fechar.",
+    "settled": "Fechados",
+    "edgeOrder": "Ordem de relaxação",
+    "edgeOrderHint": "Cada passagem relaxa os arcos nesta ordem.",
+    "distanceMatrix": "Matriz de distâncias",
+    "componentRoots": "Union–find",
+    "root": "Representante",
+    "sortedEdges": "Arestas por peso",
+    "sortedEdgesHint": "As mais leves primeiro; pesos iguais mantêm a ordem em que foram acrescentados.",
+    "treeEdges": "Arestas da árvore",
+    "fringeTable": "Entrada mais barata para a árvore",
+    "cheapestEdge": "Custo",
+    "fromTree": "De",
+    "fringe": "Fronteira",
+    "fringeHint": "Vértices junto à árvore, os mais baratos primeiro.",
+    "inDegreeTable": "Arcos de entrada",
+    "inDegree": "Grau de entrada",
+    "readyQueue": "Prontos",
+    "readyQueueHint": "Vértices sem arcos de entrada por satisfazer, na ordem em que ficaram prontos.",
+    "topologicalOrder": "Ordenação topológica"
+  },
+  "notice": {
+    "negativeCycle": "O arco {{from}} → {{to}} ainda pode ser relaxado depois de n − 1 passagens: existe um ciclo de peso total negativo alcançável, pelo que não há distância mais curta.",
+    "negativeCycleVertices": "Estes vértices estão num ciclo de peso total negativo: {{vertices}}. As distâncias que passam por eles não têm significado.",
+    "spanningForest": "O grafo está dividido em {{trees}} componentes, pelo que o resultado é uma floresta geradora mínima: uma árvore por componente, não uma árvore geradora.",
+    "primPartial": "O Prim faz crescer uma única árvore, pelo que alcançou apenas {{reached}} de {{total}} vértices: os restantes estão noutras componentes.",
+    "cycle": "Estes vértices formam ou seguem um ciclo, pelo que não existe ordenação topológica: {{vertices}}."
   },
   "steps": {
-    "start": "Começar em {{vertex}}.",
-    "dequeue": "Retirar {{vertex}} da fila e examinar os seus vizinhos.",
-    "discover": "Descobrir {{vertex}} e adicionar à fila ou pilha.",
-    "skipNeighbor": "{{vertex}} já foi alcançado: não adicionar novamente.",
-    "finish": "Todos os vizinhos de {{vertex}} examinados. Terminar este vértice.",
-    "complete": "Percurso concluído. Vértices inacessíveis continuam por descobrir."
-  },
-  "paths": {
-    "graph": "Exemplo ponderado",
-    "positive": "Arestas não negativas",
-    "negative": "Aresta negativa",
-    "cycle": "Ciclo negativo",
-    "target": "Destino",
-    "dijkstraRule": "Grafo dirigido e ponderado. Dijkstra exige pesos não negativos.",
-    "bellmanRule": "Grafo dirigido e ponderado. Bellman–Ford admite pesos negativos e deteta ciclos negativos alcançáveis.",
-    "distances": "Distâncias",
-    "predecessors": "Predecessores",
-    "settled": "Vértices finalizados",
-    "selectedPath": "Caminho até ao destino",
-    "unreachable": "Inalcançável",
-    "negativeCycle": "Existe um ciclo de peso negativo alcançável: as distâncias mínimas dos destinos afetados não estão definidas.",
-    "events": {
-      "start": "Começamos em {{vertex}} com distância zero.",
-      "select": "Selecionamos {{vertex}}, o vértice alcançável não finalizado com menor distância.",
-      "relax": "Relaxamos {{from}} → {{to}} (peso {{weight}}): melhoramos a distância.",
-      "noChange": "Examinamos {{from}} → {{to}} (peso {{weight}}): sem melhoria.",
-      "pass": "Começamos a passagem {{pass}} de relaxamento.",
-      "complete": "Concluído. As distâncias apresentadas são finais.",
-      "negativeCycle": "Um ciclo de peso negativo alcançável permite melhorar uma distância indefinidamente. Não existe caminho mínimo finito para os destinos afetados."
+    "traversal": {
+      "start": "Começa em {{vertex}}.",
+      "dequeue": "Retira {{vertex}} da fila e examina os seus vizinhos.",
+      "discover": "{{from}} alcança {{vertex}}: descobre-o e acrescenta-o à fronteira.",
+      "skipNeighbor": "{{vertex}} já tinha sido alcançado, por isso a aresta a partir de {{from}} nada acrescenta.",
+      "finish": "Todos os vizinhos de {{vertex}} foram examinados: está concluído.",
+      "complete": "Percurso concluído: todos os vértices alcançáveis a partir do início foram visitados.",
+      "completeWithUnreached": "Percurso concluído. {{left}} vértices nunca foram alcançados: estão fora da componente do vértice inicial."
+    },
+    "components": {
+      "restart": "Nenhuma componente contém ainda {{vertex}}, por isso este inicia a componente {{component}}.",
+      "dequeue": "Retira {{vertex}} da fila: pertence à componente {{component}}.",
+      "discover": "{{from}} alcança {{vertex}}, por isso {{vertex}} também pertence à componente {{component}}.",
+      "skipNeighbor": "{{vertex}} já está numa componente, por isso a aresta a partir de {{from}} nada acrescenta.",
+      "finish": "{{vertex}} está concluído.",
+      "complete": "Concluído: o grafo tem {{components}} componentes conexas.",
+      "empty": "O grafo não tem vértices, por isso não tem componentes."
+    },
+    "dijkstra": {
+      "start": "A distância até {{vertex}} é 0 e todas as outras distâncias são ainda desconhecidas (∞).",
+      "select": "{{vertex}} tem a menor distância entre os vértices ainda não fechados ({{distance}}), pelo que a sua distância é definitiva.",
+      "relax": "O caminho através de {{from}} alcança {{to}} com {{distance}} ({{weight}} neste arco): é melhor, por isso a distância desce.",
+      "noChange": "Através de {{from}}, {{to}} custaria {{candidate}}, que não é melhor do que {{current}}: nada muda.",
+      "settled": "{{vertex}} fica fechado com a distância {{distance}}.",
+      "complete": "Concluído: todos os vértices têm a sua distância mais curta desde o início.",
+      "completeWithUnreached": "Concluído. {{left}} vértices ficam a ∞: não há caminho até eles a partir do vértice inicial."
+    },
+    "bellman": {
+      "start": "A distância até {{vertex}} é 0 e todas as outras são ∞. Seguem-se até {{passes}} passagens por todos os arcos.",
+      "pass": "Passagem {{pass}} de {{total}}: relaxa cada arco uma vez, por ordem.",
+      "relax": "{{from}} → {{to}} ({{weight}}) dá {{distance}}, que é melhor: a distância desce.",
+      "noChange": "{{from}} → {{to}} ({{weight}}) daria {{candidate}}, que não é melhor do que {{current}}: nada muda.",
+      "skipUnreached": "{{from}} ainda não tem distância, por isso o arco até {{to}} não pode ser utilizado.",
+      "settledEarly": "A passagem {{pass}} nada alterou, pelo que nenhuma passagem seguinte o poderá fazer: as distâncias são definitivas.",
+      "negativeCycle": "{{from}} → {{to}} ainda pode ser relaxado: existe um ciclo de peso total negativo alcançável e as distâncias ficam sem valor.",
+      "complete": "Concluído depois de {{passes}} passagens: todas as distâncias são definitivas.",
+      "completeWithUnreached": "Concluído depois de {{passes}} passagens. {{left}} vértices ficam a ∞: não há caminho até eles."
+    },
+    "floyd": {
+      "start": "A matriz começa com os pesos dos arcos, 0 na diagonal e ∞ onde não há arco. Cada um dos {{vertices}} vértices servirá de pivô.",
+      "pivot": "Pivô {{vertex}}: um desvio por {{vertex}} encurta algum caminho?",
+      "row": "Linha {{from}}: compara cada distância a partir de {{from}} com a passagem por {{pivot}}.",
+      "improve": "{{from}} → {{to}} através de {{pivot}} custa {{after}}, menos do que {{before}}: a célula desce.",
+      "complete": "Concluído: a matriz contém a distância mais curta entre todos os pares de vértices.",
+      "completeNegativeCycle": "Concluído, mas {{cycles}} vértices terminaram com um valor negativo na diagonal: estão num ciclo de peso total negativo."
+    },
+    "kruskal": {
+      "start": "Cada vértice é a sua própria componente. As {{edges}} arestas são examinadas da mais leve para a mais pesada.",
+      "consider": "Aresta {{from}} – {{to}} com peso {{weight}}: as suas pontas estão em componentes diferentes?",
+      "accept": "Sim, por isso {{from}} – {{to}} entra na árvore: {{edges}} arestas, peso total {{total}}.",
+      "reject": "Não: {{from}} e {{to}} já estão na mesma componente, por isso esta aresta fecharia um ciclo. É ignorada.",
+      "complete": "Concluído: uma árvore geradora mínima com {{edges}} arestas e peso total {{total}}.",
+      "completeForest": "Concluído: {{edges}} arestas com peso total {{total}}, formando uma árvore por componente ({{trees}} no total)."
+    },
+    "prim": {
+      "start": "A árvore começa vazia em {{vertex}}.",
+      "startVertex": "{{vertex}} é o primeiro vértice da árvore.",
+      "accept": "{{vertex}} entra na árvore pela sua aresta mais barata ({{weight}}): peso total {{total}}.",
+      "insideTree": "{{to}} já está na árvore, pelo que a aresta a partir de {{from}} fecharia um ciclo.",
+      "improveFringe": "{{vertex}} pode agora ser alcançado a partir de {{from}} por {{weight}}, mais barato do que {{previous}}.",
+      "keepFringe": "Alcançar {{vertex}} por aqui custa {{weight}}, que não é melhor do que {{current}}.",
+      "complete": "Concluído: uma árvore geradora mínima com {{edges}} arestas e peso total {{total}}.",
+      "completePartial": "Concluído: {{edges}} arestas com peso total {{total}}. {{left}} vértices ficaram fora de alcance, porque o Prim faz crescer uma única árvore."
+    },
+    "kahn": {
+      "start": "{{ready}} vértices não têm arcos de entrada, pelo que nada tem de vir antes deles: estão prontos.",
+      "emit": "{{vertex}} está pronto: ocupa a posição {{position}} na ordenação. Os seus arcos de saída são agora removidos.",
+      "ready": "{{from}} era o último arco a entrar em {{vertex}}, pelo que {{vertex}} está pronto.",
+      "decrement": "{{vertex}} continua à espera de {{inDegree}} arcos depois do que vem de {{from}}.",
+      "done": "{{vertex}} está concluído.",
+      "cycle": "A fila de prontos está vazia mas restam {{remaining}} vértices ({{vertices}}): cada um ainda tem um arco de entrada, pelo que contêm um ciclo e não existe ordenação topológica.",
+      "complete": "Concluído: {{order}} é uma ordenação topológica válida."
     }
   }
 }

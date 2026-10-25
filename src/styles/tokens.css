@@ -31,9 +31,27 @@
   --color-incorrect-text: #5e1b10;
 
   /* Graph */
-  --color-edge: #8a94a6;
+  --color-canvas-bg: #fbfcfe;
+  --color-canvas-border: #d4d9e1;
+  --color-edge: #6b7486;
   --color-edge-active: #c2410c;
   --color-edge-tree: #1a1e24;
+  --color-edge-rejected: #9aa3b2;
+  --color-edge-weight-bg: #eef0f4;
+  --color-badge: #3149b8;
+
+  /*
+   * Edge marks: each one has its own width AND dash pattern, so idle, tree,
+   * active and rejected edges stay distinguishable without relying on colour.
+   */
+  --edge-width-idle: 2px;
+  --edge-width-tree: 6px;
+  --edge-width-active: 6px;
+  --edge-width-rejected: 2px;
+  --edge-dash-idle: none;
+  --edge-dash-tree: none;
+  --edge-dash-active: 12 6;
+  --edge-dash-rejected: 2 6;
 
   /* Vertex states: fill / stroke / text / outline pattern */
   --state-undiscovered-fill: #ffffff;
@@ -129,9 +147,14 @@
     --color-incorrect-border: #f08f7c;
     --color-incorrect-text: #f6ddd7;
 
-    --color-edge: #6b7486;
+    --color-canvas-bg: #14171c;
+    --color-canvas-border: #2f3642;
+    --color-edge: #8a94a6;
     --color-edge-active: #ffa266;
     --color-edge-tree: #e8eaee;
+    --color-edge-rejected: #5b6372;
+    --color-edge-weight-bg: #22262e;
+    --color-badge: #8fa3ff;
 
     --state-undiscovered-fill: #1a1e24;
     --state-undiscovered-stroke: #8a94a6;

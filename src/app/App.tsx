@@ -1,17 +1,16 @@
-import { Explorer } from './Explorer';
-import { QuestionSet } from './QuestionSet';
-import { ShortestPathExplorer } from './ShortestPathExplorer';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-type Algorithm = 'bfs' | 'dfs' | 'dijkstra' | 'bellmanFord';
+import { fixForPrerequisites } from '../domain/editing';
+import { AlgorithmPicker } from './AlgorithmPicker';
+import { AlgorithmRunner } from './AlgorithmRunner';
+import { GraphBuilder } from './GraphBuilder';
+import { QuestionSet } from './QuestionSet';
 import { LanguageSelect } from './LanguageSelect';
 import { TranslationNotice } from './TranslationNotice';
-
-const ALGORITHMS: readonly Algorithm[] = ['bfs', 'dfs', 'dijkstra', 'bellmanFord'];
+import { useGraphLab } from './useGraphLab';
 
 export function App() {
-  const { t } = useTranslation(['common', 'explorer', 'questions']);
-  const [algorithm, setAlgorithm] = useState<Algorithm>('bfs');
+  const { t } = useTranslation(['common', 'explorer']);
+  const lab = useGraphLab();
 
   return (
     <>
@@ -31,19 +30,25 @@ export function App() {
           <h1 id="explorer-title">{t('explorer:title')}</h1>
           <p>{t('explorer:intro')}</p>
         </section>
-        <fieldset className="algorithm-picker">
-          <legend>{t('explorer:algorithm.label')}</legend>
-          {ALGORITHMS.map((a) => (
-            <label key={a} className="algorithm-option">
-              <input type="radio" name="algorithm" value={a} checked={algorithm === a} onChange={() => setAlgorithm(a)} />
-              <strong>
-                {t(`explorer:algorithm.${a}.name`)} ({t(`explorer:algorithm.${a}.short`)})
-              </strong>
-              <span>{t(`explorer:algorithm.${a}.summary`)}</span>
-            </label>
-          ))}
-        </fieldset>
-        {algorithm === 'bfs' || algorithm === 'dfs' ? <Explorer key={algorithm} algorithm={algorithm} /> : <ShortestPathExplorer key={algorithm} algorithm={algorithm} />}
+
+        <GraphBuilder
+          draft={lab.draft}
+          onChange={lab.updateDraft}
+          step={lab.step}
+          startVertex={lab.startVertex}
+          onStartVertexChange={lab.setStartVertex}
+          running={lab.playing}
+        />
+
+        <AlgorithmPicker
+          graph={lab.draft.graph}
+          selected={lab.algorithmId}
+          onSelect={lab.setAlgorithm}
+          onFixGraph={(unmet) => lab.updateDraft(fixForPrerequisites(lab.draft, unmet))}
+        />
+
+        <AlgorithmRunner lab={lab} />
+
         <QuestionSet />
       </main>
       <footer className="app-footer">{t('footer.about')}</footer>

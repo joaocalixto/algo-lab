@@ -1,29 +1,170 @@
 {
-  "graph": { "term": "Graph", "definition": "Struktur aus einer Menge von Knoten und einer Menge von Kanten, wobei jede Kante zwei Knoten verbindet. In diesem Modul sind Graphen endlich, ungerichtet, ungewichtet und einfach: Keine Kante verbindet einen Knoten mit sich selbst, und jedes Knotenpaar ist durch höchstens eine Kante verbunden." },
-  "vertex": { "term": "Knoten", "definition": "Grundelement eines Graphen, als Kreis dargestellt. Auch Ecke genannt." },
-  "edge": { "term": "Kante", "definition": "Verbindung zwischen zwei verschiedenen Knoten. In einem ungerichteten Graphen kann eine Kante in beide Richtungen durchlaufen werden." },
-  "neighbor": { "term": "Nachbar", "definition": "Ein Knoten ist Nachbar eines anderen, wenn eine Kante die beiden verbindet." },
-  "path": { "term": "Pfad", "definition": "Folge von Knoten, in der je zwei aufeinanderfolgende Knoten durch eine Kante verbunden sind. Seine Länge ist die Anzahl der Kanten, die er enthält." },
-  "cycle": { "term": "Zyklus", "definition": "Pfad, der am selben Knoten beginnt und endet, mindestens drei Kanten verwendet und keinen anderen Knoten wiederholt." },
-  "traversal": { "term": "Traversierung", "definition": "Systematisches Verfahren, das jeden vom Startknoten aus erreichbaren Knoten genau einmal besucht." },
-  "bfs": { "term": "Breitensuche (BFS)", "definition": "Traversierung, die mithilfe einer Warteschlange die Knoten in der Reihenfolge ihres Abstands vom Startknoten besucht, gemessen in Anzahl der Kanten." },
-  "dfs": { "term": "Tiefensuche (DFS)", "definition": "Traversierung, die vom zuletzt entdeckten Knoten aus Kanten so tief wie möglich folgt und zurückgeht (Backtracking), wenn kein unentdeckter Nachbar mehr übrig ist. Sie kann rekursiv oder mit einem expliziten Stapel implementiert werden." },
-  "queue": { "term": "Warteschlange", "definition": "Sammlung nach dem Prinzip „First In, First Out“ (FIFO): Elemente werden in derselben Reihenfolge entnommen, in der sie hinzugefügt wurden." },
-  "stack": { "term": "Stapel (Stack)", "definition": "Sammlung nach dem Prinzip „Last In, First Out“ (LIFO): Das zuletzt hinzugefügte Element wird als Erstes entnommen." },
-  "frontier": { "term": "Rand (Frontier)", "definition": "Datenstruktur mit den Knoten, die die Traversierung noch bearbeiten muss: die Warteschlange bei BFS, der Stapel bei DFS." },
-  "connectedComponent": { "term": "Zusammenhangskomponente", "definition": "Maximale Menge von Knoten, in der je zwei Knoten durch einen Pfad verbunden sind. Eine Traversierung von einem Startknoten aus erreicht genau die Knoten der Zusammenhangskomponente dieses Knotens." },
-  "isolatedVertex": { "term": "Isolierter Knoten", "definition": "Knoten ohne Kanten. Er bildet für sich allein eine Zusammenhangskomponente." },
-  "startVertex": { "term": "Startknoten", "definition": "Knoten, an dem die Traversierung beginnt." },
-  "undiscovered": { "term": "Unentdeckt", "definition": "Zustand eines Knotens, den die Traversierung noch nicht erreicht hat." },
-  "discovered": { "term": "Entdeckt", "definition": "Zustand eines Knotens, den die Traversierung erreicht und dem Rand hinzugefügt hat, dessen Bearbeitung aber noch nicht begonnen hat." },
-  "processing": { "term": "In Bearbeitung", "definition": "Zustand eines Knotens, dessen Nachbarn die Traversierung zu untersuchen begonnen, aber noch nicht fertig untersucht hat." },
-  "processed": { "term": "Abgeschlossen", "definition": "Zustand eines Knotens, dessen Nachbarn alle untersucht wurden. Die Traversierung kehrt nicht zu ihm zurück." },
-  "visited": { "term": "Besucht", "definition": "Allgemeiner Begriff für einen Knoten, den die Traversierung erreicht hat. Da er mehrdeutig ist, unterscheidet dieses Labor zwischen entdeckten, in Bearbeitung befindlichen und abgeschlossenen Knoten." },
-  "shortestPath": { "term": "Kürzester Pfad", "definition": "In einem ungewichteten Graphen ein Pfad zwischen zwei Knoten mit der kleinsten Anzahl von Kanten. BFS findet in diesem Sinn kürzeste Pfade vom Startknoten aus; das gilt nicht für gewichtete Graphen." },
-  "weight": { "term": "Gewicht", "definition": "Zahl an einer Kante, die Kosten wie Distanz, Zeit oder Preis ausdrückt. Ein Graph mit Gewichten an den Kanten heißt gewichtet." },
-  "minimumSpanningTree": { "term": "Minimaler Spannbaum", "definition": "Menge von Kanten eines zusammenhängenden, gewichteten Graphen, die alle Knoten erreicht, keinen Zyklus bildet und das kleinste Gesamtgewicht hat. Sie hat eine Kante weniger als die Zahl der Knoten. Bei mehreren Zusammenhangskomponenten ist das Gegenstück ein minimaler Spannwald: ein minimaler Baum pro Komponente." },
-  "floydWarshall": { "term": "Floyd–Warshall", "definition": "Algorithmus, der die kürzeste Distanz zwischen allen Knotenpaaren eines gewichteten Graphen berechnet und in jedem Durchlauf einen weiteren Knoten als Zwischenstation erlaubt. Er verträgt negative Gewichte; eine negative Distanz von einem Knoten zu sich selbst zeigt, dass dieser Knoten auf einem negativen Zyklus liegt." },
-  "prim": { "term": "Prim", "definition": "Algorithmus, der einen minimalen Spannbaum baut, indem er einen einzigen Baum von einem Startknoten aus wachsen lässt und in jedem Schritt die günstigste Kante mit genau einem Endknoten im Baum aufnimmt." },
-  "kruskal": { "term": "Kruskal", "definition": "Algorithmus, der einen minimalen Spannbaum baut, indem er die Kanten von der günstigsten zur teuersten untersucht und jede Kante behält, deren Endknoten in getrennten Teilen des Waldes liegen." },
-  "disjointSet": { "term": "Union-Find (disjunkte Mengen)", "definition": "Struktur, die Elemente in getrennten Gruppen hält: find nennt die Gruppe eines Elements, union verbindet zwei Gruppen. Kruskal prüft damit, ob eine Kante einen Zyklus schließen würde." }
+  "graph": {
+    "term": "Graph",
+    "definition": "Eine Struktur aus einer Menge von Knoten und einer Menge von Kanten, wobei jede Kante zwei Knoten verbindet. In diesem Modul sind Graphen endlich und einfach: keine Kante verbindet einen Knoten mit sich selbst, und höchstens eine Kante verbindet ein Knotenpaar — eine pro Richtung, wenn der Graph gerichtet ist. Ein Graph kann gerichtet oder ungerichtet und gewichtet oder ungewichtet sein."
+  },
+  "vertex": {
+    "term": "Knoten",
+    "definition": "Grundelement eines Graphen, als Kreis dargestellt. Auch Ecke genannt."
+  },
+  "edge": {
+    "term": "Kante",
+    "definition": "Eine Verbindung zwischen zwei verschiedenen Knoten. In einem ungerichteten Graphen ist sie in beide Richtungen begehbar; in einem gerichteten Graphen nur vom Anfangs- zum Endknoten, und dann spricht man auch von einer gerichteten Kante."
+  },
+  "neighbor": {
+    "term": "Nachbar",
+    "definition": "Ein Knoten ist Nachbar eines anderen, wenn eine Kante die beiden verbindet."
+  },
+  "path": {
+    "term": "Pfad",
+    "definition": "Folge von Knoten, in der je zwei aufeinanderfolgende Knoten durch eine Kante verbunden sind. Seine Länge ist die Anzahl der Kanten, die er enthält."
+  },
+  "cycle": {
+    "term": "Zyklus",
+    "definition": "Pfad, der am selben Knoten beginnt und endet, mindestens drei Kanten verwendet und keinen anderen Knoten wiederholt."
+  },
+  "traversal": {
+    "term": "Traversierung",
+    "definition": "Systematisches Verfahren, das jeden vom Startknoten aus erreichbaren Knoten genau einmal besucht."
+  },
+  "bfs": {
+    "term": "Breitensuche (BFS)",
+    "definition": "Traversierung, die mithilfe einer Warteschlange die Knoten in der Reihenfolge ihres Abstands vom Startknoten besucht, gemessen in Anzahl der Kanten."
+  },
+  "dfs": {
+    "term": "Tiefensuche (DFS)",
+    "definition": "Traversierung, die vom zuletzt entdeckten Knoten aus Kanten so tief wie möglich folgt und zurückgeht (Backtracking), wenn kein unentdeckter Nachbar mehr übrig ist. Sie kann rekursiv oder mit einem expliziten Stapel implementiert werden."
+  },
+  "queue": {
+    "term": "Warteschlange",
+    "definition": "Sammlung nach dem Prinzip „First In, First Out“ (FIFO): Elemente werden in derselben Reihenfolge entnommen, in der sie hinzugefügt wurden."
+  },
+  "stack": {
+    "term": "Stapel (Stack)",
+    "definition": "Sammlung nach dem Prinzip „Last In, First Out“ (LIFO): Das zuletzt hinzugefügte Element wird als Erstes entnommen."
+  },
+  "frontier": {
+    "term": "Rand (Frontier)",
+    "definition": "Datenstruktur mit den Knoten, die die Traversierung noch bearbeiten muss: die Warteschlange bei BFS, der Stapel bei DFS."
+  },
+  "connectedComponent": {
+    "term": "Zusammenhangskomponente",
+    "definition": "Maximale Menge von Knoten, in der je zwei Knoten durch einen Pfad verbunden sind. Eine Traversierung von einem Startknoten aus erreicht genau die Knoten der Zusammenhangskomponente dieses Knotens."
+  },
+  "isolatedVertex": {
+    "term": "Isolierter Knoten",
+    "definition": "Knoten ohne Kanten. Er bildet für sich allein eine Zusammenhangskomponente."
+  },
+  "startVertex": {
+    "term": "Startknoten",
+    "definition": "Knoten, an dem die Traversierung beginnt."
+  },
+  "undiscovered": {
+    "term": "Unentdeckt",
+    "definition": "Zustand eines Knotens, den die Traversierung noch nicht erreicht hat."
+  },
+  "discovered": {
+    "term": "Entdeckt",
+    "definition": "Zustand eines Knotens, den die Traversierung erreicht und dem Rand hinzugefügt hat, dessen Bearbeitung aber noch nicht begonnen hat."
+  },
+  "processing": {
+    "term": "In Bearbeitung",
+    "definition": "Zustand eines Knotens, dessen Nachbarn die Traversierung zu untersuchen begonnen, aber noch nicht fertig untersucht hat."
+  },
+  "processed": {
+    "term": "Abgeschlossen",
+    "definition": "Zustand eines Knotens, dessen Nachbarn alle untersucht wurden. Die Traversierung kehrt nicht zu ihm zurück."
+  },
+  "visited": {
+    "term": "Besucht",
+    "definition": "Allgemeiner Begriff für einen Knoten, den die Traversierung erreicht hat. Da er mehrdeutig ist, unterscheidet dieses Labor zwischen entdeckten, in Bearbeitung befindlichen und abgeschlossenen Knoten."
+  },
+  "shortestPath": {
+    "term": "Kürzester Pfad",
+    "definition": "Ein Pfad zwischen zwei Knoten, dessen Gesamtgewicht so klein wie möglich ist. In einem ungewichteten Graphen ist das der Pfad mit den wenigsten Kanten, den die Breitensuche findet; mit Gewichten finden ihn Dijkstra, Bellman–Ford oder Floyd–Warshall, und ein erreichbarer negativer Zyklus bedeutet, dass es keinen kürzesten Pfad gibt."
+  },
+  "weight": {
+    "term": "Gewicht",
+    "definition": "Die Zahl, die eine Kante trägt, gelesen als Kosten, Länge oder Zeit. In einem ungewichteten Graphen zählt jede Kante als 1."
+  },
+  "minimumSpanningTree": {
+    "term": "Minimaler Spannbaum",
+    "definition": "Ein Spannbaum mit möglichst kleinem Gesamtgewicht. Kruskal und Prim bauen beide einen. In einem unzusammenhängenden Graphen gibt es keinen: das Ergebnis ist ein minimaler Spannwald, ein Baum pro Komponente."
+  },
+  "floydWarshall": {
+    "term": "Floyd–Warshall",
+    "definition": "Ein Algorithmus für die kürzesten Pfade zwischen allen Knotenpaaren. Er nimmt jeden Knoten der Reihe nach als Pivot und fragt, ob ein Umweg über ihn irgendeinen Pfad verkürzt."
+  },
+  "prim": {
+    "term": "Prim",
+    "definition": "Ein Algorithmus für einen minimalen Spannbaum: lass einen Baum von einem Startknoten aus wachsen und nimm immer die günstigste Kante auf, die aus ihm hinausführt."
+  },
+  "kruskal": {
+    "term": "Kruskal",
+    "definition": "Ein Algorithmus für einen minimalen Spannbaum: nimm die Kanten von der leichtesten zur schwersten und behalte jede, die zwei verschiedene Komponenten verbindet."
+  },
+  "disjointSet": {
+    "term": "Union-Find (disjunkte Mengen)",
+    "definition": "Struktur, die Elemente in getrennten Gruppen hält: find nennt die Gruppe eines Elements, union verbindet zwei Gruppen. Kruskal prüft damit, ob eine Kante einen Zyklus schließen würde."
+  },
+  "directedGraph": {
+    "term": "Gerichteter Graph",
+    "definition": "Ein Graph, dessen Kanten eine Richtung haben: eine Kante von u nach v ist nur so begehbar. Dasselbe Paar kann je Richtung eine Kante tragen."
+  },
+  "undirectedGraph": {
+    "term": "Ungerichteter Graph",
+    "definition": "Ein Graph, dessen Kanten keine Richtung haben: jede Kante ist von beiden ihrer Knoten aus begehbar."
+  },
+  "weightedGraph": {
+    "term": "Gewichteter Graph",
+    "definition": "Ein Graph, in dem jede Kante eine Zahl trägt, ihr Gewicht. Gewichte dürfen negativ sein."
+  },
+  "arc": {
+    "term": "Gerichtete Kante",
+    "definition": "Eine Kante eines gerichteten Graphen, in ihrer eigenen Richtung genommen, vom Anfangs- zum Endknoten."
+  },
+  "spanningTree": {
+    "term": "Spannbaum",
+    "definition": "Eine Menge von Kanten eines ungerichteten Graphen, die alle Knoten verbindet und keinen Zyklus enthält. Sie hat immer genau eine Kante weniger als die Anzahl der Knoten."
+  },
+  "topologicalOrder": {
+    "term": "Topologische Sortierung",
+    "definition": "Eine Ordnung der Knoten eines gerichteten Graphen, in der jede Kante nach vorn zeigt. Sie existiert genau dann, wenn der Graph keinen gerichteten Zyklus hat."
+  },
+  "dag": {
+    "term": "Gerichteter azyklischer Graph (DAG)",
+    "definition": "Ein gerichteter Graph ohne gerichteten Zyklus. Genau diese Graphen haben eine topologische Sortierung."
+  },
+  "inDegree": {
+    "term": "Eingangsgrad",
+    "definition": "Die Anzahl der Kanten, die in einen Knoten zeigen. Ein Knoten mit Eingangsgrad 0 hat nichts, was vor ihm kommen muss."
+  },
+  "relaxation": {
+    "term": "Relaxation",
+    "definition": "Eine Kante von u nach w daraufhin prüfen, ob der Weg über u w günstiger erreicht als die bisher festgehaltene Distanz, und diese Distanz dann senken. Es ist die einzige Operation hinter Dijkstra und Bellman–Ford."
+  },
+  "negativeCycle": {
+    "term": "Negativer Zyklus",
+    "definition": "Ein Zyklus, dessen Gewichte sich zu weniger als null addieren. Jede weitere Runde senkt die Summe, deshalb gibt es über ihn keinen kürzesten Pfad; Bellman–Ford erkennt ihn."
+  },
+  "unionFind": {
+    "term": "Union-Find",
+    "definition": "Eine Struktur, die eine Sammlung disjunkter Mengen verwaltet und schnell beantwortet, ob zwei Elemente in derselben Menge liegen, und zwei Mengen vereinigt. Kruskal nutzt sie, um zu erkennen, ob eine Kante einen Zyklus schließen würde."
+  },
+  "settled": {
+    "term": "Abgeschlossener Knoten",
+    "definition": "Bei Dijkstra ein Knoten, dessen Distanz endgültig ist und sich nicht mehr ändert."
+  },
+  "dijkstra": {
+    "term": "Dijkstra",
+    "definition": "Ein Algorithmus für die kürzesten Pfade von einem Startknoten in einem Graphen ohne negatives Gewicht. Er schließt immer wieder den nächstgelegenen noch offenen Knoten ab."
+  },
+  "bellmanFord": {
+    "term": "Bellman–Ford",
+    "definition": "Ein Algorithmus für die kürzesten Pfade von einem Startknoten, der auch negative Gewichte annimmt. Er relaxiert jede Kante n − 1 mal und erkennt danach einen erreichbaren negativen Zyklus."
+  },
+  "kahn": {
+    "term": "Kahns Algorithmus",
+    "definition": "Ein Algorithmus für eine topologische Sortierung: nimm immer wieder einen Knoten mit Eingangsgrad 0 und entferne seine ausgehenden Kanten. Bleiben Knoten übrig, wenn es keinen mehr gibt, hat der Graph einen Zyklus."
+  }
 }

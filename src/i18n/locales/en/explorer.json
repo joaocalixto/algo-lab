@@ -1,43 +1,85 @@
 {
   "title": "Graph Explorer",
-  "intro": "A graph is a set of vertices connected by edges. Choose a traversal algorithm and follow, step by step, how it explores the graph from a starting vertex.",
+  "intro": "A graph is a set of vertices connected by edges. Build a graph — at random or by hand — then choose an algorithm and follow, step by step, how it works on your graph.",
+  "family": {
+    "traversal": "Traversal",
+    "shortestPath": "Shortest paths",
+    "spanningTree": "Minimum spanning tree",
+    "ordering": "Topological ordering"
+  },
   "algorithm": {
     "label": "Algorithm",
+    "requires": "Requires: {{list}}",
+    "fixGraph": "Adjust the graph",
     "bfs": {
-      "name": "Breadth-First Search",
-      "short": "BFS",
+      "name": "Breadth-First Search (BFS)",
       "summary": "Explores the graph in layers: first the vertices one edge away from the start, then those two edges away, and so on. It uses a queue."
     },
     "dfs": {
-      "name": "Depth-First Search",
-      "short": "DFS",
-      "summary": "Follows a path as deep as possible, then backtracks to the most recent vertex that still has unexamined neighbors. It uses a stack."
+      "name": "Depth-First Search (DFS)",
+      "summary": "Follows a path as deep as possible, then backtracks to the most recent vertex that still has unexamined neighbours. It uses a stack."
+    },
+    "components": {
+      "name": "Connected components",
+      "summary": "Runs a breadth-first search from every vertex not reached yet, which splits the graph into its connected components and numbers them."
     },
     "dijkstra": {
       "name": "Dijkstra",
-      "short": "Dijkstra",
-      "summary": "Finds minimum-cost paths from a source when all edge weights are non-negative."
+      "summary": "Shortest paths from one start vertex when no weight is negative. It settles the nearest unsettled vertex over and over."
     },
     "bellmanFord": {
       "name": "Bellman–Ford",
-      "short": "BF",
-      "summary": "Finds minimum-cost paths with negative edge weights and detects reachable negative cycles."
+      "summary": "Shortest paths from one start vertex that also work with negative weights, and that report a negative cycle when one is reachable."
+    },
+    "floydWarshall": {
+      "name": "Floyd–Warshall",
+      "summary": "Shortest paths between every pair of vertices, built in a matrix one pivot vertex at a time."
+    },
+    "kruskal": {
+      "name": "Kruskal",
+      "summary": "A minimum spanning tree built by taking the lightest edges first and skipping those that would close a cycle. It uses union–find."
+    },
+    "prim": {
+      "name": "Prim",
+      "summary": "A minimum spanning tree grown from one start vertex, always adding the cheapest edge that leaves the tree."
+    },
+    "kahn": {
+      "name": "Kahn (topological sort)",
+      "summary": "Orders the vertices of a directed graph so that every arc points forward, and detects a cycle when no such order exists."
     }
   },
-  "begin": "Begin",
-  "comingSoon": "The interactive explorer is under construction.",
+  "prerequisite": {
+    "nonEmpty": "at least one vertex",
+    "directed": "a directed graph",
+    "undirected": "an undirected graph",
+    "weighted": "a weighted graph",
+    "nonNegativeWeights": "no negative weights",
+    "unmet": {
+      "nonEmpty": "The graph has no vertices yet: add one or generate a graph.",
+      "directed": "This algorithm needs a directed graph: an arc has to point somewhere for the question to make sense.",
+      "undirected": "This algorithm needs an undirected graph: the structure it builds has no direction.",
+      "weighted": "This algorithm compares weights, so it needs a weighted graph.",
+      "nonNegativeWeights": "Dijkstra settles a vertex for good, which a negative weight can contradict. Use Bellman–Ford for negative weights."
+    }
+  },
   "vertexState": {
     "undiscovered": "Undiscovered",
     "discovered": "Discovered",
     "processing": "Processing",
     "processed": "Processed"
   },
-  "frontier": {
-    "queue": "Queue",
-    "stack": "Stack",
-    "front": "Front",
-    "top": "Top",
-    "empty": "Empty"
+  "edgeMark": {
+    "idle": "not examined",
+    "active": "being examined",
+    "tree": "part of the answer",
+    "rejected": "ruled out"
+  },
+  "canvas": {
+    "label": "Graph with {{vertices}} vertices and {{edges}} edges",
+    "vertexLabel": "Vertex {{label}}, {{state}}. {{extra}}",
+    "isStart": "start vertex",
+    "isSelected": "selected",
+    "badge": "number {{badge}}"
   },
   "summary": {
     "vertexCount_one": "{{count}} vertex",
@@ -45,47 +87,206 @@
     "edgeCount_one": "{{count}} edge",
     "edgeCount_other": "{{count}} edges"
   },
-  "lab": {
-    "start": "Start vertex",
-    "reset": "Restart",
-    "back": "Previous",
+  "builder": {
+    "title": "Your graph",
+    "mode": "How to build the graph",
+    "modes": {
+      "generate": "Generate at random",
+      "edit": "Edit by hand"
+    },
+    "direction": "Direction",
+    "undirected": "Undirected",
+    "directed": "Directed",
+    "weights": "Weights",
+    "unweighted": "Unweighted",
+    "weighted": "Weighted",
+    "layout": "Arrangement",
+    "layoutCircle": "Circle",
+    "layoutForce": "Spread out",
+    "vertexCount": "Vertices",
+    "edgeCount": "Edges",
+    "edgeRange": "0 to {{max}} edges are possible; {{connected}} are needed to connect every vertex.",
+    "seed": "Seed",
+    "allowNegative": "Allow negative weights (for Bellman–Ford)",
+    "generate": "Generate",
+    "generateRandom": "New random seed",
+    "generated": "Generated a graph with {{vertices}} vertices and {{edges}} edges.",
+    "willConnect": "With this many edges every vertex will be connected.",
+    "willNotConnect": "With this many edges the graph will stay split into several components.",
+    "editHelp": "Click the drawing to add a vertex, click two vertices to connect them, and drag a vertex to move it. From the keyboard: use the buttons and tables below, or focus a vertex and press Enter to select it, the arrow keys to move it and Delete to remove it.",
+    "addVertex": "Add vertex",
+    "clear": "Clear graph",
+    "cleared": "The graph is empty.",
+    "addEdge": "Connect two vertices",
+    "from": "From",
+    "to": "To",
+    "weight": "Weight",
+    "weightOf": "Weight of the edge {{from}} to {{to}}",
+    "link": "Add edge",
+    "tables": "Vertices and edges as tables",
+    "vertexTable": "Vertices",
+    "vertex": "Vertex",
+    "degree": "Edges",
+    "actions": "Actions",
+    "remove": "Remove",
+    "reverse": "Reverse",
+    "edgeTable": "Edges",
+    "edge": "Edge",
+    "vertexAdded": "Vertex added.",
+    "vertexRemoved": "Vertex {{label}} removed, together with its edges.",
+    "vertexSelected": "{{label}} selected. Choose a second vertex to connect it to.",
+    "edgeAdded": "Edge {{from}} – {{to}} added.",
+    "edgeRemoved": "Edge removed.",
+    "edgeReversed": "Edge reversed.",
+    "kindChanged": "Kind of graph changed.",
+    "rearranged": "Vertices rearranged.",
+    "problem": {
+      "selfLoop": "A vertex cannot be joined to itself in a simple graph.",
+      "duplicateEdge": "These two vertices are already joined in this direction.",
+      "tooManyVertices": "This lab holds at most 26 vertices, one per letter.",
+      "unknownVertex": "That vertex is no longer in the graph.",
+      "tooManyEdges": "A simple graph of this size holds at most {{max}} edges.",
+      "vertexCountOutOfRange": "Choose between {{min}} and {{max}} vertices.",
+      "negativeEdgeCount": "The number of edges cannot be negative."
+    }
+  },
+  "runner": {
+    "title": "Step-by-step run",
+    "startVertex": "Start vertex",
+    "restart": "Restart",
+    "previous": "Previous",
+    "play": "Play",
+    "pause": "Pause",
     "next": "Next step",
-    "order": "Discovery order",
-    "distance": "Distance from start (edges)",
-    "rule": "Undirected, unweighted graph. Neighbors are examined alphabetically. Only the starting component is explored; G is isolated.",
-    "queueHint": "Front of queue on the left.",
-    "stackHint": "Top of stack on the right."
+    "speed": "Speed",
+    "speeds": {
+      "0": "Slow",
+      "1": "Normal",
+      "2": "Fast"
+    },
+    "stepOf": "Step {{current}} of {{total}}",
+    "needsStartVertex": "Choose a start vertex to run this algorithm."
+  },
+  "panel": {
+    "empty": "empty",
+    "queue": "Queue",
+    "queueHint": "Front of the queue on the left.",
+    "stack": "Stack",
+    "stackHint": "Top of the stack on the right.",
+    "discoveryOrder": "Discovery order",
+    "finishOrder": "Finish order",
+    "hopsAndParent": "Edges from the start, and parent",
+    "parentTable": "Traversal tree",
+    "hops": "Edges",
+    "parent": "Parent",
+    "component": "Component {{number}}",
+    "componentTable": "Components",
+    "componentNumber": "Component",
+    "distanceTable": "Distances",
+    "distance": "Distance",
+    "previous": "Comes from",
+    "priorityQueue": "Reached, not settled",
+    "priorityQueueHint": "Smallest distance first: that is the vertex settled next.",
+    "settled": "Settled",
+    "edgeOrder": "Relaxation order",
+    "edgeOrderHint": "Every pass relaxes the arcs in this order.",
+    "distanceMatrix": "Distance matrix",
+    "componentRoots": "Union–find",
+    "root": "Representative",
+    "sortedEdges": "Edges by weight",
+    "sortedEdgesHint": "Lightest first; equal weights keep the order they were added in.",
+    "treeEdges": "Tree edges",
+    "fringeTable": "Cheapest way into the tree",
+    "cheapestEdge": "Cost",
+    "fromTree": "From",
+    "fringe": "Fringe",
+    "fringeHint": "Vertices next to the tree, cheapest first.",
+    "inDegreeTable": "Incoming arcs",
+    "inDegree": "In-degree",
+    "readyQueue": "Ready",
+    "readyQueueHint": "Vertices with no incoming arc left, in the order they became ready.",
+    "topologicalOrder": "Topological order"
+  },
+  "notice": {
+    "negativeCycle": "The arc {{from}} → {{to}} can still be relaxed after n − 1 passes: a cycle of negative total weight is reachable, so no shortest distance exists.",
+    "negativeCycleVertices": "These vertices lie on a cycle of negative total weight: {{vertices}}. Distances through them are meaningless.",
+    "spanningForest": "The graph is split into {{trees}} components, so the result is a minimum spanning forest: one tree per component, not a spanning tree.",
+    "primPartial": "Prim grows a single tree, so it reached only {{reached}} of {{total}} vertices: the rest are in other components.",
+    "cycle": "These vertices form or follow a cycle, so no topological order exists: {{vertices}}."
   },
   "steps": {
-    "start": "Start at {{vertex}}.",
-    "dequeue": "Remove {{vertex}} from the queue and examine its neighbors.",
-    "discover": "Discover {{vertex}} and add it to the queue or stack.",
-    "skipNeighbor": "{{vertex}} has already been reached: do not add it again.",
-    "finish": "All neighbors of {{vertex}} examined. Finish this vertex.",
-    "complete": "Traversal complete. Unreachable vertices remain undiscovered."
-  },
-  "paths": {
-    "graph": "Weighted example",
-    "positive": "Non-negative edges",
-    "negative": "Negative edge",
-    "cycle": "Negative cycle",
-    "target": "Destination",
-    "dijkstraRule": "Directed weighted graph. Dijkstra requires non-negative weights.",
-    "bellmanRule": "Directed weighted graph. Bellman–Ford supports negative weights and detects reachable negative cycles.",
-    "distances": "Distances",
-    "predecessors": "Predecessors",
-    "settled": "Settled vertices",
-    "selectedPath": "Path to destination",
-    "unreachable": "Unreachable",
-    "negativeCycle": "A reachable negative-weight cycle exists: shortest distances to affected destinations are undefined.",
-    "events": {
-      "start": "Start at {{vertex}} with distance zero.",
-      "select": "Select {{vertex}} as the smallest unsettled reachable vertex.",
-      "relax": "Relax {{from}} → {{to}} (weight {{weight}}): update the best distance.",
-      "noChange": "Examine {{from}} → {{to}} (weight {{weight}}): no improvement.",
-      "pass": "Begin relaxation pass {{pass}}.",
-      "complete": "Finished. The displayed distances are final.",
-      "negativeCycle": "A reachable negative-weight cycle can still improve a distance. No finite shortest path exists for affected destinations."
+    "traversal": {
+      "start": "Start at {{vertex}}.",
+      "dequeue": "Take {{vertex}} out of the queue and examine its neighbours.",
+      "discover": "{{from}} reaches {{vertex}}: discover it and add it to the frontier.",
+      "skipNeighbor": "{{vertex}} had already been reached, so the edge from {{from}} adds nothing.",
+      "finish": "Every neighbour of {{vertex}} has been examined: it is finished.",
+      "complete": "Traversal complete: every vertex reachable from the start was visited.",
+      "completeWithUnreached": "Traversal complete. {{left}} vertices were never reached: they lie outside the start vertex's component."
+    },
+    "components": {
+      "restart": "No component holds {{vertex}} yet, so it starts component {{component}}.",
+      "dequeue": "Take {{vertex}} out of the queue: it belongs to component {{component}}.",
+      "discover": "{{from}} reaches {{vertex}}, so {{vertex}} belongs to component {{component}} too.",
+      "skipNeighbor": "{{vertex}} is already in a component, so the edge from {{from}} adds nothing.",
+      "finish": "{{vertex}} is finished.",
+      "complete": "Finished: the graph has {{components}} connected components.",
+      "empty": "The graph has no vertices, so it has no components."
+    },
+    "dijkstra": {
+      "start": "The distance to {{vertex}} is 0 and every other distance is still unknown (∞).",
+      "select": "{{vertex}} has the smallest distance among the vertices not settled yet ({{distance}}), so its distance is final.",
+      "relax": "The path through {{from}} reaches {{to}} with {{distance}} ({{weight}} on this arc): that is better, so the distance drops.",
+      "noChange": "Through {{from}}, {{to}} would cost {{candidate}}, which is no better than {{current}}: nothing changes.",
+      "settled": "{{vertex}} is settled with distance {{distance}}.",
+      "complete": "Finished: every vertex has its shortest distance from the start.",
+      "completeWithUnreached": "Finished. {{left}} vertices stay at ∞: no path leads to them from the start vertex."
+    },
+    "bellman": {
+      "start": "The distance to {{vertex}} is 0 and every other distance is ∞. Up to {{passes}} passes over all arcs follow.",
+      "pass": "Pass {{pass}} of {{total}}: relax every arc once, in order.",
+      "relax": "{{from}} → {{to}} ({{weight}}) gives {{distance}}, which is better: the distance drops.",
+      "noChange": "{{from}} → {{to}} ({{weight}}) would give {{candidate}}, which is no better than {{current}}: nothing changes.",
+      "skipUnreached": "{{from}} has no distance yet, so the arc to {{to}} cannot be used.",
+      "settledEarly": "Pass {{pass}} changed nothing, so no later pass can either: the distances are final.",
+      "negativeCycle": "{{from}} → {{to}} can still be relaxed: a cycle of negative total weight is reachable and the distances are void.",
+      "complete": "Finished after {{passes}} passes: every distance is final.",
+      "completeWithUnreached": "Finished after {{passes}} passes. {{left}} vertices stay at ∞: no path leads to them."
+    },
+    "floyd": {
+      "start": "The matrix starts with the arc weights, 0 on the diagonal and ∞ where there is no arc. Every one of the {{vertices}} vertices will serve as a pivot.",
+      "pivot": "Pivot {{vertex}}: may a detour through {{vertex}} shorten any path?",
+      "row": "Row {{from}}: compare each distance from {{from}} against going through {{pivot}}.",
+      "improve": "{{from}} → {{to}} through {{pivot}} costs {{after}}, less than {{before}}: the cell drops.",
+      "complete": "Finished: the matrix holds the shortest distance between every pair of vertices.",
+      "completeNegativeCycle": "Finished, but {{cycles}} vertices ended with a negative value on the diagonal: they lie on a cycle of negative total weight."
+    },
+    "kruskal": {
+      "start": "Every vertex is its own component. The {{edges}} edges are examined from the lightest to the heaviest.",
+      "consider": "Edge {{from}} – {{to}} with weight {{weight}}: are its ends in different components?",
+      "accept": "Yes, so {{from}} – {{to}} joins the tree: {{edges}} edges, total weight {{total}}.",
+      "reject": "No: {{from}} and {{to}} are already in the same component, so this edge would close a cycle. Skip it.",
+      "complete": "Finished: a minimum spanning tree with {{edges}} edges and total weight {{total}}.",
+      "completeForest": "Finished: {{edges}} edges with total weight {{total}}, forming one tree per component ({{trees}} in all)."
+    },
+    "prim": {
+      "start": "The tree starts empty at {{vertex}}.",
+      "startVertex": "{{vertex}} is the first vertex of the tree.",
+      "accept": "{{vertex}} joins the tree over its cheapest edge ({{weight}}): total weight {{total}}.",
+      "insideTree": "{{to}} is already in the tree, so the edge from {{from}} would close a cycle.",
+      "improveFringe": "{{vertex}} can now be reached from {{from}} for {{weight}}, cheaper than {{previous}}.",
+      "keepFringe": "Reaching {{vertex}} this way costs {{weight}}, which is no better than {{current}}.",
+      "complete": "Finished: a minimum spanning tree with {{edges}} edges and total weight {{total}}.",
+      "completePartial": "Finished: {{edges}} edges with total weight {{total}}. {{left}} vertices were out of reach, because Prim grows a single tree."
+    },
+    "kahn": {
+      "start": "{{ready}} vertices have no incoming arc, so nothing has to come before them: they are ready.",
+      "emit": "{{vertex}} is ready: it takes position {{position}} in the order. Its outgoing arcs are now removed.",
+      "ready": "{{from}} was the last arc into {{vertex}}, so {{vertex}} is ready.",
+      "decrement": "{{vertex}} still waits for {{inDegree}} arcs after the one from {{from}}.",
+      "done": "{{vertex}} is done.",
+      "cycle": "The ready queue is empty but {{remaining}} vertices are left ({{vertices}}): each still has an incoming arc, so they contain a cycle and no topological order exists.",
+      "complete": "Finished: {{order}} is a valid topological order."
     }
   }
 }

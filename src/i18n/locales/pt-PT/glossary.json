@@ -1,29 +1,170 @@
 {
-  "graph": { "term": "Grafo", "definition": "Estrutura formada por um conjunto de vértices e um conjunto de arestas, em que cada aresta liga dois vértices. Neste módulo, os grafos são finitos, não orientados, não ponderados e simples: nenhuma aresta liga um vértice a si próprio, e no máximo uma aresta liga cada par de vértices." },
-  "vertex": { "term": "Vértice", "definition": "Elemento básico de um grafo, representado por um círculo. Também designado por nó." },
-  "edge": { "term": "Aresta", "definition": "Ligação entre dois vértices distintos. Num grafo não orientado, uma aresta pode ser percorrida nos dois sentidos." },
-  "neighbor": { "term": "Vizinho", "definition": "Um vértice é vizinho de outro quando uma aresta os liga." },
-  "path": { "term": "Caminho", "definition": "Sequência de vértices em que cada par consecutivo está ligado por uma aresta. O seu comprimento é o número de arestas que contém." },
-  "cycle": { "term": "Ciclo", "definition": "Caminho que começa e termina no mesmo vértice, utiliza pelo menos três arestas e não repete nenhum outro vértice." },
-  "traversal": { "term": "Percurso", "definition": "Processo sistemático que visita exatamente uma vez cada vértice alcançável a partir de um vértice inicial." },
-  "bfs": { "term": "Pesquisa em Largura (BFS)", "definition": "Percurso que utiliza uma fila para visitar os vértices por ordem de distância ao vértice inicial, medida em número de arestas." },
-  "dfs": { "term": "Pesquisa em Profundidade (DFS)", "definition": "Percurso que segue arestas o mais fundo possível a partir do vértice descoberto mais recentemente e recua quando não resta nenhum vizinho por descobrir. Pode ser implementada de forma recursiva ou com uma pilha explícita." },
-  "queue": { "term": "Fila", "definition": "Coleção do tipo primeiro a entrar, primeiro a sair (FIFO): os elementos são retirados pela mesma ordem em que foram inseridos." },
-  "stack": { "term": "Pilha", "definition": "Coleção do tipo último a entrar, primeiro a sair (LIFO): o elemento inserido mais recentemente é o primeiro a ser retirado." },
-  "frontier": { "term": "Fronteira", "definition": "Estrutura de dados que contém os vértices com que o percurso ainda tem de trabalhar: a fila na BFS, a pilha na DFS." },
-  "connectedComponent": { "term": "Componente conexa", "definition": "Conjunto maximal de vértices em que cada par está ligado por um caminho. Um percurso a partir de um vértice inicial alcança exatamente os vértices da componente conexa desse vértice." },
-  "isolatedVertex": { "term": "Vértice isolado", "definition": "Vértice sem arestas. Forma, por si só, uma componente conexa." },
-  "startVertex": { "term": "Vértice inicial", "definition": "Vértice onde o percurso começa." },
-  "undiscovered": { "term": "Não descoberto", "definition": "Estado de um vértice que o percurso ainda não alcançou." },
-  "discovered": { "term": "Descoberto", "definition": "Estado de um vértice que o percurso já alcançou e acrescentou à fronteira, mas cujo processamento ainda não começou." },
-  "processing": { "term": "Em processamento", "definition": "Estado de um vértice cujos vizinhos o percurso começou a examinar, mas ainda não terminou." },
-  "processed": { "term": "Processado", "definition": "Estado de um vértice cujos vizinhos já foram todos examinados. O percurso não volta a ele." },
-  "visited": { "term": "Visitado", "definition": "Termo geral para um vértice que o percurso já alcançou. Por ser ambíguo, este laboratório distingue vértices descobertos, em processamento e processados." },
-  "shortestPath": { "term": "Caminho mais curto", "definition": "Num grafo não ponderado, caminho entre dois vértices que utiliza o menor número de arestas. A BFS encontra caminhos mais curtos a partir do vértice inicial neste sentido; isto não se aplica a grafos ponderados." },
-  "weight": { "term": "Peso", "definition": "Número associado a uma aresta, que representa um custo como distância, tempo ou preço. Um grafo cujas arestas têm pesos diz-se ponderado." },
-  "minimumSpanningTree": { "term": "Árvore geradora mínima", "definition": "Conjunto de arestas de um grafo conexo e ponderado que chega a todos os vértices, não forma ciclos e tem o menor peso total. Tem uma aresta menos do que o número de vértices. Quando o grafo tem várias componentes conexas, o resultado equivalente é uma floresta geradora mínima: uma árvore mínima por componente." },
-  "floydWarshall": { "term": "Floyd–Warshall", "definition": "Algoritmo que calcula a distância mínima entre todos os pares de vértices de um grafo ponderado, admitindo mais um vértice como paragem intermédia em cada passagem. Aceita pesos negativos; uma distância negativa de um vértice a si mesmo mostra que esse vértice está num ciclo negativo." },
-  "prim": { "term": "Prim", "definition": "Algoritmo que constrói uma árvore geradora mínima fazendo crescer uma única árvore a partir de um vértice inicial e acrescentando, em cada passo, a aresta mais barata com exatamente uma extremidade na árvore." },
-  "kruskal": { "term": "Kruskal", "definition": "Algoritmo que constrói uma árvore geradora mínima examinando as arestas da mais barata para a mais cara e mantendo cada aresta cujas extremidades pertencem a partes separadas da floresta." },
-  "disjointSet": { "term": "Conjuntos disjuntos (union-find)", "definition": "Estrutura que mantém elementos divididos em grupos separados: find indica o grupo de um elemento, union junta dois grupos. O Kruskal utiliza-a para saber se uma aresta fecharia um ciclo." }
+  "graph": {
+    "term": "Grafo",
+    "definition": "Uma estrutura feita de um conjunto de vértices e um conjunto de arestas, em que cada aresta liga dois vértices. Neste módulo os grafos são finitos e simples: nenhuma aresta liga um vértice a si mesmo e no máximo uma aresta liga cada par de vértices — uma por sentido quando o grafo é orientado. Um grafo pode ser orientado ou não orientado e ponderado ou não ponderado."
+  },
+  "vertex": {
+    "term": "Vértice",
+    "definition": "Elemento básico de um grafo, representado por um círculo. Também designado por nó."
+  },
+  "edge": {
+    "term": "Aresta",
+    "definition": "Uma ligação entre dois vértices distintos. Num grafo não orientado pode ser seguida nos dois sentidos; num grafo orientado apenas da origem para o destino, e então também se lhe dá o nome de arco."
+  },
+  "neighbor": {
+    "term": "Vizinho",
+    "definition": "Um vértice é vizinho de outro quando uma aresta os liga."
+  },
+  "path": {
+    "term": "Caminho",
+    "definition": "Sequência de vértices em que cada par consecutivo está ligado por uma aresta. O seu comprimento é o número de arestas que contém."
+  },
+  "cycle": {
+    "term": "Ciclo",
+    "definition": "Caminho que começa e termina no mesmo vértice, utiliza pelo menos três arestas e não repete nenhum outro vértice."
+  },
+  "traversal": {
+    "term": "Percurso",
+    "definition": "Processo sistemático que visita exatamente uma vez cada vértice alcançável a partir de um vértice inicial."
+  },
+  "bfs": {
+    "term": "Pesquisa em Largura (BFS)",
+    "definition": "Percurso que utiliza uma fila para visitar os vértices por ordem de distância ao vértice inicial, medida em número de arestas."
+  },
+  "dfs": {
+    "term": "Pesquisa em Profundidade (DFS)",
+    "definition": "Percurso que segue arestas o mais fundo possível a partir do vértice descoberto mais recentemente e recua quando não resta nenhum vizinho por descobrir. Pode ser implementada de forma recursiva ou com uma pilha explícita."
+  },
+  "queue": {
+    "term": "Fila",
+    "definition": "Coleção do tipo primeiro a entrar, primeiro a sair (FIFO): os elementos são retirados pela mesma ordem em que foram inseridos."
+  },
+  "stack": {
+    "term": "Pilha",
+    "definition": "Coleção do tipo último a entrar, primeiro a sair (LIFO): o elemento inserido mais recentemente é o primeiro a ser retirado."
+  },
+  "frontier": {
+    "term": "Fronteira",
+    "definition": "Estrutura de dados que contém os vértices com que o percurso ainda tem de trabalhar: a fila na BFS, a pilha na DFS."
+  },
+  "connectedComponent": {
+    "term": "Componente conexa",
+    "definition": "Conjunto maximal de vértices em que cada par está ligado por um caminho. Um percurso a partir de um vértice inicial alcança exatamente os vértices da componente conexa desse vértice."
+  },
+  "isolatedVertex": {
+    "term": "Vértice isolado",
+    "definition": "Vértice sem arestas. Forma, por si só, uma componente conexa."
+  },
+  "startVertex": {
+    "term": "Vértice inicial",
+    "definition": "Vértice onde o percurso começa."
+  },
+  "undiscovered": {
+    "term": "Não descoberto",
+    "definition": "Estado de um vértice que o percurso ainda não alcançou."
+  },
+  "discovered": {
+    "term": "Descoberto",
+    "definition": "Estado de um vértice que o percurso já alcançou e acrescentou à fronteira, mas cujo processamento ainda não começou."
+  },
+  "processing": {
+    "term": "Em processamento",
+    "definition": "Estado de um vértice cujos vizinhos o percurso começou a examinar, mas ainda não terminou."
+  },
+  "processed": {
+    "term": "Processado",
+    "definition": "Estado de um vértice cujos vizinhos já foram todos examinados. O percurso não volta a ele."
+  },
+  "visited": {
+    "term": "Visitado",
+    "definition": "Termo geral para um vértice que o percurso já alcançou. Por ser ambíguo, este laboratório distingue vértices descobertos, em processamento e processados."
+  },
+  "shortestPath": {
+    "term": "Caminho mais curto",
+    "definition": "Um caminho entre dois vértices cujo peso total é o menor possível. Num grafo não ponderado é o caminho com menos arestas, que a pesquisa em largura encontra; com pesos, são o Dijkstra, o Bellman–Ford ou o Floyd–Warshall que o encontram, e um ciclo negativo alcançável significa que não existe caminho mais curto."
+  },
+  "weight": {
+    "term": "Peso",
+    "definition": "O número associado a uma aresta, lido como custo, comprimento ou tempo. Num grafo não ponderado cada aresta conta como 1."
+  },
+  "minimumSpanningTree": {
+    "term": "Árvore geradora mínima",
+    "definition": "Uma árvore geradora cujo peso total é o menor possível. O Kruskal e o Prim constroem ambos uma. Num grafo desconexo não existe nenhuma: o resultado é uma floresta geradora mínima, uma árvore por componente."
+  },
+  "floydWarshall": {
+    "term": "Floyd–Warshall",
+    "definition": "Um algoritmo para os caminhos mais curtos entre todos os pares de vértices. Toma cada vértice como pivô, por sua vez, e pergunta se um desvio por ele encurta algum caminho."
+  },
+  "prim": {
+    "term": "Prim",
+    "definition": "Um algoritmo para uma árvore geradora mínima: faz crescer uma árvore a partir de um vértice inicial, acrescentando sempre a aresta mais barata que dela sai."
+  },
+  "kruskal": {
+    "term": "Kruskal",
+    "definition": "Um algoritmo para uma árvore geradora mínima: pega nas arestas da mais leve para a mais pesada e mantém cada uma que junte duas componentes diferentes."
+  },
+  "disjointSet": {
+    "term": "Conjuntos disjuntos (union-find)",
+    "definition": "Estrutura que mantém elementos divididos em grupos separados: find indica o grupo de um elemento, union junta dois grupos. O Kruskal utiliza-a para saber se uma aresta fecharia um ciclo."
+  },
+  "directedGraph": {
+    "term": "Grafo orientado",
+    "definition": "Um grafo cujas arestas têm sentido: uma aresta de u para v só pode ser seguida nesse sentido. O mesmo par pode ter uma aresta em cada sentido."
+  },
+  "undirectedGraph": {
+    "term": "Grafo não orientado",
+    "definition": "Um grafo cujas arestas não têm sentido: cada aresta pode ser seguida a partir de qualquer dos seus dois vértices."
+  },
+  "weightedGraph": {
+    "term": "Grafo ponderado",
+    "definition": "Um grafo em que cada aresta tem um número associado, o seu peso. Os pesos podem ser negativos."
+  },
+  "arc": {
+    "term": "Arco",
+    "definition": "Uma aresta de um grafo orientado, tomada no seu próprio sentido, da origem para o destino."
+  },
+  "spanningTree": {
+    "term": "Árvore geradora",
+    "definition": "Um conjunto de arestas de um grafo não orientado que liga todos os vértices e não contém ciclos. Tem sempre exatamente uma aresta menos do que o número de vértices."
+  },
+  "topologicalOrder": {
+    "term": "Ordenação topológica",
+    "definition": "Uma ordem dos vértices de um grafo orientado em que todos os arcos apontam para a frente. Existe exatamente quando o grafo não tem ciclos orientados."
+  },
+  "dag": {
+    "term": "Grafo orientado acíclico (DAG)",
+    "definition": "Um grafo orientado sem ciclos orientados. São exatamente os grafos que admitem uma ordenação topológica."
+  },
+  "inDegree": {
+    "term": "Grau de entrada",
+    "definition": "O número de arcos que apontam para um vértice. Um vértice com grau de entrada 0 não tem nada que tenha de vir antes dele."
+  },
+  "relaxation": {
+    "term": "Relaxação",
+    "definition": "Examinar um arco de u para w para ver se passar por u alcança w mais barato do que a distância registada até ao momento, e baixar essa distância quando isso acontece. É a operação única por trás do Dijkstra e do Bellman–Ford."
+  },
+  "negativeCycle": {
+    "term": "Ciclo negativo",
+    "definition": "Um ciclo cujos pesos somam menos de zero. Dar-lhe outra volta baixa sempre o total, pelo que não existe caminho mais curto através dele; o Bellman–Ford deteta-o."
+  },
+  "unionFind": {
+    "term": "Union–find",
+    "definition": "Uma estrutura que mantém uma coleção de conjuntos disjuntos e responde depressa se dois elementos estão no mesmo conjunto, além de juntar dois conjuntos. O Kruskal utiliza-a para saber se uma aresta fecharia um ciclo."
+  },
+  "settled": {
+    "term": "Vértice fechado",
+    "definition": "No Dijkstra, um vértice cuja distância é definitiva e já não volta a mudar."
+  },
+  "dijkstra": {
+    "term": "Dijkstra",
+    "definition": "Um algoritmo para os caminhos mais curtos a partir de um vértice inicial num grafo sem pesos negativos. Fecha repetidamente o vértice mais próximo que ainda não está fechado."
+  },
+  "bellmanFord": {
+    "term": "Bellman–Ford",
+    "definition": "Um algoritmo para os caminhos mais curtos a partir de um vértice inicial que também aceita pesos negativos. Relaxa todos os arcos n − 1 vezes e deteta depois um ciclo negativo alcançável."
+  },
+  "kahn": {
+    "term": "Algoritmo de Kahn",
+    "definition": "Um algoritmo para uma ordenação topológica: retira repetidamente um vértice com grau de entrada 0 e remove os seus arcos de saída. Se restarem vértices quando já não houver nenhum, o grafo tem um ciclo."
+  }
 }

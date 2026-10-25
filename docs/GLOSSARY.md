@@ -28,17 +28,34 @@ The canonical glossary lives in `src/i18n/locales/<locale>/glossary.json` (term 
 | Prim | Prim | Prim | Prim | Prim | Prim |
 | Kruskal | Kruskal | Kruskal | Kruskal | Kruskal | Kruskal |
 | disjoint-set | Disjoint-set (union-find) | Conjuntos disjuntos (union-find) | Conjuntos disjuntos (union-find) | Conjuntos disjuntos (union-find) | Union-Find (disjunkte Mengen) |
+| directed graph | Directed graph | Grafo orientado | Grafo direcionado | Grafo dirigido | Gerichteter Graph |
+| undirected graph | Undirected graph | Grafo não orientado | Grafo não direcionado | Grafo no dirigido | Ungerichteter Graph |
+| weighted graph | Weighted graph | Grafo ponderado | Grafo ponderado | Grafo ponderado | Gewichteter Graph |
+| arc | Arc | Arco | Arco | Arco | Gerichtete Kante |
+| spanning tree | Spanning tree | Árvore geradora | Árvore geradora | Árbol de expansión | Spannbaum |
+| topological order | Topological order | Ordenação topológica | Ordenação topológica | Orden topológico | Topologische Sortierung |
+| DAG | Directed acyclic graph (DAG) | Grafo orientado acíclico (DAG) | Grafo direcionado acíclico (DAG) | Grafo dirigido acíclico (DAG) | Gerichteter azyklischer Graph (DAG) |
+| in-degree | In-degree | Grau de entrada | Grau de entrada | Grado de entrada | Eingangsgrad |
+| relaxation | Relaxation | Relaxação | Relaxamento | Relajación | Relaxation |
+| negative cycle | Negative cycle | Ciclo negativo | Ciclo negativo | Ciclo negativo | Negativer Zyklus |
+| settled vertex | Settled vertex | Vértice fechado | Vértice fechado | Vértice cerrado | Abgeschlossener Knoten |
+| Dijkstra | Dijkstra | Dijkstra | Dijkstra | Dijkstra | Dijkstra |
+| Bellman–Ford | Bellman–Ford | Bellman–Ford | Bellman–Ford | Bellman–Ford | Bellman–Ford |
+| Kahn | Kahn's algorithm | Algoritmo de Kahn | Algoritmo de Kahn | Algoritmo de Kahn | Kahns Algorithmus |
 
 ## Rules
 
 - "Visited" is ambiguous; the lab uses **discovered / processing / processed** and defines "visited" only as a general term.
-- "Shortest path" always means *fewest edges in an unweighted graph*; never use it for weighted graphs.
+- "Shortest path" means *fewest edges* in an unweighted graph (what BFS finds) and *smallest total weight* in a weighted one (Dijkstra, Bellman–Ford, Floyd–Warshall). Always make clear which of the two a sentence is about, and never call a BFS distance a shortest path in a weighted graph.
 - Keep the abbreviations **BFS** and **DFS** in every language.
 - pt-PT and pt-BR are separate locales: pt-PT uses *pesquisa*, *não orientado*, *utilizar*, *num*; pt-BR uses *busca*, *não direcionado*, *usar*, *em um*.
 - de uses informal *du* for the learner and *Lehrkraft* (gender-neutral) for educator.
-- Keep the algorithm names **Floyd–Warshall**, **Prim** and **Kruskal** untranslated, as with Dijkstra and Bellman–Ford, and keep *union-find* next to the translated name of the structure.
+- Keep the algorithm names **Dijkstra**, **Bellman–Ford**, **Floyd–Warshall**, **Prim** and **Kruskal** untranslated, and keep *union-find* next to the translated name of the structure. Kahn takes the local word for "algorithm" (*Algoritmo de Kahn*, *Kahns Algorithmus*).
 - A program loop is *laço* (pt), *bucle* (es), *Schleife* (de), so that *ciclo* / *Zyklus* stays the graph cycle.
 - An intermediate stop on a path is *paragem intermédia* in pt-PT and *parada intermediária* in pt-BR.
+
+- A vertex is *settled* (Dijkstra) once its distance is final; that is not the same as *processed*, which is about neighbours having been examined. Keep the two words apart.
+- pt-PT says *orientado* / *não orientado* for direction, pt-BR *direcionado* / *não direcionado*.
 
 ## Open review questions
 
@@ -47,3 +64,5 @@ The canonical glossary lives in `src/i18n/locales/<locale>/glossary.json` (term 
 - es: "componente conexa" vs. "componente conexo" (both in use).
 - es: "árbol de expansión mínima" vs. "árbol recubridor mínimo" (both in use in textbooks).
 - de: "Minimaler Spannbaum" vs. "minimaler aufspannender Baum"; "Spannwald" is rarer than the tree term.
+- pt: *relaxação* (pt-PT) vs. *relaxamento* (pt-BR) for *relaxation*; both are in use, each in its own variant.
+- de: "Relaxation" vs. "Kantenrelaxation"; "Gerichtete Kante" vs. "Pfeil" for *arc*.

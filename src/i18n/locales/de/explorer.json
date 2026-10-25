@@ -1,43 +1,85 @@
 {
   "title": "Graph-Explorer",
-  "intro": "Ein Graph ist eine Menge von Knoten, die durch Kanten verbunden sind. Wähle einen Traversierungsalgorithmus und verfolge Schritt für Schritt, wie er den Graphen von einem Startknoten aus erkundet.",
+  "intro": "Ein Graph ist eine Menge von Knoten, die durch Kanten verbunden sind. Baue einen Graphen — zufällig oder von Hand —, wähle dann einen Algorithmus und verfolge Schritt für Schritt, wie er auf deinem Graphen arbeitet.",
+  "family": {
+    "traversal": "Traversierung",
+    "shortestPath": "Kürzeste Pfade",
+    "spanningTree": "Minimaler Spannbaum",
+    "ordering": "Topologische Sortierung"
+  },
   "algorithm": {
     "label": "Algorithmus",
+    "requires": "Benötigt: {{list}}",
+    "fixGraph": "Graphen anpassen",
     "bfs": {
-      "name": "Breitensuche",
-      "short": "BFS",
-      "summary": "Erkundet den Graphen schichtweise: zuerst die Knoten, die eine Kante vom Start entfernt sind, dann die zwei Kanten entfernten und so weiter. Verwendet eine Warteschlange."
+      "name": "Breitensuche (BFS)",
+      "summary": "Erkundet den Graphen in Schichten: zuerst die Knoten eine Kante vom Start entfernt, dann die zwei Kanten entfernt, und so weiter. Sie nutzt eine Warteschlange."
     },
     "dfs": {
-      "name": "Tiefensuche",
-      "short": "DFS",
-      "summary": "Folgt einem Pfad so tief wie möglich und geht dann zum zuletzt erreichten Knoten zurück, der noch ununtersuchte Nachbarn hat. Verwendet einen Stapel."
+      "name": "Tiefensuche (DFS)",
+      "summary": "Folgt einem Pfad so tief wie möglich und kehrt dann zum jüngsten Knoten zurück, der noch nicht untersuchte Nachbarn hat. Sie nutzt einen Stapel."
+    },
+    "components": {
+      "name": "Zusammenhangskomponenten",
+      "summary": "Startet eine Breitensuche von jedem noch nicht erreichten Knoten aus, teilt den Graphen damit in seine Zusammenhangskomponenten und numeriert sie."
     },
     "dijkstra": {
       "name": "Dijkstra",
-      "short": "Dijkstra",
-      "summary": "Findet kürzeste Wege ab dem Startknoten bei nichtnegativen Kantengewichten."
+      "summary": "Kürzeste Pfade von einem Startknoten aus, wenn kein Gewicht negativ ist. Er schließt immer wieder den nächstgelegenen noch offenen Knoten ab."
     },
     "bellmanFord": {
       "name": "Bellman–Ford",
-      "short": "BF",
-      "summary": "Findet kürzeste Wege mit negativen Gewichten und erkennt erreichbare negative Zyklen."
+      "summary": "Kürzeste Pfade von einem Startknoten aus, die auch mit negativen Gewichten funktionieren und einen erreichbaren negativen Zyklus melden."
+    },
+    "floydWarshall": {
+      "name": "Floyd–Warshall",
+      "summary": "Kürzeste Pfade zwischen allen Knotenpaaren, in einer Matrix aufgebaut, ein Pivotknoten nach dem anderen."
+    },
+    "kruskal": {
+      "name": "Kruskal",
+      "summary": "Ein minimaler Spannbaum, gebaut aus den leichtesten Kanten zuerst, wobei Kanten übersprungen werden, die einen Zyklus schließen würden. Er nutzt Union-Find."
+    },
+    "prim": {
+      "name": "Prim",
+      "summary": "Ein minimaler Spannbaum, der von einem Startknoten aus wächst und immer die günstigste Kante aufnimmt, die aus dem Baum hinausführt."
+    },
+    "kahn": {
+      "name": "Kahn (topologische Sortierung)",
+      "summary": "Ordnet die Knoten eines gerichteten Graphen so, dass jede Kante nach vorn zeigt, und erkennt einen Zyklus, wenn es keine solche Ordnung gibt."
     }
   },
-  "begin": "Starten",
-  "comingSoon": "Der interaktive Explorer befindet sich im Aufbau.",
+  "prerequisite": {
+    "nonEmpty": "mindestens einen Knoten",
+    "directed": "einen gerichteten Graphen",
+    "undirected": "einen ungerichteten Graphen",
+    "weighted": "einen gewichteten Graphen",
+    "nonNegativeWeights": "keine negativen Gewichte",
+    "unmet": {
+      "nonEmpty": "Der Graph hat noch keine Knoten: füge einen hinzu oder erzeuge einen Graphen.",
+      "directed": "Dieser Algorithmus braucht einen gerichteten Graphen: eine Kante muss irgendwohin zeigen, damit die Frage Sinn ergibt.",
+      "undirected": "Dieser Algorithmus braucht einen ungerichteten Graphen: die Struktur, die er baut, hat keine Richtung.",
+      "weighted": "Dieser Algorithmus vergleicht Gewichte und braucht deshalb einen gewichteten Graphen.",
+      "nonNegativeWeights": "Dijkstra schließt einen Knoten endgültig ab, was ein negatives Gewicht widerlegen kann. Nutze für negative Gewichte Bellman–Ford."
+    }
+  },
   "vertexState": {
     "undiscovered": "Unentdeckt",
     "discovered": "Entdeckt",
     "processing": "In Bearbeitung",
     "processed": "Abgeschlossen"
   },
-  "frontier": {
-    "queue": "Warteschlange",
-    "stack": "Stapel",
-    "front": "Anfang",
-    "top": "Oben",
-    "empty": "Leer"
+  "edgeMark": {
+    "idle": "nicht untersucht",
+    "active": "wird untersucht",
+    "tree": "Teil der Antwort",
+    "rejected": "ausgeschlossen"
+  },
+  "canvas": {
+    "label": "Graph mit {{vertices}} Knoten und {{edges}} Kanten",
+    "vertexLabel": "Knoten {{label}}, {{state}}. {{extra}}",
+    "isStart": "Startknoten",
+    "isSelected": "ausgewählt",
+    "badge": "Nummer {{badge}}"
   },
   "summary": {
     "vertexCount_one": "{{count}} Knoten",
@@ -45,47 +87,206 @@
     "edgeCount_one": "{{count}} Kante",
     "edgeCount_other": "{{count}} Kanten"
   },
-  "lab": {
-    "start": "Startknoten",
-    "reset": "Neustart",
-    "back": "Zurück",
+  "builder": {
+    "title": "Dein Graph",
+    "mode": "Wie der Graph entsteht",
+    "modes": {
+      "generate": "Zufällig erzeugen",
+      "edit": "Von Hand bearbeiten"
+    },
+    "direction": "Richtung",
+    "undirected": "Ungerichtet",
+    "directed": "Gerichtet",
+    "weights": "Gewichte",
+    "unweighted": "Ungewichtet",
+    "weighted": "Gewichtet",
+    "layout": "Anordnung",
+    "layoutCircle": "Kreis",
+    "layoutForce": "Verteilt",
+    "vertexCount": "Knoten",
+    "edgeCount": "Kanten",
+    "edgeRange": "Möglich sind 0 bis {{max}} Kanten; {{connected}} sind nötig, um alle Knoten zu verbinden.",
+    "seed": "Startwert",
+    "allowNegative": "Negative Gewichte erlauben (für Bellman–Ford)",
+    "generate": "Erzeugen",
+    "generateRandom": "Neuer Zufalls-Startwert",
+    "generated": "Es wurde ein Graph mit {{vertices}} Knoten und {{edges}} Kanten erzeugt.",
+    "willConnect": "Mit so vielen Kanten werden alle Knoten verbunden sein.",
+    "willNotConnect": "Mit so vielen Kanten bleibt der Graph in mehrere Komponenten geteilt.",
+    "editHelp": "Klicke in die Zeichnung, um einen Knoten hinzuzufügen, klicke zwei Knoten an, um sie zu verbinden, und zieh einen Knoten, um ihn zu bewegen. Mit der Tastatur: nutze die Schaltflächen und Tabellen unten, oder setze den Fokus auf einen Knoten und drücke Enter zum Auswählen, die Pfeiltasten zum Bewegen und Entf zum Entfernen.",
+    "addVertex": "Knoten hinzufügen",
+    "clear": "Graphen leeren",
+    "cleared": "Der Graph ist leer.",
+    "addEdge": "Zwei Knoten verbinden",
+    "from": "Von",
+    "to": "Nach",
+    "weight": "Gewicht",
+    "weightOf": "Gewicht der Kante von {{from}} nach {{to}}",
+    "link": "Kante hinzufügen",
+    "tables": "Knoten und Kanten als Tabellen",
+    "vertexTable": "Knoten",
+    "vertex": "Knoten",
+    "degree": "Kanten",
+    "actions": "Aktionen",
+    "remove": "Entfernen",
+    "reverse": "Umdrehen",
+    "edgeTable": "Kanten",
+    "edge": "Kante",
+    "vertexAdded": "Knoten hinzugefügt.",
+    "vertexRemoved": "Knoten {{label}} wurde mit seinen Kanten entfernt.",
+    "vertexSelected": "{{label}} ausgewählt. Wähle einen zweiten Knoten, um ihn zu verbinden.",
+    "edgeAdded": "Kante {{from}} – {{to}} hinzugefügt.",
+    "edgeRemoved": "Kante entfernt.",
+    "edgeReversed": "Kante umgedreht.",
+    "kindChanged": "Art des Graphen geändert.",
+    "rearranged": "Knoten neu angeordnet.",
+    "problem": {
+      "selfLoop": "In einem einfachen Graphen kann ein Knoten nicht mit sich selbst verbunden werden.",
+      "duplicateEdge": "Diese zwei Knoten sind in dieser Richtung schon verbunden.",
+      "tooManyVertices": "Dieses Labor fasst höchstens 26 Knoten, einen pro Buchstabe.",
+      "unknownVertex": "Dieser Knoten ist nicht mehr im Graphen.",
+      "tooManyEdges": "Ein einfacher Graph dieser Größe fasst höchstens {{max}} Kanten.",
+      "vertexCountOutOfRange": "Wähle zwischen {{min}} und {{max}} Knoten.",
+      "negativeEdgeCount": "Die Anzahl der Kanten kann nicht negativ sein."
+    }
+  },
+  "runner": {
+    "title": "Schrittweiser Ablauf",
+    "startVertex": "Startknoten",
+    "restart": "Neu starten",
+    "previous": "Zurück",
+    "play": "Abspielen",
+    "pause": "Pause",
     "next": "Nächster Schritt",
-    "order": "Entdeckungsreihenfolge",
-    "distance": "Entfernung vom Start (Kanten)",
-    "rule": "Ungerichteter, ungewichteter Graph. Nachbarn werden alphabetisch untersucht. Nur die Startkomponente wird erkundet; G ist isoliert.",
-    "queueHint": "Anfang der Warteschlange links.",
-    "stackHint": "Stapelspitze rechts."
+    "speed": "Geschwindigkeit",
+    "speeds": {
+      "0": "Langsam",
+      "1": "Normal",
+      "2": "Schnell"
+    },
+    "stepOf": "Schritt {{current}} von {{total}}",
+    "needsStartVertex": "Wähle einen Startknoten, um diesen Algorithmus auszuführen."
+  },
+  "panel": {
+    "empty": "leer",
+    "queue": "Warteschlange",
+    "queueHint": "Der Anfang der Warteschlange ist links.",
+    "stack": "Stapel",
+    "stackHint": "Die Spitze des Stapels ist rechts.",
+    "discoveryOrder": "Entdeckungsreihenfolge",
+    "finishOrder": "Abschlussreihenfolge",
+    "hopsAndParent": "Kanten vom Start und Vorgänger im Baum",
+    "parentTable": "Traversierungsbaum",
+    "hops": "Kanten",
+    "parent": "Vorgänger im Baum",
+    "component": "Komponente {{number}}",
+    "componentTable": "Komponenten",
+    "componentNumber": "Komponente",
+    "distanceTable": "Distanzen",
+    "distance": "Distanz",
+    "previous": "Kommt von",
+    "priorityQueue": "Erreicht, nicht abgeschlossen",
+    "priorityQueueHint": "Kleinste Distanz zuerst: dieser Knoten wird als nächster abgeschlossen.",
+    "settled": "Abgeschlossen",
+    "edgeOrder": "Reihenfolge der Relaxation",
+    "edgeOrderHint": "Jeder Durchlauf relaxiert die Kanten in dieser Reihenfolge.",
+    "distanceMatrix": "Distanzmatrix",
+    "componentRoots": "Union-Find",
+    "root": "Vertreter",
+    "sortedEdges": "Kanten nach Gewicht",
+    "sortedEdgesHint": "Die leichtesten zuerst; gleiche Gewichte behalten die Reihenfolge, in der sie hinzugefügt wurden.",
+    "treeEdges": "Kanten des Baums",
+    "fringeTable": "Günstigster Weg in den Baum",
+    "cheapestEdge": "Kosten",
+    "fromTree": "Von",
+    "fringe": "Rand",
+    "fringeHint": "Knoten neben dem Baum, die günstigsten zuerst.",
+    "inDegreeTable": "Eingehende Kanten",
+    "inDegree": "Eingangsgrad",
+    "readyQueue": "Bereit",
+    "readyQueueHint": "Knoten ohne offene eingehende Kante, in der Reihenfolge, in der sie bereit wurden.",
+    "topologicalOrder": "Topologische Sortierung"
+  },
+  "notice": {
+    "negativeCycle": "Die Kante {{from}} → {{to}} lässt sich nach n − 1 Durchläufen noch relaxieren: ein Zyklus mit negativem Gesamtgewicht ist erreichbar, deshalb gibt es keine kürzeste Distanz.",
+    "negativeCycleVertices": "Diese Knoten liegen auf einem Zyklus mit negativem Gesamtgewicht: {{vertices}}. Distanzen über sie sind bedeutungslos.",
+    "spanningForest": "Der Graph ist in {{trees}} Komponenten geteilt, das Ergebnis ist deshalb ein minimaler Spannwald: ein Baum pro Komponente, kein Spannbaum.",
+    "primPartial": "Prim lässt einen einzigen Baum wachsen und hat deshalb nur {{reached}} von {{total}} Knoten erreicht: die übrigen liegen in anderen Komponenten.",
+    "cycle": "Diese Knoten bilden einen Zyklus oder hängen an einem, deshalb gibt es keine topologische Sortierung: {{vertices}}."
   },
   "steps": {
-    "start": "Bei {{vertex}} beginnen.",
-    "dequeue": "{{vertex}} aus der Warteschlange nehmen und Nachbarn untersuchen.",
-    "discover": "{{vertex}} entdecken und zur Warteschlange oder zum Stapel hinzufügen.",
-    "skipNeighbor": "{{vertex}} wurde bereits erreicht: nicht erneut hinzufügen.",
-    "finish": "Alle Nachbarn von {{vertex}} untersucht. Diesen Knoten abschließen.",
-    "complete": "Durchlauf abgeschlossen. Unerreichbare Knoten bleiben unentdeckt."
-  },
-  "paths": {
-    "graph": "Gewichtetes Beispiel",
-    "positive": "Nichtnegative Kanten",
-    "negative": "Negative Kante",
-    "cycle": "Negativer Zyklus",
-    "target": "Ziel",
-    "dijkstraRule": "Gerichteter, gewichteter Graph. Dijkstra benötigt nichtnegative Kantengewichte.",
-    "bellmanRule": "Gerichteter, gewichteter Graph. Bellman–Ford erlaubt negative Gewichte und erkennt erreichbare negative Zyklen.",
-    "distances": "Distanzen",
-    "predecessors": "Vorgänger",
-    "settled": "Abgeschlossene Knoten",
-    "selectedPath": "Pfad zum Ziel",
-    "unreachable": "Nicht erreichbar",
-    "negativeCycle": "Ein erreichbarer negativer Zyklus existiert: Kürzeste Distanzen zu betroffenen Zielen sind nicht definiert.",
-    "events": {
-      "start": "Start bei {{vertex}} mit Distanz null.",
-      "select": "Wähle {{vertex}} als erreichbaren, noch nicht abgeschlossenen Knoten mit kleinster Distanz.",
-      "relax": "Relaxiere {{from}} → {{to}} (Gewicht {{weight}}): Distanz verbessert.",
-      "noChange": "Prüfe {{from}} → {{to}} (Gewicht {{weight}}): keine Verbesserung.",
-      "pass": "Beginne Relaxationsrunde {{pass}}.",
-      "complete": "Fertig. Die angezeigten Distanzen sind endgültig.",
-      "negativeCycle": "Ein erreichbarer negativer Zyklus ermöglicht unbegrenzte Verbesserungen. Für betroffene Ziele gibt es keinen endlichen kürzesten Weg."
+    "traversal": {
+      "start": "Start bei {{vertex}}.",
+      "dequeue": "Nimm {{vertex}} aus der Warteschlange und untersuche seine Nachbarn.",
+      "discover": "{{from}} erreicht {{vertex}}: entdecke es und nimm es in den Rand auf.",
+      "skipNeighbor": "{{vertex}} war schon erreicht, die Kante von {{from}} bringt also nichts Neues.",
+      "finish": "Alle Nachbarn von {{vertex}} sind untersucht: es ist abgeschlossen.",
+      "complete": "Traversierung beendet: jeder vom Start erreichbare Knoten wurde besucht.",
+      "completeWithUnreached": "Traversierung beendet. {{left}} Knoten wurden nie erreicht: sie liegen außerhalb der Komponente des Startknotens."
+    },
+    "components": {
+      "restart": "Noch keine Komponente enthält {{vertex}}, also beginnt damit Komponente {{component}}.",
+      "dequeue": "Nimm {{vertex}} aus der Warteschlange: es gehört zu Komponente {{component}}.",
+      "discover": "{{from}} erreicht {{vertex}}, also gehört {{vertex}} ebenfalls zu Komponente {{component}}.",
+      "skipNeighbor": "{{vertex}} ist schon in einer Komponente, die Kante von {{from}} bringt also nichts Neues.",
+      "finish": "{{vertex}} ist abgeschlossen.",
+      "complete": "Fertig: der Graph hat {{components}} Zusammenhangskomponenten.",
+      "empty": "Der Graph hat keine Knoten und damit keine Komponenten."
+    },
+    "dijkstra": {
+      "start": "Die Distanz zu {{vertex}} ist 0, alle anderen Distanzen sind noch unbekannt (∞).",
+      "select": "{{vertex}} hat unter den noch offenen Knoten die kleinste Distanz ({{distance}}), deshalb ist seine Distanz endgültig.",
+      "relax": "Der Weg über {{from}} erreicht {{to}} mit {{distance}} ({{weight}} auf dieser Kante): das ist besser, die Distanz sinkt.",
+      "noChange": "Über {{from}} würde {{to}} {{candidate}} kosten, nicht besser als {{current}}: nichts ändert sich.",
+      "settled": "{{vertex}} ist mit Distanz {{distance}} abgeschlossen.",
+      "complete": "Fertig: jeder Knoten hat seine kürzeste Distanz vom Start.",
+      "completeWithUnreached": "Fertig. {{left}} Knoten bleiben bei ∞: vom Startknoten führt kein Pfad zu ihnen."
+    },
+    "bellman": {
+      "start": "Die Distanz zu {{vertex}} ist 0, alle anderen sind ∞. Es folgen bis zu {{passes}} Durchläufe über alle Kanten.",
+      "pass": "Durchlauf {{pass}} von {{total}}: relaxiere jede Kante einmal, der Reihe nach.",
+      "relax": "{{from}} → {{to}} ({{weight}}) ergibt {{distance}}, das ist besser: die Distanz sinkt.",
+      "noChange": "{{from}} → {{to}} ({{weight}}) würde {{candidate}} ergeben, nicht besser als {{current}}: nichts ändert sich.",
+      "skipUnreached": "{{from}} hat noch keine Distanz, die Kante nach {{to}} ist also nicht nutzbar.",
+      "settledEarly": "Durchlauf {{pass}} hat nichts geändert, also kann es kein späterer mehr: die Distanzen sind endgültig.",
+      "negativeCycle": "{{from}} → {{to}} lässt sich noch relaxieren: ein Zyklus mit negativem Gesamtgewicht ist erreichbar und die Distanzen sind wertlos.",
+      "complete": "Fertig nach {{passes}} Durchläufen: alle Distanzen sind endgültig.",
+      "completeWithUnreached": "Fertig nach {{passes}} Durchläufen. {{left}} Knoten bleiben bei ∞: zu ihnen führt kein Pfad."
+    },
+    "floyd": {
+      "start": "Die Matrix beginnt mit den Kantengewichten, 0 auf der Diagonale und ∞ dort, wo keine Kante ist. Jeder der {{vertices}} Knoten dient einmal als Pivot.",
+      "pivot": "Pivot {{vertex}}: verkürzt ein Umweg über {{vertex}} irgendeinen Pfad?",
+      "row": "Zeile {{from}}: vergleiche jede Distanz ab {{from}} mit dem Weg über {{pivot}}.",
+      "improve": "{{from}} → {{to}} über {{pivot}} kostet {{after}}, weniger als {{before}}: die Zelle sinkt.",
+      "complete": "Fertig: die Matrix enthält die kürzeste Distanz zwischen allen Knotenpaaren.",
+      "completeNegativeCycle": "Fertig, aber {{cycles}} Knoten haben einen negativen Wert auf der Diagonale: sie liegen auf einem Zyklus mit negativem Gesamtgewicht."
+    },
+    "kruskal": {
+      "start": "Jeder Knoten ist seine eigene Komponente. Die {{edges}} Kanten werden von der leichtesten zur schwersten untersucht.",
+      "consider": "Kante {{from}} – {{to}} mit Gewicht {{weight}}: liegen ihre Enden in verschiedenen Komponenten?",
+      "accept": "Ja, also kommt {{from}} – {{to}} in den Baum: {{edges}} Kanten, Gesamtgewicht {{total}}.",
+      "reject": "Nein: {{from}} und {{to}} liegen schon in derselben Komponente, diese Kante würde einen Zyklus schließen. Sie wird übersprungen.",
+      "complete": "Fertig: ein minimaler Spannbaum mit {{edges}} Kanten und Gesamtgewicht {{total}}.",
+      "completeForest": "Fertig: {{edges}} Kanten mit Gesamtgewicht {{total}}, die einen Baum pro Komponente bilden ({{trees}} insgesamt)."
+    },
+    "prim": {
+      "start": "Der Baum beginnt leer bei {{vertex}}.",
+      "startVertex": "{{vertex}} ist der erste Knoten des Baums.",
+      "accept": "{{vertex}} kommt über seine günstigste Kante ({{weight}}) in den Baum: Gesamtgewicht {{total}}.",
+      "insideTree": "{{to}} ist schon im Baum, die Kante von {{from}} würde also einen Zyklus schließen.",
+      "improveFringe": "{{vertex}} ist jetzt von {{from}} aus für {{weight}} erreichbar, günstiger als {{previous}}.",
+      "keepFringe": "{{vertex}} auf diesem Weg zu erreichen kostet {{weight}}, nicht besser als {{current}}.",
+      "complete": "Fertig: ein minimaler Spannbaum mit {{edges}} Kanten und Gesamtgewicht {{total}}.",
+      "completePartial": "Fertig: {{edges}} Kanten mit Gesamtgewicht {{total}}. {{left}} Knoten waren unerreichbar, weil Prim einen einzigen Baum wachsen lässt."
+    },
+    "kahn": {
+      "start": "{{ready}} Knoten haben keine eingehende Kante, es muss also nichts vor ihnen kommen: sie sind bereit.",
+      "emit": "{{vertex}} ist bereit: es nimmt Platz {{position}} in der Sortierung ein. Seine ausgehenden Kanten werden jetzt entfernt.",
+      "ready": "{{from}} war die letzte Kante in {{vertex}} hinein, also ist {{vertex}} bereit.",
+      "decrement": "{{vertex}} wartet nach der Kante von {{from}} noch auf {{inDegree}} Kanten.",
+      "done": "{{vertex}} ist fertig.",
+      "cycle": "Die Bereit-Warteschlange ist leer, aber {{remaining}} Knoten bleiben übrig ({{vertices}}): jeder hat noch eine eingehende Kante, sie enthalten also einen Zyklus und es gibt keine topologische Sortierung.",
+      "complete": "Fertig: {{order}} ist eine gültige topologische Sortierung."
     }
   }
 }
