@@ -1,7 +1,7 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { I18nextProvider } from 'react-i18next';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createI18n } from '../i18n';
 import { App } from './App';
 
@@ -66,6 +66,10 @@ describe('App shell', () => {
   });
 });
 
+afterEach(() => {
+  vi.useRealTimers();
+});
+
 describe('running an algorithm', () => {
   it('steps forward and back over a precomputed trace', async () => {
     const user = userEvent.setup();
@@ -77,6 +81,28 @@ describe('running an algorithm', () => {
     await user.click(within(runner).getByRole('button', { name: 'Previous' }));
     expect(within(runner).getByText(/Step 1 of/)).toBeInTheDocument();
     expect(within(runner).getByRole('button', { name: 'Previous' })).toBeDisabled();
+  });
+
+  it('keeps playing until the end, then stops on its own', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    await renderApp();
+    const runner = screen.getByRole('region', { name: /Breadth-First Search/ });
+    await user.click(within(runner).getByRole('button', { name: 'Play' }));
+    // One chunk per step: React has to re-render before the next one is scheduled.
+    const tick = async () => {
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(2500);
+      });
+    };
+    for (let i = 0; i < 4; i++) await tick();
+    // Several steps, not one: each step has to schedule the next.
+    expect(within(runner).getByText(/Step [5-9]\d* of/)).toBeInTheDocument();
+
+    const total = Number(/of (\d+)/.exec(within(runner).getByText(/Step \d+ of/).textContent ?? '')?.[1]);
+    for (let i = 0; i < total; i++) await tick();
+    expect(within(runner).getByText(`Step ${total} of ${total}`)).toBeInTheDocument();
+    expect(within(runner).getByRole('button', { name: 'Play' })).toBeDisabled();
   });
 
   it('explains why an algorithm does not fit the graph, and offers to adjust it', async () => {

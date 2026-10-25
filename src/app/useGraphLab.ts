@@ -83,6 +83,8 @@ export function useGraphLab(): GraphLab {
     setPlaying(false);
   }, []);
 
+  // `clamped` is in the dependencies on purpose: each step schedules the next
+  // one, so leaving it out would stop playback after a single step.
   useEffect(() => {
     if (!playing) return;
     if (atEnd) {
@@ -91,7 +93,7 @@ export function useGraphLab(): GraphLab {
     }
     const timer = window.setTimeout(next, SPEEDS[speed]);
     return () => window.clearTimeout(timer);
-  }, [playing, atEnd, next, speed]);
+  }, [playing, atEnd, next, speed, clamped]);
 
   const updateDraft = useCallback((nextDraft: GraphDraft) => {
     setDraft(nextDraft);

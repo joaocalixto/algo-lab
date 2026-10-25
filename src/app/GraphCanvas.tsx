@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
+import { useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { GraphDraft } from '../domain/editing';
 import type { Edge, EdgeId, Point, VertexId } from '../domain/graph';
@@ -10,6 +10,8 @@ const VERTEX_RADIUS = 24;
 const CURVE_OFFSET = 26;
 /** Distance a vertex moves per arrow key press. */
 const KEYBOARD_STEP = 16;
+/** Below this, a press is a click rather than a drag. */
+const DRAG_THRESHOLD = 3;
 
 /**
  * State is never conveyed by colour alone: each vertex mark also has its own
@@ -44,7 +46,13 @@ export function GraphCanvas(props: GraphCanvasProps) {
   const { draft, step, editable, selectedVertex, startVertex } = props;
   const { t } = useTranslation('explorer');
   const svgRef = useRef<SVGSVGElement>(null);
-  const [dragging, setDragging] = useState<VertexId | null>(null);
+  /**
+   * A press on a vertex is a drag or a click, and which one is only known when
+   * it ends. The decision lives in a ref, not in state, because it is read in
+   * the same gesture that writes it and a state update would arrive too late.
+   */
+  const drag = useRef<{ readonly id: VertexId; readonly x: number; readonly y: number; moved: boolean } | null>(null);
+  const [draggingId, setDraggingId] = useState<VertexId | null>(null);
 
   const { graph, layout } = draft;
   const markOf = (id: VertexId): VertexMark => step?.vertexMarks[id] ?? 'undiscovered';
@@ -98,21 +106,30 @@ export function GraphCanvas(props: GraphCanvasProps) {
     if (!editable) return;
     event.stopPropagation();
     (event.target as Element).setPointerCapture?.(event.pointerId);
-    setDragging(id);
+    const point = toCanvasPoint(event);
+    drag.current = { id, x: point.x, y: point.y, moved: false };
+    setDraggingId(id);
   };
 
   const handlePointerMove = (event: PointerEvent<SVGGElement>): void => {
-    if (!dragging) return;
-    props.onVertexMove?.(dragging, toCanvasPoint(event));
+    const current = drag.current;
+    if (!current) return;
+    const point = toCanvasPoint(event);
+    if (!current.moved && Math.hypot(point.x - current.x, point.y - current.y) < DRAG_THRESHOLD) return;
+    current.moved = true;
+    props.onVertexMove?.(current.id, point);
   };
 
-  const handlePointerUp = (event: PointerEvent<SVGGElement>, id: VertexId): void => {
-    if (!dragging) return;
-    const moved = layout[id];
-    const dropped = toCanvasPoint(event);
-    setDragging(null);
-    // A press that did not move is a click: it selects the vertex instead.
-    if (moved && Math.hypot(moved.x - dropped.x, moved.y - dropped.y) < 3) props.onVertexActivate?.(id);
+  const handlePointerUp = (): void => {
+    setDraggingId(null);
+  };
+
+  /** Fires after the pointer events: a press that did not move is a click. */
+  const handleVertexClick = (event: MouseEvent<SVGGElement>, id: VertexId): void => {
+    event.stopPropagation();
+    const moved = drag.current?.moved ?? false;
+    drag.current = null;
+    if (!moved) props.onVertexActivate?.(id);
   };
 
   return (
@@ -166,7 +183,7 @@ export function GraphCanvas(props: GraphCanvasProps) {
         return (
           <g
             key={vertex.id}
-            className={`vertex vertex-${mark}${isSelected ? ' vertex-selected' : ''}${dragging === vertex.id ? ' vertex-dragging' : ''}`}
+            className={`vertex vertex-${mark}${isSelected ? ' vertex-selected' : ''}${draggingId === vertex.id ? ' vertex-dragging' : ''}`}
             transform={`translate(${position.x} ${position.y})`}
             tabIndex={0}
             role="button"
@@ -185,8 +202,9 @@ export function GraphCanvas(props: GraphCanvasProps) {
             onKeyDown={(event) => handleVertexKeyDown(event, vertex.id)}
             onPointerDown={(event) => handlePointerDown(event, vertex.id)}
             onPointerMove={handlePointerMove}
-            onPointerUp={(event) => handlePointerUp(event, vertex.id)}
-            onClick={(event) => event.stopPropagation()}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            onClick={(event) => handleVertexClick(event, vertex.id)}
           >
             {isStart && <circle className="vertex-start-ring" r={VERTEX_RADIUS + 6} />}
             <circle className="vertex-body" r={VERTEX_RADIUS} />

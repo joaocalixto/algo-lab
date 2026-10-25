@@ -39,9 +39,11 @@ export function createRecorder(): Recorder {
         vertexMarks: { ...draft.vertexMarks },
         vertexBadges: { ...(draft.vertexBadges ?? {}) },
         edgeMarks: { ...draft.edgeMarks },
-        tables: draft.tables ?? [],
-        lists: draft.lists ?? [],
-        notices: draft.notices ?? [],
+        tables: [...(draft.tables ?? [])],
+        lists: [...(draft.lists ?? [])],
+        // Copied, not referenced: engines keep one growing notice list, and a
+        // notice raised later must not appear on a step recorded before it.
+        notices: [...(draft.notices ?? [])],
       });
     },
   };

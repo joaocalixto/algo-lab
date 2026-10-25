@@ -96,6 +96,7 @@ describe('Bellman–Ford', () => {
     const last = finalStep(trace);
     expect(last.op).toBe('negativeCycle');
     expect(last.notices.map((n) => n.key)).toContain('explorer:notice.negativeCycle');
+    expect(trace.steps.slice(0, -1).flatMap((step) => step.notices)).toEqual([]);
     expect(reconstructPath(trace.result, 'A', 'D')).toBeNull();
   });
 

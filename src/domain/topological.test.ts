@@ -41,6 +41,8 @@ describe("Kahn's algorithm", () => {
     const last = finalStep(trace);
     expect(last.op).toBe('cycleDetected');
     expect(last.notices.map((n) => n.key)).toContain('explorer:notice.cycle');
+    // The notice belongs to the step that found the cycle, not to earlier ones.
+    expect(trace.steps.slice(0, -1).flatMap((step) => step.notices)).toEqual([]);
   });
 
   it('orders a graph with no edges by declaration order', () => {

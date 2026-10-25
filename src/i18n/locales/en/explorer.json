@@ -199,7 +199,7 @@
     "fringeTable": "Cheapest way into the tree",
     "cheapestEdge": "Cost",
     "fromTree": "From",
-    "fringe": "Fringe",
+    "fringe": "Frontier",
     "fringeHint": "Vertices next to the tree, cheapest first.",
     "inDegreeTable": "Incoming arcs",
     "inDegree": "In-degree",
