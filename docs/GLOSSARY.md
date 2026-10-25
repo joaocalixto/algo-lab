@@ -20,6 +20,14 @@ The canonical glossary lives in `src/i18n/locales/<locale>/glossary.json` (term 
 | processing | Processing | Em processamento | Em processamento | En proceso | In Bearbeitung |
 | processed | Processed | Processado | Processado | Procesado | Abgeschlossen |
 | shortest path | Shortest path | Caminho mais curto | Caminho mínimo | Camino más corto | Kürzester Pfad |
+| weight | Weight | Peso | Peso | Peso | Gewicht |
+| intermediate vertex | Intermediate vertex | Vértice intermédio | Vértice intermediário | Vértice intermedio | Zwischenknoten |
+| minimum spanning tree | Minimum spanning tree | Árvore geradora mínima | Árvore geradora mínima | Árbol de expansión mínima | Minimaler Spannbaum |
+| minimum spanning forest | Minimum spanning forest | Floresta geradora mínima | Floresta geradora mínima | Bosque de expansión mínima | Minimaler Spannwald |
+| Floyd–Warshall | Floyd–Warshall | Floyd–Warshall | Floyd–Warshall | Floyd–Warshall | Floyd–Warshall |
+| Prim | Prim | Prim | Prim | Prim | Prim |
+| Kruskal | Kruskal | Kruskal | Kruskal | Kruskal | Kruskal |
+| disjoint-set | Disjoint-set (union-find) | Conjuntos disjuntos (union-find) | Conjuntos disjuntos (union-find) | Conjuntos disjuntos (union-find) | Union-Find (disjunkte Mengen) |
 
 ## Rules
 
@@ -28,9 +36,14 @@ The canonical glossary lives in `src/i18n/locales/<locale>/glossary.json` (term 
 - Keep the abbreviations **BFS** and **DFS** in every language.
 - pt-PT and pt-BR are separate locales: pt-PT uses *pesquisa*, *não orientado*, *utilizar*, *num*; pt-BR uses *busca*, *não direcionado*, *usar*, *em um*.
 - de uses informal *du* for the learner and *Lehrkraft* (gender-neutral) for educator.
+- Keep the algorithm names **Floyd–Warshall**, **Prim** and **Kruskal** untranslated, as with Dijkstra and Bellman–Ford, and keep *union-find* next to the translated name of the structure.
+- A program loop is *laço* (pt), *bucle* (es), *Schleife* (de), so that *ciclo* / *Zyklus* stays the graph cycle.
+- An intermediate stop on a path is *paragem intermédia* in pt-PT and *parada intermediária* in pt-BR.
 
 ## Open review questions
 
 - de: "Rand" for *frontier* (alternatives: "Front", keep "Frontier"); "Pfad" vs. "Weg"; "Zyklus" vs. "Kreis".
 - pt-PT: "ponderado" vs. "pesado" for *weighted*.
 - es: "componente conexa" vs. "componente conexo" (both in use).
+- es: "árbol de expansión mínima" vs. "árbol recubridor mínimo" (both in use in textbooks).
+- de: "Minimaler Spannbaum" vs. "minimaler aufspannender Baum"; "Spannwald" is rarer than the tree term.

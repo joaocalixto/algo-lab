@@ -1,4 +1,5 @@
 import { Explorer } from './Explorer';
+import { QuestionSet } from './QuestionSet';
 import { ShortestPathExplorer } from './ShortestPathExplorer';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,7 @@ import { TranslationNotice } from './TranslationNotice';
 const ALGORITHMS: readonly Algorithm[] = ['bfs', 'dfs', 'dijkstra', 'bellmanFord'];
 
 export function App() {
-  const { t } = useTranslation(['common', 'explorer']);
+  const { t } = useTranslation(['common', 'explorer', 'questions']);
   const [algorithm, setAlgorithm] = useState<Algorithm>('bfs');
 
   return (
@@ -43,6 +44,7 @@ export function App() {
           ))}
         </fieldset>
         {algorithm === 'bfs' || algorithm === 'dfs' ? <Explorer key={algorithm} algorithm={algorithm} /> : <ShortestPathExplorer key={algorithm} algorithm={algorithm} />}
+        <QuestionSet />
       </main>
       <footer className="app-footer">{t('footer.about')}</footer>
     </>

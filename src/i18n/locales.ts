@@ -4,7 +4,7 @@
  * The algorithm engine never depends on this module.
  */
 
-export const NAMESPACES = ['common', 'explorer', 'glossary'] as const;
+export const NAMESPACES = ['common', 'explorer', 'questions', 'glossary'] as const;
 export type Namespace = (typeof NAMESPACES)[number];
 
 /**
@@ -31,7 +31,7 @@ export const SOURCE_LOCALE = 'en';
 export const FALLBACK_LOCALE = 'en';
 
 // Every mandatory locale is `draft` until a human reviewer signs it off.
-const DRAFT_ALL: LocaleDefinition['status'] = { common: 'draft', explorer: 'draft', glossary: 'draft' };
+const DRAFT_ALL: LocaleDefinition['status'] = { common: 'draft', explorer: 'draft', questions: 'draft', glossary: 'draft' };
 
 export const LOCALES: readonly LocaleDefinition[] = [
   { code: 'en', nativeName: 'English', englishName: 'English', dir: 'ltr', tier: 'mandatory', status: DRAFT_ALL },

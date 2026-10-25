@@ -1,0 +1,117 @@
+{
+  "title": "Verifique o que aprendeu",
+  "intro": "O explorador ainda não anima Floyd–Warshall, Prim e Kruskal. Estas perguntas tratam do que cada um calcula e de como decide o passo seguinte. Escolha uma opção para ver se está certa e porquê.",
+  "progress": "{{answered}} de {{total}} respondidas, {{correct}} corretas.",
+  "reset": "Limpar respostas",
+  "feedback": {
+    "correct": "Correto.",
+    "incorrect": "Não é isso.",
+    "expected": "Resposta esperada"
+  },
+  "topics": {
+    "floydWarshall": {
+      "name": "Floyd–Warshall",
+      "summary": "Constrói uma tabela com as distâncias entre todos os pares de vértices, admitindo mais um vértice como paragem intermédia em cada passagem."
+    },
+    "prim": {
+      "name": "Prim",
+      "summary": "Faz crescer uma única árvore a partir de um vértice inicial, escolhendo sempre a aresta mais barata que sai da árvore."
+    },
+    "kruskal": {
+      "name": "Kruskal",
+      "summary": "Ordena as arestas por peso e mantém as que ligam duas partes do grafo ainda separadas."
+    }
+  },
+  "items": {
+    "fw-output": {
+      "prompt": "O que calcula o Floyd–Warshall?",
+      "options": {
+        "a": "A distância mínima de um vértice escolhido a todos os outros.",
+        "b": "A distância mínima entre todos os pares de vértices.",
+        "c": "Um conjunto de arestas que liga todos os vértices com o menor peso total.",
+        "d": "Se o grafo contém um ciclo."
+      },
+      "explanation": "O resultado é uma tabela com uma entrada por cada par ordenado de vértices. Com n vértices exige da ordem de n³ passos e n² de memória, o que serve grafos densos; em grafos esparsos, correr o Dijkstra a partir de cada vértice costuma ser mais rápido."
+    },
+    "fw-loop-order": {
+      "prompt": "O Floyd–Warshall tem três laços encadeados: sobre o vértice intermédio k, sobre a origem i e sobre o destino j. Qual deles tem de ser o laço exterior?",
+      "options": {
+        "a": "O laço sobre o vértice intermédio k.",
+        "b": "O laço sobre a origem i.",
+        "c": "O laço sobre o destino j.",
+        "d": "Qualquer ordem serve: a tabela final é a mesma."
+      },
+      "explanation": "Depois da passagem de k, cada entrada contém a distância mínima que utiliza apenas os vértices até k como paragens intermédias. Com k num laço interior, um caminho que precise de um vértice posterior como paragem intermédia nunca é construído e algumas entradas ficam acima do valor correto."
+    },
+    "fw-diagonal": {
+      "prompt": "O algoritmo terminou e a distância do vértice v a si mesmo ficou abaixo de zero. O que é que isso indica?",
+      "options": {
+        "a": "O vértice v não tem arestas de saída.",
+        "b": "Nenhum outro vértice alcança v.",
+        "c": "v está num ciclo cujos pesos somam menos de zero.",
+        "d": "Duas arestas ligam o mesmo par de vértices."
+      },
+      "explanation": "O Floyd–Warshall admite pesos negativos. Um percurso que sai de v e regressa com soma negativa pode repetir-se, a baixar as distâncias sem limite, pelo que os pares cujos caminhos atravessam esse ciclo não têm distância mínima. A diagonal da tabela é o local habitual para o detetar."
+    },
+    "prim-output": {
+      "prompt": "O Prim trabalha sobre um grafo conexo, ponderado e não orientado. O que devolve?",
+      "options": {
+        "a": "Uma árvore geradora mínima: arestas que chegam a todos os vértices, não formam ciclos e têm o menor peso total.",
+        "b": "O caminho mais barato entre os dois vértices mais afastados.",
+        "c": "A distância do vértice inicial a todos os outros.",
+        "d": "Os vértices ordenados pelo peso total das suas arestas."
+      },
+      "explanation": "Uma árvore geradora de um grafo com n vértices tem sempre n − 1 arestas, e a mínima é aquela que nenhuma outra supera em peso total. Caminhos mais baratos são outro problema: dentro da árvore devolvida pelo Prim, o percurso entre dois vértices concretos pode ser um desvio."
+    },
+    "prim-next-edge": {
+      "prompt": "Que aresta é que o Prim acrescenta em cada passo?",
+      "options": {
+        "a": "A aresta mais barata do grafo que ainda não utilizou.",
+        "b": "A aresta mais barata com uma extremidade dentro da árvore e a outra fora.",
+        "c": "A aresta mais barata que sai do vértice inicial.",
+        "d": "A aresta mais barata com as duas extremidades fora da árvore."
+      },
+      "explanation": "O Prim mantém uma única árvore ligada, por isso só considera arestas que atravessam a fronteira entre a árvore e o resto do grafo. As implementações guardam essas candidatas numa fila de prioridade ordenada pelo peso. A opção a descreve o Kruskal, que pode escolher uma aresta longe de tudo o que já construiu."
+    },
+    "prim-start": {
+      "prompt": "A escolha do vértice inicial altera o que o Prim devolve?",
+      "options": {
+        "a": "Sim: um início mal escolhido dá uma árvore com maior peso total.",
+        "b": "Sim: só um vértice com o grau mais alto dá uma árvore mínima.",
+        "c": "Não: a árvore é sempre a mesma, aresta a aresta.",
+        "d": "Não: o peso total é sempre o menor possível, embora as arestas possam diferir quando há pesos iguais."
+      },
+      "explanation": "Qualquer vértice inicial conduz a uma árvore geradora mínima. Um grafo com arestas de peso igual pode ter várias e todas somam o mesmo total. Aqui os pesos negativos não criam problemas, ao contrário do que sucede no Dijkstra."
+    },
+    "kruskal-order": {
+      "prompt": "Por que ordem é que o Kruskal examina as arestas?",
+      "options": {
+        "a": "Pela ordem em que aparecem na entrada.",
+        "b": "Por peso, da mais barata para a mais cara.",
+        "c": "De um vértice inicial para fora, como na pesquisa em largura.",
+        "d": "Pelo número de vizinhos das suas extremidades."
+      },
+      "explanation": "O Kruskal ordena todas as arestas, percorre a lista uma vez e mantém cada aresta cujas extremidades ainda pertencem a partes separadas da floresta. A ordenação domina o tempo de execução: m log m para m arestas. Ao contrário do Prim, o Kruskal não precisa de vértice inicial."
+    },
+    "kruskal-cycle-check": {
+      "prompt": "O que é que indica ao Kruskal que uma aresta fecharia um ciclo?",
+      "options": {
+        "a": "Uma fila com os vértices que ainda tem de examinar.",
+        "b": "Uma pilha com as arestas que já acrescentou.",
+        "c": "Uma estrutura de conjuntos disjuntos (union-find) sobre os vértices.",
+        "d": "Uma tabela com a distância entre todos os pares de vértices."
+      },
+      "explanation": "A operação find indica a que parte da floresta pertence cada extremidade. Se a resposta for a mesma para as duas, a aresta fecharia um ciclo e o Kruskal ignora-a; caso contrário, union junta as duas partes. Com compressão de caminhos e união por rank, cada verificação custa tempo quase constante."
+    },
+    "kruskal-disconnected": {
+      "prompt": "O grafo divide-se em duas componentes sem nenhuma aresta entre elas. O que produz o Kruskal?",
+      "options": {
+        "a": "Nada: para na primeira aresta que fecharia um ciclo.",
+        "b": "Uma árvore geradora da componente que contém a aresta mais barata.",
+        "c": "Uma árvore sobre todos os vértices, a ligar as componentes com uma aresta de peso zero.",
+        "d": "Uma floresta geradora mínima: uma árvore mínima por componente."
+      },
+      "explanation": "Nenhuma aresta liga as componentes, logo nada as pode juntar: com n vértices em c componentes, a floresta tem n − c arestas. O Prim cresce a partir de um vértice e por isso cobre apenas a componente desse vértice, a mesma limitação de um percurso."
+    }
+  }
+}

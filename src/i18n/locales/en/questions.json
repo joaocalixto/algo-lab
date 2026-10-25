@@ -1,0 +1,117 @@
+{
+  "title": "Check your understanding",
+  "intro": "The explorer does not animate Floyd–Warshall, Prim and Kruskal yet. These questions cover what each one computes and how it decides what to do next. Pick an option to see whether it holds and why.",
+  "progress": "{{answered}} of {{total}} answered, {{correct}} correct.",
+  "reset": "Clear answers",
+  "feedback": {
+    "correct": "Correct.",
+    "incorrect": "Not quite.",
+    "expected": "Expected answer"
+  },
+  "topics": {
+    "floydWarshall": {
+      "name": "Floyd–Warshall",
+      "summary": "Builds a table of distances between every pair of vertices, allowing one more vertex as an intermediate stop on each pass."
+    },
+    "prim": {
+      "name": "Prim",
+      "summary": "Grows a single tree from a starting vertex, each time taking the cheapest edge that leads out of the tree."
+    },
+    "kruskal": {
+      "name": "Kruskal",
+      "summary": "Sorts every edge by weight and keeps the ones that join two parts of the graph that are still separate."
+    }
+  },
+  "items": {
+    "fw-output": {
+      "prompt": "What does Floyd–Warshall compute?",
+      "options": {
+        "a": "The shortest distance from one chosen vertex to every other vertex.",
+        "b": "The shortest distance between every pair of vertices.",
+        "c": "A set of edges that connects every vertex with the smallest total weight.",
+        "d": "Whether the graph contains a cycle."
+      },
+      "explanation": "The result is a table with one entry per ordered pair of vertices. With n vertices it takes on the order of n³ steps and n² memory, which suits dense graphs; on sparse ones, running Dijkstra once per vertex is usually faster."
+    },
+    "fw-loop-order": {
+      "prompt": "Floyd–Warshall is three nested loops: over the intermediate vertex k, the origin i and the destination j. Which one has to be the outer loop?",
+      "options": {
+        "a": "The loop over the intermediate vertex k.",
+        "b": "The loop over the origin i.",
+        "c": "The loop over the destination j.",
+        "d": "Any order works: the table ends up the same."
+      },
+      "explanation": "After the pass for k, every entry holds the shortest distance that uses only the vertices up to k as intermediate stops. Move k inside and a path that needs a later vertex as an intermediate stop is never built, so some entries stay too large."
+    },
+    "fw-diagonal": {
+      "prompt": "The algorithm has finished and the distance from vertex v to itself came out below zero. What does that tell you?",
+      "options": {
+        "a": "Vertex v has no outgoing edges.",
+        "b": "No other vertex can reach v.",
+        "c": "v lies on a cycle whose weights add up to less than zero.",
+        "d": "Two edges connect the same pair of vertices."
+      },
+      "explanation": "Floyd–Warshall accepts negative weights. A walk that leaves v and returns with a negative total can be repeated, pushing distances down without a limit, so pairs whose paths cross that cycle have no shortest distance at all. The diagonal of the table is the usual place to detect it."
+    },
+    "prim-output": {
+      "prompt": "Prim runs on a connected, weighted, undirected graph. What does it return?",
+      "options": {
+        "a": "A minimum spanning tree: edges that reach every vertex, form no cycle and have the smallest total weight.",
+        "b": "The cheapest path between the two vertices furthest apart.",
+        "c": "The distance from the starting vertex to every other vertex.",
+        "d": "The vertices sorted by the total weight of their edges."
+      },
+      "explanation": "A spanning tree of a graph with n vertices always has n − 1 edges, and a minimum one is a spanning tree no cheaper tree can beat. Cheapest paths are a different problem: the tree Prim returns can be a detour between two particular vertices."
+    },
+    "prim-next-edge": {
+      "prompt": "Which edge does Prim add at each step?",
+      "options": {
+        "a": "The cheapest edge in the graph that it has not used yet.",
+        "b": "The cheapest edge with one endpoint inside the tree and the other outside it.",
+        "c": "The cheapest edge that leaves the starting vertex.",
+        "d": "The cheapest edge with both endpoints outside the tree."
+      },
+      "explanation": "Prim keeps one connected tree, so it only considers edges that cross the border between the tree and the rest of the graph. Implementations hold those candidates in a priority queue keyed by weight. Option a describes Kruskal, which may take an edge nowhere near what it has built so far."
+    },
+    "prim-start": {
+      "prompt": "Does the choice of starting vertex change what Prim returns?",
+      "options": {
+        "a": "Yes: a poor start gives a tree with a larger total weight.",
+        "b": "Yes: only a vertex of the highest degree gives a minimum tree.",
+        "c": "No: the tree is always the same, edge for edge.",
+        "d": "No: the total weight is always the smallest possible, though the edges can differ when weights tie."
+      },
+      "explanation": "Every starting vertex leads to a minimum spanning tree. A graph with edges of equal weight can have several of them, and they all add up to the same total. Negative weights cause no trouble here, unlike in Dijkstra."
+    },
+    "kruskal-order": {
+      "prompt": "In which order does Kruskal examine the edges?",
+      "options": {
+        "a": "In the order they appear in the input.",
+        "b": "Sorted by weight, cheapest first.",
+        "c": "Outwards from a starting vertex, as BFS does.",
+        "d": "Sorted by how many neighbors their endpoints have."
+      },
+      "explanation": "Kruskal sorts every edge, then walks the list once and keeps an edge whenever its two endpoints still belong to separate parts of the forest. Sorting dominates the running time: m log m for m edges. Unlike Prim, Kruskal needs no starting vertex."
+    },
+    "kruskal-cycle-check": {
+      "prompt": "What tells Kruskal that an edge would close a cycle?",
+      "options": {
+        "a": "A queue of the vertices it still has to examine.",
+        "b": "A stack of the edges it has already added.",
+        "c": "A disjoint-set structure (union-find) over the vertices.",
+        "d": "A table with the distance between every pair of vertices."
+      },
+      "explanation": "The find operation reports which part of the forest an endpoint belongs to. Same answer for both endpoints means the edge would close a cycle, so Kruskal skips it; otherwise union merges the two parts. With path compression and union by rank, each check costs almost constant time."
+    },
+    "kruskal-disconnected": {
+      "prompt": "The graph falls into two components with no edge between them. What does Kruskal produce?",
+      "options": {
+        "a": "Nothing: it stops at the first edge that would close a cycle.",
+        "b": "A spanning tree of the component that holds the cheapest edge.",
+        "c": "A tree over all vertices, joining the components with an edge of weight zero.",
+        "d": "A minimum spanning forest: one minimum tree per component."
+      },
+      "explanation": "No edge joins the components, so nothing can merge them: with n vertices in c components the forest has n − c edges. Prim grows from one vertex and therefore covers that vertex's component only, the same limit a traversal has."
+    }
+  }
+}

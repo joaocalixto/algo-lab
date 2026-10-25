@@ -22,6 +22,14 @@
   --color-notice-border: #e0b94a;
   --color-notice-text: #4d3800;
 
+  /* Answer feedback: always paired with a word and a glyph in the UI */
+  --color-correct-bg: #e4f3e8;
+  --color-correct-border: #1f6b31;
+  --color-correct-text: #113d1d;
+  --color-incorrect-bg: #fbe9e6;
+  --color-incorrect-border: #a3321f;
+  --color-incorrect-text: #5e1b10;
+
   /* Graph */
   --color-edge: #8a94a6;
   --color-edge-active: #c2410c;
@@ -113,6 +121,13 @@
     --color-notice-bg: #2e2610;
     --color-notice-border: #7a6420;
     --color-notice-text: #f4e3b0;
+
+    --color-correct-bg: #14301f;
+    --color-correct-border: #6cc184;
+    --color-correct-text: #d4ead9;
+    --color-incorrect-bg: #331a17;
+    --color-incorrect-border: #f08f7c;
+    --color-incorrect-text: #f6ddd7;
 
     --color-edge: #6b7486;
     --color-edge-active: #ffa266;

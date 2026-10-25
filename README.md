@@ -1,6 +1,6 @@
 # Algorithm Lab
 
-A free, client-side interactive laboratory for learning data structures and algorithms. **Graph Explorer** covers BFS, DFS, Dijkstra and Bellman–Ford.
+A free, client-side interactive laboratory for learning data structures and algorithms. **Graph Explorer** covers BFS, DFS, Dijkstra and Bellman–Ford, plus self-check questions on Floyd–Warshall, Prim and Kruskal.
 
 ## Setup
 
@@ -19,6 +19,10 @@ npm run build      # type-check + production build into dist/
 Interactive classroom preview available at https://joaocalixto.github.io/algo-lab/ with step controls, start selection, frontier and distances. Weighted shortest-path lessons include path reconstruction, negative edges and reachable negative-cycle detection.
 
 Foundation: project setup, domain models, design tokens, internationalization with five baseline locales (en, pt-PT, pt-BR, es, de — all **draft, pending human review**), terminology glossary.
+
+Review questions cover three algorithms the explorer does not animate yet: Floyd–Warshall,
+Prim and Kruskal. The question bank lives in `src/domain/questions.ts` and holds message
+keys only, so answers survive a language change.
 
 See `docs/I18N.md` (localization architecture) and `docs/GLOSSARY.md` (terminology).
 
