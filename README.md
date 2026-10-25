@@ -61,10 +61,13 @@ GitHub Support), then run **Actions → Publish laboratory → Run workflow → 
 Confirm both jobs succeed and open the public site before declaring deployment
 complete. A successful local build or a pushed commit alone does not confirm it.
 
-The `gh-pages` branch carries a locally validated build. While the Actions
-billing lock stands, that branch is what the public site actually serves:
-`npm run build` locally, then publish the contents of `dist/` to `gh-pages`,
-which the built-in `pages-build-deployment` job picks up. Publishing from the
-branch is a separate, legacy Pages mode; it does not establish that the custom
-Actions workflow is working. Do not switch sources while a Pages deployment is
-in progress.
+The `gh-pages` branch carries the locally validated build: `npm run build`,
+then publish the contents of `dist/` to that branch. It is the only route that
+works while the Actions billing lock stands, but it only takes effect when
+**Settings → Pages → Source** is **Deploy from a branch** (`gh-pages`, `/`),
+which makes GitHub's built-in `pages-build-deployment` job pick the push up.
+With the source set to **GitHub Actions**, a push to `gh-pages` publishes
+nothing and the site keeps serving the last build that did deploy. Publishing
+from the branch is a separate, legacy Pages mode; it does not establish that
+the custom Actions workflow is working. Do not switch sources while a Pages
+deployment is in progress.
