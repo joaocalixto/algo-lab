@@ -222,7 +222,7 @@
       "skipNeighbor": "{{vertex}} had already been reached, so the edge from {{from}} adds nothing.",
       "finish": "Every neighbour of {{vertex}} has been examined: it is finished.",
       "complete": "Traversal complete: every vertex reachable from the start was visited.",
-      "completeWithUnreached": "Traversal complete. {{left}} vertices were never reached: they lie outside the start vertex's component."
+      "completeWithUnreached": "Traversal complete. These vertices were never reached, because they lie outside the start vertex’s component: {{vertices}}."
     },
     "components": {
       "restart": "No component holds {{vertex}} yet, so it starts component {{component}}.",
@@ -230,8 +230,9 @@
       "discover": "{{from}} reaches {{vertex}}, so {{vertex}} belongs to component {{component}} too.",
       "skipNeighbor": "{{vertex}} is already in a component, so the edge from {{from}} adds nothing.",
       "finish": "{{vertex}} is finished.",
-      "complete": "Finished: the graph has {{components}} connected components.",
-      "empty": "The graph has no vertices, so it has no components."
+      "empty": "The graph has no vertices, so it has no components.",
+      "complete_one": "Finished: the whole graph is one connected component.",
+      "complete_other": "Finished: the graph has {{count}} connected components."
     },
     "dijkstra": {
       "start": "The distance to {{vertex}} is 0 and every other distance is still unknown (∞).",
@@ -240,7 +241,7 @@
       "noChange": "Through {{from}}, {{to}} would cost {{candidate}}, which is no better than {{current}}: nothing changes.",
       "settled": "{{vertex}} is settled with distance {{distance}}.",
       "complete": "Finished: every vertex has its shortest distance from the start.",
-      "completeWithUnreached": "Finished. {{left}} vertices stay at ∞: no path leads to them from the start vertex."
+      "completeWithUnreached": "Finished. These vertices stay at ∞, because no path leads to them from the start vertex: {{vertices}}."
     },
     "bellman": {
       "start": "The distance to {{vertex}} is 0 and every other distance is ∞. Up to {{passes}} passes over all arcs follow.",
@@ -251,23 +252,23 @@
       "settledEarly": "Pass {{pass}} changed nothing, so no later pass can either: the distances are final.",
       "negativeCycle": "{{from}} → {{to}} can still be relaxed: a cycle of negative total weight is reachable and the distances are void.",
       "complete": "Finished after {{passes}} passes: every distance is final.",
-      "completeWithUnreached": "Finished after {{passes}} passes. {{left}} vertices stay at ∞: no path leads to them."
+      "completeWithUnreached": "Finished after {{passes}} passes. These vertices stay at ∞, because no path leads to them: {{vertices}}."
     },
     "floyd": {
-      "start": "The matrix starts with the arc weights, 0 on the diagonal and ∞ where there is no arc. Every one of the {{vertices}} vertices will serve as a pivot.",
+      "start": "The matrix starts with the arc weights, 0 on the diagonal and ∞ where there is no arc. Every vertex then serves as a pivot in turn.",
       "pivot": "Pivot {{vertex}}: may a detour through {{vertex}} shorten any path?",
       "row": "Row {{from}}: compare each distance from {{from}} against going through {{pivot}}.",
       "improve": "{{from}} → {{to}} through {{pivot}} costs {{after}}, less than {{before}}: the cell drops.",
       "complete": "Finished: the matrix holds the shortest distance between every pair of vertices.",
-      "completeNegativeCycle": "Finished, but {{cycles}} vertices ended with a negative value on the diagonal: they lie on a cycle of negative total weight."
+      "completeNegativeCycle": "Finished, but these vertices ended with a negative value on the diagonal, so they lie on a cycle of negative total weight: {{vertices}}."
     },
     "kruskal": {
-      "start": "Every vertex is its own component. The {{edges}} edges are examined from the lightest to the heaviest.",
+      "start": "Every vertex is its own component. The edges are examined from the lightest to the heaviest ({{edges}} in total).",
       "consider": "Edge {{from}} – {{to}} with weight {{weight}}: are its ends in different components?",
-      "accept": "Yes, so {{from}} – {{to}} joins the tree: {{edges}} edges, total weight {{total}}.",
+      "accept": "Yes, so {{from}} – {{to}} joins the tree. Edges in the tree: {{edges}}. Total weight: {{total}}.",
       "reject": "No: {{from}} and {{to}} are already in the same component, so this edge would close a cycle. Skip it.",
-      "complete": "Finished: a minimum spanning tree with {{edges}} edges and total weight {{total}}.",
-      "completeForest": "Finished: {{edges}} edges with total weight {{total}}, forming one tree per component ({{trees}} in all)."
+      "complete": "Finished: a minimum spanning tree. Edges: {{edges}}. Total weight: {{total}}.",
+      "completeForest": "Finished: one tree per component, {{trees}} in all. Edges: {{edges}}. Total weight: {{total}}."
     },
     "prim": {
       "start": "The tree starts empty at {{vertex}}.",
@@ -276,17 +277,18 @@
       "insideTree": "{{to}} is already in the tree, so the edge from {{from}} would close a cycle.",
       "improveFringe": "{{vertex}} can now be reached from {{from}} for {{weight}}, cheaper than {{previous}}.",
       "keepFringe": "Reaching {{vertex}} this way costs {{weight}}, which is no better than {{current}}.",
-      "complete": "Finished: a minimum spanning tree with {{edges}} edges and total weight {{total}}.",
-      "completePartial": "Finished: {{edges}} edges with total weight {{total}}. {{left}} vertices were out of reach, because Prim grows a single tree."
+      "complete": "Finished: a minimum spanning tree. Edges: {{edges}}. Total weight: {{total}}.",
+      "completePartial": "Finished: edges {{edges}}, total weight {{total}}, {{reached}} vertices reached. Prim grows a single tree, so these stayed out of reach: {{vertices}}."
     },
     "kahn": {
-      "start": "{{ready}} vertices have no incoming arc, so nothing has to come before them: they are ready.",
+      "start": "These vertices have no incoming arc, so nothing has to come before them: they are ready. {{vertices}}.",
       "emit": "{{vertex}} is ready: it takes position {{position}} in the order. Its outgoing arcs are now removed.",
       "ready": "{{from}} was the last arc into {{vertex}}, so {{vertex}} is ready.",
       "decrement": "{{vertex}} still waits for {{inDegree}} arcs after the one from {{from}}.",
       "done": "{{vertex}} is done.",
-      "cycle": "The ready queue is empty but {{remaining}} vertices are left ({{vertices}}): each still has an incoming arc, so they contain a cycle and no topological order exists.",
-      "complete": "Finished: {{order}} is a valid topological order."
+      "cycle": "The ready queue is empty but these vertices are left: {{vertices}}. Each still has an incoming arc, so they contain a cycle and no topological order exists.",
+      "complete": "Finished: {{order}} is a valid topological order.",
+      "startNoneReady": "Every vertex has an incoming arc, so nothing is ready to start."
     }
   }
 }

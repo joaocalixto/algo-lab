@@ -30,6 +30,8 @@ export function AlgorithmPicker({ graph, selected, onSelect, onFixGraph }: Algor
           <legend>{t(`family.${family}`)}</legend>
           {ALGORITHMS.filter((definition) => definition.family === family).map((definition) => {
             const unmet = unmetPrerequisites(definition, graph);
+            // "At least one vertex" is not worth stating next to every algorithm.
+            const required = definition.prerequisites.filter((kind) => kind !== 'nonEmpty');
             const applicable = isApplicable(definition, graph);
             const fixable = unmet.filter((kind) => kind !== 'nonEmpty');
             return (
@@ -51,14 +53,11 @@ export function AlgorithmPicker({ graph, selected, onSelect, onFixGraph }: Algor
                   <strong>{t(`algorithm.${definition.id}.name`)}</strong>
                   <span>{t(`algorithm.${definition.id}.summary`)}</span>
                 </label>
-                <p className="requirements">
-                  {t('algorithm.requires', {
-                    list: definition.prerequisites
-                      .filter((kind) => kind !== 'nonEmpty')
-                      .map((kind) => t(`prerequisite.${kind}`))
-                      .join(', '),
-                  })}
-                </p>
+                {required.length > 0 && (
+                  <p className="requirements">
+                    {t('algorithm.requires', { list: required.map((kind) => t(`prerequisite.${kind}`)).join(', ') })}
+                  </p>
+                )}
                 {!applicable && (
                   <p className="unmet">
                     {unmet.map((kind) => t(`prerequisite.unmet.${kind}`)).join(' ')}

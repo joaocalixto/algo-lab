@@ -72,8 +72,9 @@ describe('engine messages', () => {
 
   it.each(LOCALES.filter((l) => l.tier === 'mandatory').map((l) => l.code))('%s has every key, fully interpolated', async (code) => {
     const i18n = await createI18n(code);
-    const missing = UNIQUE_KEYS.filter((key) => !i18n.exists(key));
-    expect(missing).toEqual([]);
+    // Values are passed so that a plural key resolves to its CLDR form.
+    const missing = ALL_MESSAGES.filter((message) => !i18n.exists(message.key, message.values)).map((m) => m.key);
+    expect([...new Set(missing)]).toEqual([]);
     const unfilled = ALL_MESSAGES.filter((message) => {
       const text = i18n.t(message.key, message.values);
       return typeof text !== 'string' || text.includes('{{');

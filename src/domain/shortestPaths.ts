@@ -227,10 +227,12 @@ export function dijkstra(graph: Graph, start: VertexId): AlgorithmTrace<Shortest
     record('finish', 'settled', { vertex: label(current), distance: distance[current]! });
   }
 
-  const unreached = graph.vertices.filter((v) => !Number.isFinite(distance[v.id]!)).length;
+  const unreached = graph.vertices.filter((v) => !Number.isFinite(distance[v.id]!));
   clearActive();
   markTreeEdges(state);
-  record('complete', unreached > 0 ? 'completeWithUnreached' : 'complete', { left: unreached });
+  record('complete', unreached.length > 0 ? 'completeWithUnreached' : 'complete', {
+    vertices: unreached.map((v) => v.label).join(', '),
+  });
 
   return {
     algorithm: 'dijkstra',
@@ -341,10 +343,13 @@ export function bellmanFord(graph: Graph, start: VertexId): AlgorithmTrace<Short
   }
 
   for (const vertex of graph.vertices) if (Number.isFinite(distance[vertex.id]!)) marks[vertex.id] = 'processed';
-  const unreached = graph.vertices.filter((v) => !Number.isFinite(distance[v.id]!)).length;
+  const unreached = graph.vertices.filter((v) => !Number.isFinite(distance[v.id]!));
   clearActive();
   markTreeEdges(state);
-  record('complete', unreached > 0 ? 'completeWithUnreached' : 'complete', { left: unreached, passes: passesRun });
+  record('complete', unreached.length > 0 ? 'completeWithUnreached' : 'complete', {
+    vertices: unreached.map((v) => v.label).join(', '),
+    passes: passesRun,
+  });
 
   return {
     algorithm: 'bellmanFord',
@@ -405,7 +410,7 @@ export function floydWarshall(graph: Graph): AlgorithmTrace<AllPairsResult> {
     });
   };
 
-  record('start', 'start', { vertices: ids.length });
+  record('start', 'start', {});
 
   for (const pivot of ids) {
     for (const id of ids) marks[id] = id === pivot ? 'processing' : 'undiscovered';
@@ -448,7 +453,7 @@ export function floydWarshall(graph: Graph): AlgorithmTrace<AllPairsResult> {
     });
   }
   record('complete', negativeCycleVertices.length > 0 ? 'completeNegativeCycle' : 'complete', {
-    cycles: negativeCycleVertices.length,
+    vertices: negativeCycleVertices.map(label).join(', '),
   });
 
   return {

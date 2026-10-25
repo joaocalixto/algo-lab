@@ -207,9 +207,11 @@ export function traverse(graph: Graph, start: VertexId, algorithm: TraversalAlgo
     }
   }
 
-  const unreached = graph.vertices.filter((v) => marks[v.id] === 'undiscovered').length;
+  const unreached = graph.vertices.filter((v) => marks[v.id] === 'undiscovered');
   clearActiveEdges();
-  record('complete', unreached > 0 ? 'completeWithUnreached' : 'complete', { left: unreached });
+  record('complete', unreached.length > 0 ? 'completeWithUnreached' : 'complete', {
+    vertices: unreached.map((v) => v.label).join(', '),
+  });
 
   const result: TraversalResult = {
     discoveryOrder,
@@ -316,7 +318,7 @@ export function connectedComponents(graph: Graph): AlgorithmTrace<ComponentsResu
     }
   }
 
-  record('complete', 'complete', { components: components.length }, []);
+  record('complete', 'complete', { count: components.length }, []);
   return {
     algorithm: 'components',
     graph,

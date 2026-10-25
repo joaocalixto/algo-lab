@@ -1,6 +1,6 @@
 {
   "title": "Verifique o que aprendeu",
-  "intro": "O explorador ainda não anima Floyd–Warshall, Prim e Kruskal. Estas perguntas tratam do que cada um calcula e de como decide o passo seguinte. Escolha uma opção para ver se está certa e porquê.",
+  "intro": "Estas perguntas tratam do que o Floyd–Warshall, o Prim e o Kruskal calculam e de como cada um decide o passo seguinte. Executa-os no explorador acima e escolhe depois uma opção para ver se está certa e porquê.",
   "progress": "{{answered}} de {{total}} respondidas, {{correct}} corretas.",
   "reset": "Limpar respostas",
   "feedback": {

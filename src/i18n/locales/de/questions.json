@@ -1,6 +1,6 @@
 {
   "title": "Prüfe dein Verständnis",
-  "intro": "Der Explorer zeigt Floyd–Warshall, Prim und Kruskal noch nicht als Animation. Diese Fragen behandeln, was jeder Algorithmus berechnet und wie er den nächsten Schritt wählt. Wähle eine Antwort, um zu sehen, ob sie stimmt und warum.",
+  "intro": "Diese Fragen behandeln, was Floyd–Warshall, Prim und Kruskal berechnen und wie jeder den nächsten Schritt wählt. Führe sie oben im Explorer aus und wähle dann eine Antwort, um zu sehen, ob sie stimmt und warum.",
   "progress": "{{answered}} von {{total}} beantwortet, {{correct}} richtig.",
   "reset": "Antworten zurücksetzen",
   "feedback": {

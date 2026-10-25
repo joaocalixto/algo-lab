@@ -222,7 +222,7 @@
       "skipNeighbor": "{{vertex}} war schon erreicht, die Kante von {{from}} bringt also nichts Neues.",
       "finish": "Alle Nachbarn von {{vertex}} sind untersucht: es ist abgeschlossen.",
       "complete": "Traversierung beendet: jeder vom Start erreichbare Knoten wurde besucht.",
-      "completeWithUnreached": "Traversierung beendet. {{left}} Knoten wurden nie erreicht: sie liegen außerhalb der Komponente des Startknotens."
+      "completeWithUnreached": "Traversierung beendet. Diese Knoten wurden nie erreicht, weil sie außerhalb der Komponente des Startknotens liegen: {{vertices}}."
     },
     "components": {
       "restart": "Noch keine Komponente enthält {{vertex}}, also beginnt damit Komponente {{component}}.",
@@ -230,8 +230,9 @@
       "discover": "{{from}} erreicht {{vertex}}, also gehört {{vertex}} ebenfalls zu Komponente {{component}}.",
       "skipNeighbor": "{{vertex}} ist schon in einer Komponente, die Kante von {{from}} bringt also nichts Neues.",
       "finish": "{{vertex}} ist abgeschlossen.",
-      "complete": "Fertig: der Graph hat {{components}} Zusammenhangskomponenten.",
-      "empty": "Der Graph hat keine Knoten und damit keine Komponenten."
+      "empty": "Der Graph hat keine Knoten und damit keine Komponenten.",
+      "complete_one": "Fertig: der ganze Graph ist eine einzige Zusammenhangskomponente.",
+      "complete_other": "Fertig: der Graph hat {{count}} Zusammenhangskomponenten."
     },
     "dijkstra": {
       "start": "Die Distanz zu {{vertex}} ist 0, alle anderen Distanzen sind noch unbekannt (∞).",
@@ -240,7 +241,7 @@
       "noChange": "Über {{from}} würde {{to}} {{candidate}} kosten, nicht besser als {{current}}: nichts ändert sich.",
       "settled": "{{vertex}} ist mit Distanz {{distance}} abgeschlossen.",
       "complete": "Fertig: jeder Knoten hat seine kürzeste Distanz vom Start.",
-      "completeWithUnreached": "Fertig. {{left}} Knoten bleiben bei ∞: vom Startknoten führt kein Pfad zu ihnen."
+      "completeWithUnreached": "Fertig. Diese Knoten bleiben bei ∞, weil vom Startknoten kein Pfad zu ihnen führt: {{vertices}}."
     },
     "bellman": {
       "start": "Die Distanz zu {{vertex}} ist 0, alle anderen sind ∞. Es folgen bis zu {{passes}} Durchläufe über alle Kanten.",
@@ -251,23 +252,23 @@
       "settledEarly": "Durchlauf {{pass}} hat nichts geändert, also kann es kein späterer mehr: die Distanzen sind endgültig.",
       "negativeCycle": "{{from}} → {{to}} lässt sich noch relaxieren: ein Zyklus mit negativem Gesamtgewicht ist erreichbar und die Distanzen sind wertlos.",
       "complete": "Fertig nach {{passes}} Durchläufen: alle Distanzen sind endgültig.",
-      "completeWithUnreached": "Fertig nach {{passes}} Durchläufen. {{left}} Knoten bleiben bei ∞: zu ihnen führt kein Pfad."
+      "completeWithUnreached": "Fertig nach {{passes}} Durchläufen. Diese Knoten bleiben bei ∞, weil kein Pfad zu ihnen führt: {{vertices}}."
     },
     "floyd": {
-      "start": "Die Matrix beginnt mit den Kantengewichten, 0 auf der Diagonale und ∞ dort, wo keine Kante ist. Jeder der {{vertices}} Knoten dient einmal als Pivot.",
+      "start": "Die Matrix beginnt mit den Kantengewichten, 0 auf der Diagonale und ∞ dort, wo keine Kante ist. Danach dient jeder Knoten der Reihe nach als Pivot.",
       "pivot": "Pivot {{vertex}}: verkürzt ein Umweg über {{vertex}} irgendeinen Pfad?",
       "row": "Zeile {{from}}: vergleiche jede Distanz ab {{from}} mit dem Weg über {{pivot}}.",
       "improve": "{{from}} → {{to}} über {{pivot}} kostet {{after}}, weniger als {{before}}: die Zelle sinkt.",
       "complete": "Fertig: die Matrix enthält die kürzeste Distanz zwischen allen Knotenpaaren.",
-      "completeNegativeCycle": "Fertig, aber {{cycles}} Knoten haben einen negativen Wert auf der Diagonale: sie liegen auf einem Zyklus mit negativem Gesamtgewicht."
+      "completeNegativeCycle": "Fertig, aber diese Knoten haben einen negativen Wert auf der Diagonale und liegen damit auf einem Zyklus mit negativem Gesamtgewicht: {{vertices}}."
     },
     "kruskal": {
-      "start": "Jeder Knoten ist seine eigene Komponente. Die {{edges}} Kanten werden von der leichtesten zur schwersten untersucht.",
+      "start": "Jeder Knoten ist seine eigene Komponente. Die Kanten werden von der leichtesten zur schwersten untersucht ({{edges}} insgesamt).",
       "consider": "Kante {{from}} – {{to}} mit Gewicht {{weight}}: liegen ihre Enden in verschiedenen Komponenten?",
-      "accept": "Ja, also kommt {{from}} – {{to}} in den Baum: {{edges}} Kanten, Gesamtgewicht {{total}}.",
+      "accept": "Ja, also kommt {{from}} – {{to}} in den Baum. Kanten im Baum: {{edges}}. Gesamtgewicht: {{total}}.",
       "reject": "Nein: {{from}} und {{to}} liegen schon in derselben Komponente, diese Kante würde einen Zyklus schließen. Sie wird übersprungen.",
-      "complete": "Fertig: ein minimaler Spannbaum mit {{edges}} Kanten und Gesamtgewicht {{total}}.",
-      "completeForest": "Fertig: {{edges}} Kanten mit Gesamtgewicht {{total}}, die einen Baum pro Komponente bilden ({{trees}} insgesamt)."
+      "complete": "Fertig: ein minimaler Spannbaum. Kanten: {{edges}}. Gesamtgewicht: {{total}}.",
+      "completeForest": "Fertig: ein Baum pro Komponente, {{trees}} insgesamt. Kanten: {{edges}}. Gesamtgewicht: {{total}}."
     },
     "prim": {
       "start": "Der Baum beginnt leer bei {{vertex}}.",
@@ -276,17 +277,18 @@
       "insideTree": "{{to}} ist schon im Baum, die Kante von {{from}} würde also einen Zyklus schließen.",
       "improveFringe": "{{vertex}} ist jetzt von {{from}} aus für {{weight}} erreichbar, günstiger als {{previous}}.",
       "keepFringe": "{{vertex}} auf diesem Weg zu erreichen kostet {{weight}}, nicht besser als {{current}}.",
-      "complete": "Fertig: ein minimaler Spannbaum mit {{edges}} Kanten und Gesamtgewicht {{total}}.",
-      "completePartial": "Fertig: {{edges}} Kanten mit Gesamtgewicht {{total}}. {{left}} Knoten waren unerreichbar, weil Prim einen einzigen Baum wachsen lässt."
+      "complete": "Fertig: ein minimaler Spannbaum. Kanten: {{edges}}. Gesamtgewicht: {{total}}.",
+      "completePartial": "Fertig: Kanten {{edges}}, Gesamtgewicht {{total}}, {{reached}} Knoten erreicht. Prim lässt einen einzigen Baum wachsen, deshalb blieben diese unerreichbar: {{vertices}}."
     },
     "kahn": {
-      "start": "{{ready}} Knoten haben keine eingehende Kante, es muss also nichts vor ihnen kommen: sie sind bereit.",
+      "start": "Diese Knoten haben keine eingehende Kante, es muss also nichts vor ihnen kommen: sie sind bereit. {{vertices}}.",
       "emit": "{{vertex}} ist bereit: es nimmt Platz {{position}} in der Sortierung ein. Seine ausgehenden Kanten werden jetzt entfernt.",
       "ready": "{{from}} war die letzte Kante in {{vertex}} hinein, also ist {{vertex}} bereit.",
       "decrement": "{{vertex}} wartet nach der Kante von {{from}} noch auf {{inDegree}} Kanten.",
       "done": "{{vertex}} ist fertig.",
-      "cycle": "Die Bereit-Warteschlange ist leer, aber {{remaining}} Knoten bleiben übrig ({{vertices}}): jeder hat noch eine eingehende Kante, sie enthalten also einen Zyklus und es gibt keine topologische Sortierung.",
-      "complete": "Fertig: {{order}} ist eine gültige topologische Sortierung."
+      "cycle": "Die Bereit-Warteschlange ist leer, aber diese Knoten bleiben übrig: {{vertices}}. Jeder hat noch eine eingehende Kante, sie enthalten also einen Zyklus und es gibt keine topologische Sortierung.",
+      "complete": "Fertig: {{order}} ist eine gültige topologische Sortierung.",
+      "startNoneReady": "Jeder Knoten hat eine eingehende Kante, also ist keiner bereit zu starten."
     }
   }
 }

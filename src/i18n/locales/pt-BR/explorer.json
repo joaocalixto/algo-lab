@@ -224,7 +224,7 @@
       "skipNeighbor": "{{vertex}} já havia sido alcançado, então a aresta a partir de {{from}} não acrescenta nada.",
       "finish": "Todos os vizinhos de {{vertex}} foram examinados: ele está concluído.",
       "complete": "Percurso concluído: todos os vértices alcançáveis a partir do início foram visitados.",
-      "completeWithUnreached": "Percurso concluído. {{left}} vértices nunca foram alcançados: estão fora da componente do vértice inicial."
+      "completeWithUnreached": "Percurso concluído. Estes vértices nunca foram alcançados, porque estão fora da componente do vértice inicial: {{vertices}}."
     },
     "components": {
       "restart": "Nenhuma componente contém ainda {{vertex}}, então ele inicia a componente {{component}}.",
@@ -232,8 +232,10 @@
       "discover": "{{from}} alcança {{vertex}}, então {{vertex}} também pertence à componente {{component}}.",
       "skipNeighbor": "{{vertex}} já está em uma componente, então a aresta a partir de {{from}} não acrescenta nada.",
       "finish": "{{vertex}} está concluído.",
-      "complete": "Concluído: o grafo tem {{components}} componentes conexas.",
-      "empty": "O grafo não tem vértices, então não tem componentes."
+      "empty": "O grafo não tem vértices, então não tem componentes.",
+      "complete_one": "Concluído: todo o grafo é uma única componente conexa.",
+      "complete_many": "Concluído: o grafo tem {{count}} de componentes conexas.",
+      "complete_other": "Concluído: o grafo tem {{count}} componentes conexas."
     },
     "dijkstra": {
       "start": "A distância até {{vertex}} é 0 e todas as outras distâncias ainda são desconhecidas (∞).",
@@ -242,7 +244,7 @@
       "noChange": "Por {{from}}, {{to}} custaria {{candidate}}, que não é melhor que {{current}}: nada muda.",
       "settled": "{{vertex}} fica fechado com a distância {{distance}}.",
       "complete": "Concluído: todos os vértices têm seu caminho mínimo desde o início.",
-      "completeWithUnreached": "Concluído. {{left}} vértices ficam em ∞: não há caminho até eles a partir do vértice inicial."
+      "completeWithUnreached": "Concluído. Estes vértices ficam em ∞, porque não há caminho até eles a partir do vértice inicial: {{vertices}}."
     },
     "bellman": {
       "start": "A distância até {{vertex}} é 0 e todas as outras são ∞. Seguem-se até {{passes}} passagens por todos os arcos.",
@@ -253,23 +255,23 @@
       "settledEarly": "A passagem {{pass}} não alterou nada, então nenhuma passagem seguinte poderá alterar: as distâncias são definitivas.",
       "negativeCycle": "{{from}} → {{to}} ainda pode ser relaxado: existe um ciclo de peso total negativo alcançável e as distâncias perdem o valor.",
       "complete": "Concluído após {{passes}} passagens: todas as distâncias são definitivas.",
-      "completeWithUnreached": "Concluído após {{passes}} passagens. {{left}} vértices ficam em ∞: não há caminho até eles."
+      "completeWithUnreached": "Concluído após {{passes}} passagens. Estes vértices ficam em ∞, porque não há caminho até eles: {{vertices}}."
     },
     "floyd": {
-      "start": "A matriz começa com os pesos dos arcos, 0 na diagonal e ∞ onde não há arco. Cada um dos {{vertices}} vértices servirá de pivô.",
+      "start": "A matriz começa com os pesos dos arcos, 0 na diagonal e ∞ onde não há arco. Cada vértice depois serve de pivô, um por vez.",
       "pivot": "Pivô {{vertex}}: um desvio por {{vertex}} encurta algum caminho?",
       "row": "Linha {{from}}: compare cada distância a partir de {{from}} com a passagem por {{pivot}}.",
       "improve": "{{from}} → {{to}} por {{pivot}} custa {{after}}, menos que {{before}}: a célula diminui.",
       "complete": "Concluído: a matriz contém o caminho mínimo entre todos os pares de vértices.",
-      "completeNegativeCycle": "Concluído, mas {{cycles}} vértices terminaram com valor negativo na diagonal: estão em um ciclo de peso total negativo."
+      "completeNegativeCycle": "Concluído, mas estes vértices terminaram com valor negativo na diagonal, então estão em um ciclo de peso total negativo: {{vertices}}."
     },
     "kruskal": {
-      "start": "Cada vértice é sua própria componente. As {{edges}} arestas são examinadas da mais leve para a mais pesada.",
+      "start": "Cada vértice é sua própria componente. As arestas são examinadas da mais leve para a mais pesada ({{edges}} no total).",
       "consider": "Aresta {{from}} – {{to}} com peso {{weight}}: suas pontas estão em componentes diferentes?",
-      "accept": "Sim, então {{from}} – {{to}} entra na árvore: {{edges}} arestas, peso total {{total}}.",
+      "accept": "Sim, então {{from}} – {{to}} entra na árvore. Arestas na árvore: {{edges}}. Peso total: {{total}}.",
       "reject": "Não: {{from}} e {{to}} já estão na mesma componente, então essa aresta fecharia um ciclo. Ela é ignorada.",
-      "complete": "Concluído: uma árvore geradora mínima com {{edges}} arestas e peso total {{total}}.",
-      "completeForest": "Concluído: {{edges}} arestas com peso total {{total}}, formando uma árvore por componente ({{trees}} no total)."
+      "complete": "Concluído: uma árvore geradora mínima. Arestas: {{edges}}. Peso total: {{total}}.",
+      "completeForest": "Concluído: uma árvore por componente, {{trees}} no total. Arestas: {{edges}}. Peso total: {{total}}."
     },
     "prim": {
       "start": "A árvore começa vazia em {{vertex}}.",
@@ -278,17 +280,18 @@
       "insideTree": "{{to}} já está na árvore, então a aresta a partir de {{from}} fecharia um ciclo.",
       "improveFringe": "{{vertex}} agora pode ser alcançado a partir de {{from}} por {{weight}}, mais barato que {{previous}}.",
       "keepFringe": "Alcançar {{vertex}} por aqui custa {{weight}}, que não é melhor que {{current}}.",
-      "complete": "Concluído: uma árvore geradora mínima com {{edges}} arestas e peso total {{total}}.",
-      "completePartial": "Concluído: {{edges}} arestas com peso total {{total}}. {{left}} vértices ficaram fora de alcance, porque o Prim faz crescer uma única árvore."
+      "complete": "Concluído: uma árvore geradora mínima. Arestas: {{edges}}. Peso total: {{total}}.",
+      "completePartial": "Concluído: arestas {{edges}}, peso total {{total}}, {{reached}} vértices alcançados. O Prim faz crescer uma única árvore, então estes ficaram fora de alcance: {{vertices}}."
     },
     "kahn": {
-      "start": "{{ready}} vértices não têm arcos de entrada, então nada precisa vir antes deles: estão prontos.",
+      "start": "Estes vértices não têm arcos de entrada, então nada precisa vir antes deles: estão prontos. {{vertices}}.",
       "emit": "{{vertex}} está pronto: ocupa a posição {{position}} na ordenação. Seus arcos de saída são removidos agora.",
       "ready": "{{from}} era o último arco entrando em {{vertex}}, então {{vertex}} está pronto.",
       "decrement": "{{vertex}} continua esperando {{inDegree}} arcos depois do que vem de {{from}}.",
       "done": "{{vertex}} está concluído.",
-      "cycle": "A fila de prontos está vazia mas restam {{remaining}} vértices ({{vertices}}): cada um ainda tem um arco de entrada, então eles contêm um ciclo e não existe ordenação topológica.",
-      "complete": "Concluído: {{order}} é uma ordenação topológica válida."
+      "cycle": "A fila de prontos está vazia mas restam estes vértices: {{vertices}}. Cada um ainda tem um arco de entrada, então eles contêm um ciclo e não existe ordenação topológica.",
+      "complete": "Concluído: {{order}} é uma ordenação topológica válida.",
+      "startNoneReady": "Todos os vértices têm um arco de entrada, então nenhum está pronto para começar."
     }
   }
 }

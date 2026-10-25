@@ -1,6 +1,6 @@
 {
   "title": "Check your understanding",
-  "intro": "The explorer does not animate Floyd–Warshall, Prim and Kruskal yet. These questions cover what each one computes and how it decides what to do next. Pick an option to see whether it holds and why.",
+  "intro": "These questions cover what Floyd–Warshall, Prim and Kruskal compute and how each one decides what to do next. Run them in the explorer above, then pick an option to see whether it holds and why.",
   "progress": "{{answered}} of {{total}} answered, {{correct}} correct.",
   "reset": "Clear answers",
   "feedback": {

@@ -91,7 +91,9 @@ export function kahn(graph: Graph): AlgorithmTrace<TopologicalResult> {
       marks[id] = 'discovered';
     }
   }
-  record('start', 'start', { ready: queue.length });
+  record('start', queue.length > 0 ? 'start' : 'startNoneReady', {
+    vertices: queue.map(label).join(', '),
+  });
 
   while (queue.length > 0) {
     const current = queue.shift()!;
@@ -122,7 +124,7 @@ export function kahn(graph: Graph): AlgorithmTrace<TopologicalResult> {
       if (remaining.includes(edge.from) && remaining.includes(edge.to)) edgeMarks[edge.id] = 'rejected';
     }
     notices.push({ key: 'explorer:notice.cycle', values: { vertices: remaining.map(label).join(', ') } });
-    record('cycleDetected', 'cycle', { remaining: remaining.length, vertices: remaining.map(label).join(', ') });
+    record('cycleDetected', 'cycle', { vertices: remaining.map(label).join(', ') });
   } else {
     record('complete', 'complete', { order: order.map(label).join(' → ') });
   }

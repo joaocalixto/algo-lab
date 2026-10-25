@@ -338,13 +338,14 @@ export function prim(graph: Graph, start: VertexId): AlgorithmTrace<SpanningTree
   }
 
   const spanned = inTree.size;
+  const outside = graph.vertices.filter((v) => !inTree.has(v.id));
   const isSpanningTree = spanned === ids.length && ids.length > 0;
   if (!isSpanningTree) notices.push({ key: 'explorer:notice.primPartial', values: { reached: spanned, total: ids.length } });
   record('complete', isSpanningTree ? 'complete' : 'completePartial', {
     total: totalWeight,
     edges: treeEdges.length,
     reached: spanned,
-    left: ids.length - spanned,
+    vertices: outside.map((v) => v.label).join(', '),
   });
 
   return {
