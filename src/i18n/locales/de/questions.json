@@ -1,0 +1,117 @@
+{
+  "title": "Prüfe dein Verständnis",
+  "intro": "Der Explorer zeigt Floyd–Warshall, Prim und Kruskal noch nicht als Animation. Diese Fragen behandeln, was jeder Algorithmus berechnet und wie er den nächsten Schritt wählt. Wähle eine Antwort, um zu sehen, ob sie stimmt und warum.",
+  "progress": "{{answered}} von {{total}} beantwortet, {{correct}} richtig.",
+  "reset": "Antworten zurücksetzen",
+  "feedback": {
+    "correct": "Richtig.",
+    "incorrect": "Nicht ganz.",
+    "expected": "Erwartete Antwort"
+  },
+  "topics": {
+    "floydWarshall": {
+      "name": "Floyd–Warshall",
+      "summary": "Baut eine Tabelle mit den Distanzen zwischen allen Knotenpaaren auf und erlaubt in jedem Durchlauf einen weiteren Knoten als Zwischenstation."
+    },
+    "prim": {
+      "name": "Prim",
+      "summary": "Lässt einen einzigen Baum von einem Startknoten aus wachsen und nimmt dabei immer die günstigste Kante, die aus dem Baum herausführt."
+    },
+    "kruskal": {
+      "name": "Kruskal",
+      "summary": "Sortiert die Kanten nach Gewicht und behält die, die zwei noch getrennte Teile des Graphen verbinden."
+    }
+  },
+  "items": {
+    "fw-output": {
+      "prompt": "Was berechnet Floyd–Warshall?",
+      "options": {
+        "a": "Die kürzeste Distanz von einem gewählten Knoten zu allen anderen.",
+        "b": "Die kürzeste Distanz zwischen allen Knotenpaaren.",
+        "c": "Eine Menge von Kanten, die alle Knoten mit dem kleinsten Gesamtgewicht verbindet.",
+        "d": "Ob der Graph einen Zyklus enthält."
+      },
+      "explanation": "Das Ergebnis ist eine Tabelle mit einem Eintrag je geordnetem Knotenpaar. Bei n Knoten braucht sie in der Größenordnung n³ Schritte und n² Speicher, was zu dichten Graphen passt; bei dünn besetzten Graphen ist Dijkstra von jedem Knoten aus meist schneller."
+    },
+    "fw-loop-order": {
+      "prompt": "Floyd–Warshall besteht aus drei verschachtelten Schleifen: über den Zwischenknoten k, über die Quelle i und über das Ziel j. Welche muss die äußere Schleife sein?",
+      "options": {
+        "a": "Die Schleife über den Zwischenknoten k.",
+        "b": "Die Schleife über die Quelle i.",
+        "c": "Die Schleife über das Ziel j.",
+        "d": "Jede Reihenfolge funktioniert: die Tabelle ist am Ende dieselbe."
+      },
+      "explanation": "Nach dem Durchlauf für k enthält jeder Eintrag die kürzeste Distanz, die nur die Knoten bis k als Zwischenstationen nutzt. Steht k in einer inneren Schleife, wird ein Pfad, der einen späteren Knoten als Zwischenstation braucht, nie gebildet, und einige Einträge bleiben zu groß."
+    },
+    "fw-diagonal": {
+      "prompt": "Der Algorithmus ist fertig und die Distanz von Knoten v zu sich selbst liegt unter null. Was sagt dir das?",
+      "options": {
+        "a": "Knoten v hat keine ausgehenden Kanten.",
+        "b": "Kein anderer Knoten erreicht v.",
+        "c": "v liegt auf einem Zyklus, dessen Gewichte zusammen kleiner als null sind.",
+        "d": "Zwei Kanten verbinden dasselbe Knotenpaar."
+      },
+      "explanation": "Floyd–Warshall erlaubt negative Gewichte. Ein Weg, der v verlässt und mit negativer Summe zurückkommt, lässt sich wiederholen und drückt die Distanzen unbegrenzt nach unten. Für Paare, deren Pfade über diesen Zyklus laufen, gibt es deshalb keine kürzeste Distanz. Die Diagonale der Tabelle ist die übliche Stelle, um das zu erkennen."
+    },
+    "prim-output": {
+      "prompt": "Prim arbeitet auf einem zusammenhängenden, gewichteten, ungerichteten Graphen. Was gibt er zurück?",
+      "options": {
+        "a": "Einen minimalen Spannbaum: Kanten, die alle Knoten erreichen, keinen Zyklus bilden und das kleinste Gesamtgewicht haben.",
+        "b": "Den günstigsten Pfad zwischen den beiden am weitesten entfernten Knoten.",
+        "c": "Die Distanz vom Startknoten zu allen anderen Knoten.",
+        "d": "Die Knoten sortiert nach dem Gesamtgewicht ihrer Kanten."
+      },
+      "explanation": "Ein Spannbaum eines Graphen mit n Knoten hat immer n − 1 Kanten, und der minimale ist der, den kein anderer im Gesamtgewicht unterbietet. Günstigste Pfade sind ein anderes Problem: innerhalb des Baums, den Prim liefert, kann der Weg zwischen zwei bestimmten Knoten ein Umweg sein."
+    },
+    "prim-next-edge": {
+      "prompt": "Welche Kante nimmt Prim in jedem Schritt?",
+      "options": {
+        "a": "Die günstigste Kante des Graphen, die er noch nicht verwendet hat.",
+        "b": "Die günstigste Kante mit einem Endknoten im Baum und dem anderen außerhalb.",
+        "c": "Die günstigste Kante, die vom Startknoten ausgeht.",
+        "d": "Die günstigste Kante, deren beide Endknoten außerhalb des Baums liegen."
+      },
+      "explanation": "Prim hält einen einzigen zusammenhängenden Baum und betrachtet deshalb nur Kanten, die die Grenze zwischen Baum und Restgraph überqueren. Implementierungen halten diese Kandidaten in einer nach Gewicht sortierten Prioritätswarteschlange. Antwort a beschreibt Kruskal, der auch eine Kante weit weg vom bisher Gebauten nehmen kann."
+    },
+    "prim-start": {
+      "prompt": "Ändert die Wahl des Startknotens das Ergebnis von Prim?",
+      "options": {
+        "a": "Ja: ein schlecht gewählter Start ergibt einen Baum mit größerem Gesamtgewicht.",
+        "b": "Ja: nur ein Knoten mit dem höchsten Grad ergibt einen minimalen Baum.",
+        "c": "Nein: der Baum ist immer derselbe, Kante für Kante.",
+        "d": "Nein: das Gesamtgewicht ist immer das kleinstmögliche, die Kanten können sich bei gleichen Gewichten aber unterscheiden."
+      },
+      "explanation": "Jeder Startknoten führt zu einem minimalen Spannbaum. Ein Graph mit gleich schweren Kanten kann mehrere davon haben, und alle ergeben dasselbe Gesamtgewicht. Negative Gewichte machen hier keine Probleme, anders als bei Dijkstra."
+    },
+    "kruskal-order": {
+      "prompt": "In welcher Reihenfolge untersucht Kruskal die Kanten?",
+      "options": {
+        "a": "In der Reihenfolge, in der sie in der Eingabe stehen.",
+        "b": "Nach Gewicht sortiert, von der günstigsten zur teuersten.",
+        "c": "Von einem Startknoten nach außen, wie die Breitensuche.",
+        "d": "Sortiert nach der Anzahl der Nachbarn ihrer Endknoten."
+      },
+      "explanation": "Kruskal sortiert alle Kanten, geht die Liste einmal durch und behält jede Kante, deren Endknoten noch in getrennten Teilen des Waldes liegen. Das Sortieren bestimmt die Laufzeit: m log m bei m Kanten. Anders als Prim braucht Kruskal keinen Startknoten."
+    },
+    "kruskal-cycle-check": {
+      "prompt": "Woran erkennt Kruskal, dass eine Kante einen Zyklus schließen würde?",
+      "options": {
+        "a": "An einer Warteschlange der Knoten, die er noch untersuchen muss.",
+        "b": "An einem Stapel der Kanten, die er schon aufgenommen hat.",
+        "c": "An einer Union-Find-Struktur (disjunkte Mengen) über den Knoten.",
+        "d": "An einer Tabelle mit der Distanz zwischen allen Knotenpaaren."
+      },
+      "explanation": "find nennt den Teil des Waldes, zu dem ein Endknoten gehört. Kommt für beide Endknoten dieselbe Antwort, würde die Kante einen Zyklus schließen und Kruskal lässt sie weg; andernfalls verbindet union die beiden Teile. Mit Pfadkompression und Union by Rank kostet jede Prüfung fast konstante Zeit."
+    },
+    "kruskal-disconnected": {
+      "prompt": "Der Graph zerfällt in zwei Komponenten ohne Kante dazwischen. Was liefert Kruskal?",
+      "options": {
+        "a": "Nichts: er bricht bei der ersten Kante ab, die einen Zyklus schließen würde.",
+        "b": "Einen Spannbaum der Komponente, in der die günstigste Kante liegt.",
+        "c": "Einen Baum über alle Knoten, der die Komponenten mit einer Kante vom Gewicht null verbindet.",
+        "d": "Einen minimalen Spannwald: einen minimalen Baum pro Komponente."
+      },
+      "explanation": "Keine Kante verbindet die Komponenten, also kann nichts sie zusammenführen: bei n Knoten in c Komponenten hat der Wald n − c Kanten. Prim wächst von einem Knoten aus und erfasst deshalb nur die Komponente dieses Knotens, dieselbe Grenze wie bei einer Traversierung."
+    }
+  }
+}
