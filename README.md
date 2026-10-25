@@ -1,6 +1,10 @@
 # Algorithm Lab
 
-A free, client-side interactive laboratory for learning data structures and algorithms. **Graph Explorer** covers BFS, DFS, Dijkstra and Bellman–Ford, plus self-check questions on Floyd–Warshall, Prim and Kruskal.
+A free, client-side interactive laboratory for learning data structures and algorithms.
+**Graph Explorer** lets you build a graph — with the random generator or by hand — and run
+nine algorithms over it step by step: BFS, DFS, connected components, Dijkstra,
+Bellman–Ford, Floyd–Warshall, Kruskal, Prim and Kahn. Self-check questions on
+Floyd–Warshall, Prim and Kruskal complement the animations.
 
 ## Setup
 
@@ -16,15 +20,27 @@ npm run build      # type-check + production build into dist/
 
 ## Status
 
-Interactive classroom preview available at https://joaocalixto.github.io/algo-lab/ with step controls, start selection, frontier and distances. Weighted shortest-path lessons include path reconstruction, negative edges and reachable negative-cycle detection.
+Published at https://joaocalixto.github.io/algo-lab/.
 
-Foundation: project setup, domain models, design tokens, internationalization with five baseline locales (en, pt-PT, pt-BR, es, de — all **draft, pending human review**), terminology glossary.
+**Graph creation.** The generator takes a vertex count, an edge count and a seed, and
+always produces a valid simple graph — connected whenever the requested edge count allows
+it — and refuses an impossible request with the reason. The manual editor adds vertices by
+clicking the canvas, joins two vertices into an edge, drags vertices, deletes them, edits
+weights (negative ones included) and switches the graph between directed/undirected and
+weighted/unweighted. Everything the canvas does by mouse is also reachable from the
+keyboard, through the buttons and the vertex/edge tables.
 
-Review questions cover three algorithms the explorer does not animate yet: Floyd–Warshall,
-Prim and Kruskal. The question bank lives in `src/domain/questions.ts` and holds message
-keys only, so answers survive a language change.
+**Algorithms.** Each engine in `src/domain/` precomputes an immutable `AlgorithmTrace`;
+playback only moves an index over it, so animation can never influence a result. Each one
+declares its prerequisites (`src/domain/algorithms.ts`), and an algorithm the current graph
+does not satisfy stays visible with the reason spelled out.
 
-See `docs/I18N.md` (localization architecture) and `docs/GLOSSARY.md` (terminology).
+**Review questions.** The bank in `src/domain/questions.ts` holds message keys only, so
+answers survive a language change.
+
+**Internationalization.** Five baseline locales (en, pt-PT, pt-BR, es, de — all **draft,
+pending human review**) and a terminology glossary. See `docs/I18N.md` (localization
+architecture) and `docs/GLOSSARY.md` (terminology).
 
 ## Deployment
 
@@ -45,7 +61,10 @@ GitHub Support), then run **Actions → Publish laboratory → Run workflow → 
 Confirm both jobs succeed and open the public site before declaring deployment
 complete. A successful local build or a pushed commit alone does not confirm it.
 
-The `gh-pages` branch preserves a locally validated recovery build. Publishing
-from that branch is a separate, legacy Pages mode; it does not establish that
-the custom Actions workflow is working. Do not switch sources while a Pages
-deployment is in progress.
+The `gh-pages` branch carries a locally validated build. While the Actions
+billing lock stands, that branch is what the public site actually serves:
+`npm run build` locally, then publish the contents of `dist/` to `gh-pages`,
+which the built-in `pages-build-deployment` job picks up. Publishing from the
+branch is a separate, legacy Pages mode; it does not establish that the custom
+Actions workflow is working. Do not switch sources while a Pages deployment is
+in progress.
